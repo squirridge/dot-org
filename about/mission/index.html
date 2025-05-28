@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission & Values - Squirrel Ridge Observatory Centre | Why We Do What We Do</title>
+    <meta name="description" content="Discover SROC's mission to preserve disappearing knowledge, build resilient communities, and create meaningful digital tools. Learn about our core values and guiding principles.">
+    <meta name="keywords" content="SROC mission, digital preservation values, community building principles, open source philosophy, knowledge preservation, civic innovation">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://squirrelridge.org/mission">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://squirrelridge.org/assets/sroc-logo.png">
+    <link rel="apple-touch-icon" href="https://squirrelridge.org/assets/sroc-logo.png">
+    <link rel="shortcut icon" href="https://squirrelridge.org/assets/sroc-logo.png">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://squirrelridge.org/mission">
+    <meta property="og:title" content="Mission & Values - SROC">
+    <meta property="og:description" content="Why we preserve knowledge, how we build communities, and what drives our work at Squirrel Ridge Observatory Centre.">
+    <meta property="og:image" content="https://squirrelridge.org/assets/sroc-mission-og.png">
+    <meta property="og:locale" content="en_CA">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://squirrelridge.org/mission">
+    <meta name="twitter:title" content="SROC Mission & Values">
+    <meta name="twitter:description" content="Preserving knowledge, building community, creating meaningful change. No blockchain required.">
+    <meta name="twitter:image" content="https://squirrelridge.org/assets/sroc-mission-twitter.png">
+    
+    <!-- Fonts -->
+    <link rel="preload" href="/assets/woff2/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/woff2/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link href="/assets/fira-code.css" rel="stylesheet" />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Mission & Values - SROC",
+        "description": "The mission, values, and guiding principles of Squirrel Ridge Observatory Centre",
+        "url": "https://squirrelridge.org/mission",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "Squirrel Ridge Observatory Centre",
+            "url": "https://squirrelridge.org"
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://squirrelridge.org"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Mission & Values",
+                    "item": "https://squirrelridge.org/mission"
+                }
+            ]
+        }
+    }
+    </script>
+    
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #1a1a2e;
+            --accent-yellow: #ffd700;
+            --accent-cyan: #00ffff;
+            --accent-purple: #9d4edd;
+            --accent-green: #00ff88;
+            --accent-orange: #ff6b35;
+            --accent-pink: #ff006e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Animated gradient background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0f, #1a1a2e, #2d0033, #0f3460);
+            background-size: 400% 400%;
+            animation: gradientShift 25s ease infinite;
+            z-index: -3;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Matrix rain effect */
+        .matrix-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+            overflow: hidden;
+            opacity: 0.05;
+        }
+
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            font-size: 1rem;
+            color: var(--accent-green);
+            animation: matrixFall linear infinite;
+            font-family: monospace;
+        }
+
+        @keyframes matrixFall {
+            to {
+                transform: translateY(200vh);
+            }
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
+            background: var(--glass-bg);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 100;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--accent-purple) 20%, var(--accent-cyan) 50%, var(--accent-purple) 80%, transparent 100%);
+            opacity: 0.5;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            position: relative;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+        }
+
+        .logo .blink {
+            animation: blink 4s infinite;
+        }
+
+        @keyframes blink {
+            0%, 90%, 100% { opacity: 1; }
+            95% { opacity: 0; }
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            margin: 0;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-cyan);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--text-primary);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(157, 78, 221, 0.1) 0%, transparent 50%);
+            transform: translate(-50%, -50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, var(--accent-purple), var(--accent-cyan), var(--accent-green));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShimmer 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(157, 78, 221, 0.5));
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes textShimmer {
+            0%, 100% { filter: brightness(1) drop-shadow(0 0 30px rgba(157, 78, 221, 0.5)); }
+            50% { filter: brightness(1.3) drop-shadow(0 0 40px rgba(0, 255, 255, 0.7)); }
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: var(--accent-green);
+            margin-bottom: 3rem;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section {
+            margin-bottom: 6rem;
+        }
+
+        /* Mission Statement */
+        .mission-statement {
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.1), rgba(0, 255, 255, 0.1));
+            border: 2px solid var(--accent-purple);
+            border-radius: 20px;
+            padding: 4rem 3rem;
+            margin: 0 auto 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .mission-statement::before {
+            content: '∴';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 3rem;
+            color: var(--accent-purple);
+            opacity: 0.2;
+        }
+
+        .mission-statement::after {
+            content: '∵';
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            font-size: 3rem;
+            color: var(--accent-cyan);
+            opacity: 0.2;
+        }
+
+        .mission-statement h2 {
+            font-size: 2rem;
+            color: var(--accent-purple);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .mission-statement p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Manifesto Section */
+        .manifesto {
+            background: var(--glass-bg);
+            border-left: 4px solid var(--accent-green);
+            padding: 2rem;
+            margin: 3rem 0;
+            position: relative;
+        }
+
+        .manifesto h3 {
+            color: var(--accent-green);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .manifesto-item {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .manifesto-item::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Values Grid */
+        .values-deep {
+            display: grid;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .value-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .value-card:hover::before {
+            left: 100%;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .value-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 4rem;
+            font-weight: bold;
+            opacity: 0.1;
+            color: var(--accent-cyan);
+        }
+
+        .value-title {
+            font-size: 1.8rem;
+            color: var(--accent-yellow);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .value-icon {
+            font-size: 2.5rem;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        .value-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .value-example {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 3px solid var(--accent-cyan);
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Why Section */
+        .why-section {
+            text-align: center;
+            margin: 6rem 0;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .why-card {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), transparent);
+            border: 1px solid var(--accent-orange);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .why-card h4 {
+            color: var(--accent-orange);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .why-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Principles */
+        .principles-section {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--accent-pink);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .principles-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 0, 110, 0.1) 0%, transparent 60%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .principle {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--glass-bg);
+            border-radius: 10px;
+            border-left: 4px solid var(--accent-pink);
+            position: relative;
+            z-index: 1;
+        }
+
+        .principle h4 {
+            color: var(--accent-pink);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .principle p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Future Vision */
+        .vision-section {
+            text-align: center;
+            margin: 6rem 0;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 255, 255, 0.1));
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vision-section::before {
+            content: '⟨⟨⟨';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            color: var(--accent-green);
+            opacity: 0.2;
+        }
+
+        .vision-section::after {
+            content: '⟩⟩⟩';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            color: var(--accent-cyan);
+            opacity: 0.2;
+        }
+
+        .vision-section h2 {
+            color: var(--accent-green);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .vision-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-primary);
+        }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            margin-top: 6rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--accent-purple), var(--accent-pink));
+            color: var(--text-primary);
+            padding: 1rem 3rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(157, 78, 221, 0.5);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 2rem;
+            margin-top: 6rem;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .mission-statement {
+                padding: 2rem 1.5rem;
+            }
+
+            .value-number {
+                font-size: 3rem;
+            }
+
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background elements -->
+    <div class="bg-gradient" aria-hidden="true"></div>
+    
+    <!-- Matrix effect -->
+    <div class="matrix-container" id="matrixContainer" aria-hidden="true"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">°<span class="blink">•</span>°</a>
+            
+            <nav role="navigation" aria-label="Main navigation">
+                <ul>
+                    <li><a href="/">[HOME]</a></li>
+                    <li><a href="/about">[ABOUT]</a></li>
+                    <li><a href="/mission" class="active">[MISSION]</a></li>
+                    <li><a href="https://github.com/squirridge" target="_blank">[GITHUB]</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Mission & Values</h1>
+        <p class="tagline">// Why we do what we do</p>
+    </section>
+
+    <!-- Main Content -->
+    <main id="main">
+        <!-- Mission Statement -->
+        <section class="section">
+            <div class="mission-statement">
+                <h2>Our Mission</h2>
+                <p>
+                    To create open-source tools and resources that preserve cultural knowledge, 
+                    advance linguistic understanding, promote urban ecology, and foster civic innovation — 
+                    all while building communities around shared interests and values.
+                </p>
+            </div>
+
+            <div class="manifesto">
+                <h3>We believe that:</h3>
+                <div class="manifesto-item">Knowledge disappears faster than we realize</div>
+                <div class="manifesto-item">Communities are stronger when they share information</div>
+                <div class="manifesto-item">Technology should serve people, not profits</div>
+                <div class="manifesto-item">Preservation is an act of resistance</div>
+                <div class="manifesto-item">Play and purpose can coexist</div>
+                <div class="manifesto-item">Small actions create lasting change</div>
+            </div>
+        </section>
+
+        <!-- Core Values Deep Dive -->
+        <section class="section">
+            <h2 style="text-align: center; color: var(--accent-yellow); margin-bottom: 1rem; font-size: 2.5rem;">Core Values in Action</h2>
+            
+            <div class="values-deep">
+                <div class="value-card">
+                    <span class="value-number">01</span>
+                    <h3 class="value-title">
+                        <span class="value-icon">🌐</span>
+                        Open Everything
+                    </h3>
+                    <p class="value-description">
+                        We don't just make our work "available" — we make it radically open. Every line of code, 
+                        every dataset, every process is transparent and forkable. Because knowledge locked away 
+                        is knowledge that dies.
+                    </p>
+                    <div class="value-example">
+                        Example: All OMOD language mappings are CC0 licensed. Take them, improve them, 
+                        build something amazing. No permission needed.
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <span class="value-number">02</span>
+                    <h3 class="value-title">
+                        <span class="value-icon">🤝</span>
+                        Community First, Always
+                    </h3>
+                    <p class="value-description">
+                        We don't helicopter in with solutions. We listen, learn, and build alongside communities. 
+                        Local knowledge isn't just valuable — it's essential. Every project starts with a conversation, 
+                        not a blueprint.
+                    </p>
+                    <div class="value-example">
+                        Example: Indigenymy works directly with Indigenous language keepers to ensure 
+                        place names are documented according to their protocols and preferences.
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <span class="value-number">03</span>
+                    <h3 class="value-title">
+                        <span class="value-icon">🔬</span>
+                        Evidence Over Ideology
+                    </h3>
+                    <p class="value-description">
+                        We follow the data, not the hype. Every solution is tested, measured, and adjusted based 
+                        on real-world results. If something doesn't work, we pivot. No ego, just outcomes.
+                    </p>
+                    <div class="value-example">
+                        Example: Defrag's urban-wildland recommendations are based on actual wildlife 
+                        corridor data, not wishful thinking about how animals "should" behave.
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <span class="value-number">04</span>
+                    <h3 class="value-title">
+                        <span class="value-icon">♻️</span>
+                        Built to Last (Not Just Launch)
+                    </h3>
+                    <p class="value-description">
+                        We design for decades, not demos. Every project considers long-term maintenance, 
+                        community ownership, and graceful degradation. Because the flashiest solution 
+                        is worthless if it breaks next year.
+                    </p>
+                    <div class="value-example">
+                        Example: Factso uses simple, portable formats (JSON, markdown) that will be 
+                        readable 50 years from now, not proprietary databases that vanish with startups.
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <span class="value-number">05</span>
+                    <h3 class="value-title">
+                        <span class="value-icon">🎯</span>
+                        Action Over Administration
+                    </h3>
+                    <p class="value-description">
+                        We spend more time building than meeting. Bureaucracy is minimized in favor of 
+                        making real things that solve real problems. Perfect is the enemy of good enough to help.
+                    </p>
+                    <div class="value-example">
+                        Example: SQRRDG prototypes civic ideas quickly with scrappy pilots rather than 
+                        waiting years for perfect implementation plans.
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <span class="value-number">06</span>
+                    <h3 class="value-title">
+                        <span class="value-icon">✨</span>
+                        Serious Work, Playful Spirit
+                    </h3>
+                    <p class="value-description">
+                        Important doesn't mean boring. We believe the best tools are ones people actually 
+                        want to use. So we add Easter eggs, embrace whimsy, and remember that joy is a 
+                        feature, not a bug.
+                    </p>
+                    <div class="value-example">
+                        Example: Yes, our homepage has floating squirrels and "no blockchain detected" 
+                        badges. Because if we can't have fun saving the world, what's the point?
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why This Matters -->
+        <section class="why-section">
+            <h2 style="color: var(--accent-orange); font-size: 2.5rem; margin-bottom: 1rem;">Why This Matters Now</h2>
+            <p style="max-width: 800px; margin: 0 auto 3rem; color: var(--text-secondary); font-size: 1.1rem;">
+                In an era of information overload and digital decay, these aren't just nice ideas — they're necessities.
+            </p>
+
+            <div class="why-grid">
+                <div class="why-card">
+                    <h4>Knowledge Is Vanishing</h4>
+                    <p>
+                        Every day, websites disappear, languages lose speakers, and local knowledge fades. 
+                        Link rot claims 38% of web content every decade. We're building lifeboats for 
+                        information that matters.
+                    </p>
+                </div>
+
+                <div class="why-card">
+                    <h4>Communities Are Fragmenting</h4>
+                    <p>
+                        Digital tools promised connection but delivered isolation. We create spaces where 
+                        people collaborate on meaningful work, building real relationships around shared purpose.
+                    </p>
+                </div>
+
+                <div class="why-card">
+                    <h4>Tech Has Lost Its Way</h4>
+                    <p>
+                        Between surveillance capitalism and blockchain everything, technology forgot its 
+                        purpose: serving human needs. We're returning to basics — tools that actually help.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Guiding Principles -->
+        <section class="principles-section">
+            <h3 style="color: var(--accent-pink); font-size: 2rem; margin-bottom: 2rem; text-align: center; position: relative; z-index: 1;">
+                Guiding Principles
+            </h3>
+            
+            <div class="principle">
+                <h4>Start Where You Are</h4>
+                <p>
+                    Perfect conditions never come. We begin with what we have, learn as we go, 
+                    and improve iteratively. Action beats planning paralysis every time.
+                </p>
+            </div>
+
+            <div class="principle">
+                <h4>Embrace the Weird</h4>
+                <p>
+                    The best ideas sound ridiculous at first. We welcome unconventional approaches, 
+                    unexpected connections, and solutions that make people say "wait, that actually works?"
+                </p>
+            </div>
+
+            <div class="principle">
+                <h4>Fail Fast, Learn Faster</h4>
+                <p>
+                    Mistakes are data points, not disasters. We prototype quickly, test honestly, 
+                    and pivot without shame. Every failure teaches us something valuable.
+                </p>
+            </div>
+
+            <div class="principle">
+                <h4>Leave It Better</h4>
+                <p>
+                    Every interaction, every project, every line of code should improve something. 
+                    We're not just avoiding harm — we're actively creating positive change.
+                </p>
+            </div>
+        </section>
+
+        <!-- Vision for the Future -->
+        <section class="vision-section">
+            <h2>Our Vision</h2>
+            <p>
+                We imagine a world where knowledge flows freely, communities thrive through collaboration, 
+                and technology serves human flourishing. Where every person can access their cultural heritage, 
+                understand any language, live sustainably with nature, and shape their civic environment.
+            </p>
+            <p style="margin-top: 2rem; font-style: italic;">
+                SROC is our small contribution to that future — one preserved document, one mapped sound, 
+                one connected habitat, one civic innovation at a time.
+            </p>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section">
+            <p style="font-size: 1.3rem; margin-bottom: 2rem; color: var(--text-secondary);">
+                Ready to help build this future?
+            </p>
+            <a href="/about" class="cta-button">Learn How to Get Involved</a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Squirrel Ridge Observatory Centre | Canadian Not-for-Profit<br>
+        Building a better world, one commit at a time 🐿️</p>
+        <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+            Still no blockchain detected ✓
+        </p>
+    </footer>
+
+    <script>
+        // Create matrix rain effect
+        function createMatrix() {
+            const container = document.getElementById('matrixContainer');
+            const characters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            
+            for (let i = 0; i < 50; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                column.style.left = Math.random() * 100 + '%';
+                column.style.animationDuration = (10 + Math.random() * 20) + 's';
+                column.style.animationDelay = Math.random() * 10 + 's';
+                
+                // Create random string
+                let text = '';
+                for (let j = 0; j < 20; j++) {
+                    text += characters[Math.floor(Math.random() * characters.length)] + '<br>';
+                }
+                column.innerHTML = text;
+                
+                container.appendChild(column);
+            }
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add hover effect to value cards
+        document.querySelectorAll('.value-card').forEach((card, index) => {
+            card.addEventListener('mouseenter', () => {
+                card.style.borderColor = ['#ffd700', '#00ffff', '#9d4edd', '#00ff88', '#ff6b35', '#ff006e'][index];
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.borderColor = 'var(--glass-border)';
+            });
+        });
+
+        // Initialize
+        createMatrix();
+
+        // Console messages
+        console.log('%c🌟 SROC MISSION & VALUES', 'color: #9d4edd; font-size: 20px; font-weight: bold;');
+        console.log('%cPreserving knowledge, building community, embracing the weird', 'color: #00ffff; font-size: 14px;');
+        console.log('%cJoin us: squirrelridge.org/contribute', 'color: #00ff88;');
+        console.log('%cFun fact: This page contains exactly zero blockchain references. Oh wait...', 'color: #ff6b35;');
+    </script>
+</body>
+</html>
