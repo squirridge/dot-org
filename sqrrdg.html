@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sqrrdg - Civic Transformation Incubator | SROC</title>
+    <meta name="description" content="Incubating off-the-wall civic transformation ideas for Barrie and Leslieville">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://squirrelridge.org/sqrrdg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://squirrelridge.org/assets/sroc-logo.png">
+    <link rel="apple-touch-icon" href="https://squirrelridge.org/assets/sroc-logo.png">
+    <link rel="shortcut icon" href="https://squirrelridge.org/assets/sroc-logo.png">
+    
+    <!-- Fonts -->
+    <link rel="preload" href="/assets/woff2/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/woff2/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link href="/assets/fira-code.css" rel="stylesheet" />
+    
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #1a1a2e;
+            --accent-pink: #ff1493;
+            --accent-magenta: #ff006e;
+            --accent-purple: #9d4edd;
+            --accent-orange: #ff6b35;
+            --accent-green: #00ff88;
+            --accent-cyan: #00ffff;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --civic-purple: #7b68ee;
+            --civic-pink: #ff69b4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Electric gradient background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0f, #1a1a2e, #2d0033, #1a1a2e);
+            background-size: 400% 400%;
+            animation: electricShift 15s ease infinite;
+            z-index: -3;
+        }
+
+        @keyframes electricShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Circuit board pattern overlay */
+        .circuit-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.05;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 40px, var(--accent-pink) 40px, var(--accent-pink) 41px),
+                repeating-linear-gradient(90deg, transparent, transparent 40px, var(--accent-pink) 40px, var(--accent-pink) 41px);
+        }
+
+        /* Floating idea particles */
+        .idea-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .idea-symbol {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: floatIdea 20s infinite linear;
+            opacity: 0.4;
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        @keyframes floatIdea {
+            from {
+                transform: translate(-100px, 100vh) rotate(0deg);
+            }
+            to {
+                transform: translate(calc(100vw + 100px), -100px) rotate(360deg);
+            }
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
+            background: var(--glass-bg);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 10;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-link {
+            color: var(--accent-pink);
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+            text-shadow: 0 0 20px var(--accent-pink);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-pink);
+            cursor: default;
+            user-select: none;
+            text-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-emoji {
+            font-size: 2rem;
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Navigation */
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            margin: 0;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-pink);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--accent-pink);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Main content */
+        main {
+            position: relative;
+            z-index: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Hero section */
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            padding: 3rem 0;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--accent-pink), var(--accent-magenta), var(--accent-purple));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulseGlow 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.3));
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { filter: brightness(1) drop-shadow(0 0 20px rgba(255, 20, 147, 0.3)); }
+            50% { filter: brightness(1.3) drop-shadow(0 0 30px rgba(255, 0, 110, 0.5)); }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--civic-pink);
+            margin-bottom: 1rem;
+        }
+
+        .description {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Location Cards */
+        .locations-section {
+            margin: 4rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--accent-pink);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .location-card {
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .location-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .location-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .location-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 20, 147, 0.3);
+            border-color: var(--accent-pink);
+        }
+
+        .location-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .location-icon {
+            font-size: 3rem;
+        }
+
+        .location-info h3 {
+            font-size: 1.5rem;
+            color: var(--civic-pink);
+            margin-bottom: 0.25rem;
+        }
+
+        .location-tagline {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .location-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .location-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-pink);
+            display: block;
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Ideas Showcase */
+        .ideas-section {
+            margin: 4rem 0;
+            padding: 3rem;
+            background: rgba(255, 20, 147, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .ideas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .idea-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .idea-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255, 20, 147, 0.3) 0%, transparent 70%);
+            transition: all 0.5s ease;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+
+        .idea-card:hover::after {
+            width: 200%;
+            height: 200%;
+        }
+
+        .idea-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.3);
+            border-color: var(--accent-pink);
+            background: var(--accent-pink);
+        }
+
+        .idea-card:hover .idea-icon,
+        .idea-card:hover .idea-title,
+        .idea-card:hover .idea-description {
+            color: var(--bg-primary);
+        }
+
+        .idea-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+            animation: bounce 3s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .idea-title {
+            font-size: 1.1rem;
+            color: var(--civic-pink);
+            margin-bottom: 0.5rem;
+        }
+
+        .idea-description {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Principles section */
+        .principles {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .principle {
+            padding: 1rem;
+        }
+
+        .principle-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .principle-title {
+            color: var(--civic-pink);
+            margin-bottom: 0.5rem;
+        }
+
+        .principle-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* CTA section */
+        .cta-section {
+            text-align: center;
+            padding: 3rem;
+            background: var(--glass-bg);
+            border-radius: 12px;
+            margin-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 20, 147, 0.1), transparent);
+            animation: sweep 5s linear infinite;
+        }
+
+        @keyframes sweep {
+            to { left: 100%; }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .cta-btn {
+            padding: 1rem 2rem;
+            background: var(--accent-pink);
+            color: var(--bg-primary);
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
+        }
+
+        .cta-btn.secondary {
+            background: transparent;
+            color: var(--accent-pink);
+            border: 2px solid var(--accent-pink);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--glass-border);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .locations-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .ideas-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background elements -->
+    <div class="bg-gradient" aria-hidden="true"></div>
+    <div class="circuit-pattern" aria-hidden="true"></div>
+    
+    <!-- Floating idea particles -->
+    <div class="idea-particles" id="ideaParticles" aria-hidden="true"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo-group">
+                <a href="/" class="back-link" aria-label="Back to SROC home">←</a>
+                <div class="logo">
+                    <span class="logo-emoji">🌰</span> SQRRDG
+                </div>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="#locations">[LOCATIONS]</a></li>
+                    <li><a href="#ideas">[IDEAS]</a></li>
+                    <li><a href="#contribute">[CONTRIBUTE]</a></li>
+                    <li><a href="https://github.com/squirridge" target="_blank">[GITHUB]</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main>
+        <section class="hero">
+            <h1>Stirring the Squirridge</h1>
+            <p class="subtitle">// SQRRDG: Where off-the-wall ideas meet on-the-ground action</p>
+            <p class="description">
+                An incubator for bold civic transformation ideas. From smart transit solutions to apolitical advocacy, 
+                we're reimagining how communities can evolve. Operating in Barrie and Leslieville, we turn 
+                "what if" into "let's do this."
+            </p>
+        </section>
+
+        <section class="locations-section" id="locations">
+            <div class="section-header">
+                <h2 class="section-title">Operating Locations</h2>
+                <p style="color: var(--text-secondary);">Two communities, one vision: better civic life through creative solutions</p>
+            </div>
+
+            <div class="locations-grid">
+                <!-- Barrie Better -->
+                <div class="location-card">
+                    <div class="location-header">
+                        <span class="location-icon">🌊</span>
+                        <div class="location-info">
+                            <h3>Barrie Better</h3>
+                            <p class="location-tagline">"Lake Simcoe's Innovation Shore"</p>
+                        </div>
+                    </div>
+                    <p class="location-description">
+                        Transforming Barrie from bedroom community to bold civic innovator. We're tackling transit gaps, 
+                        waterfront activation, and creating connections between old town charm and new tech energy. 
+                        From GO train frequency campaigns to pop-up innovation labs on Dunlop Street.
+                    </p>
+                    <div class="location-stats">
+                        <div class="stat">
+                            <span class="stat-number">15</span>
+                            <span class="stat-label">Active Ideas</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">127k</span>
+                            <span class="stat-label">Population</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">3</span>
+                            <span class="stat-label">Key Projects</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Less Evil Leslieville -->
+                <div class="location-card">
+                    <div class="location-header">
+                        <span class="location-icon">🏭</span>
+                        <div class="location-info">
+                            <h3>Less Evil Leslieville</h3>
+                            <p class="location-tagline">"Toronto's East End Experimenters"</p>
+                        </div>
+                    </div>
+                    <p class="location-description">
+                        Making Leslieville less about gentrification, more about genuine community. We're preserving 
+                        industrial heritage while fostering inclusive innovation. From Queen East streetcar advocacy 
+                        to converting empty storefronts into community tech hubs and artist spaces.
+                    </p>
+                    <div class="location-stats">
+                        <div class="stat">
+                            <span class="stat-number">22</span>
+                            <span class="stat-label">Active Ideas</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">35k</span>
+                            <span class="stat-label">Residents</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">5</span>
+                            <span class="stat-label">Key Projects</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="ideas-section" id="ideas">
+            <div class="section-header">
+                <h2 class="section-title">Current Incubations</h2>
+                <p style="color: var(--text-secondary);">Off-the-wall ideas in various stages of becoming real</p>
+            </div>
+
+            <div class="ideas-grid">
+                <div class="idea-card">
+                    <span class="idea-icon">🚊</span>
+                    <h3 class="idea-title">Transit Telepathy</h3>
+                    <p class="idea-description">Real-time transit prediction using community-sourced data and ML</p>
+                </div>
+
+                <div class="idea-card">
+                    <span class="idea-icon">🌳</span>
+                    <h3 class="idea-title">Guerrilla Greenways</h3>
+                    <p class="idea-description">Pop-up bike lanes that appear overnight using tactical urbanism</p>
+                </div>
+
+                <div class="idea-card">
+                    <span class="idea-icon">📡</span>
+                    <h3 class="idea-title">Civic Mesh Network</h3>
+                    <p class="idea-description">Community-owned internet infrastructure for digital equity</p>
+                </div>
+
+                <div class="idea-card">
+                    <span class="idea-icon">🎨</span>
+                    <h3 class="idea-title">AR Heritage Trails</h3>
+                    <p class="idea-description">Augmented reality layers revealing hidden local histories</p>
+                </div>
+
+                <div class="idea-card">
+                    <span class="idea-icon">🏠</span>
+                    <h3 class="idea-title">Zoning Zapper</h3>
+                    <p class="idea-description">AI tool to decode municipal bylaws into plain language</p>
+                </div>
+
+                <div class="idea-card">
+                    <span class="idea-icon">💧</span>
+                    <h3 class="idea-title">Rain Brain</h3>
+                    <p class="idea-description">Smart stormwater management using distributed sensors</p>
+                </div>
+
+                <div class="idea-card">
+                    <span class="idea-icon">🚲</span>
+                    <h3 class="idea-title">Bikeshare++</h3>
+                    <p class="idea-description">Open-source bikeshare system with cargo & adaptive options</p>
+                </div>
+
+                <div class="idea-card">
+                    <span class="idea-icon">🗳️</span>
+                    <h3 class="idea-title">Democracy OS Local</h3>
+                    <p class="idea-description">Digital platform for participatory budgeting & decisions</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="principles">
+            <h2 style="text-align: center; color: var(--accent-pink); margin-bottom: 1rem;">
+                The SQRRDG Way
+            </h2>
+            <p style="text-align: center; color: var(--text-secondary); max-width: 700px; margin: 0 auto;">
+                Our approach to civic transformation is guided by these principles
+            </p>
+
+            <div class="principles-grid">
+                <div class="principle">
+                    <span class="principle-emoji">🎯</span>
+                    <h3 class="principle-title">Apolitical</h3>
+                    <p class="principle-text">Good ideas transcend party lines</p>
+                </div>
+                <div class="principle">
+                    <span class="principle-emoji">🔬</span>
+                    <h3 class="principle-title">Evidence-Based</h3>
+                    <p class="principle-text">Data drives decisions, not dogma</p>
+                </div>
+                <div class="principle">
+                    <span class="principle-emoji">🌍</span>
+                    <h3 class="principle-title">Open Source</h3>
+                    <p class="principle-text">Solutions that can spread and scale</p>
+                </div>
+                <div class="principle">
+                    <span class="principle-emoji">🇨🇦</span>
+                    <h3 class="principle-title">Action-Oriented</h3>
+                    <p class="principle-text">From concept to concrete quickly</p>
+                </div>
+                <div class="principle">
+                    <span class="principle-emoji">🛠️</span>
+                    <h3 class="principle-title">Scrappy AF</h3>
+                    <p class="principle-text">Experimental & low-cost by design</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section" id="contribute">
+            <h2 style="font-size: 2rem; color: var(--accent-pink); margin-bottom: 1rem;">
+                Got an Off-the-Wall Idea?
+            </h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                We're always looking for bold thinkers and doers. Whether you're in Barrie, Leslieville, 
+                or anywhere else, your civic transformation idea could be the next big thing.
+            </p>
+            <div class="cta-buttons">
+                <a href="/sqrrdg/submit" class="cta-btn">Submit an Idea</a>
+                <a href="https://github.com/squirridge" class="cta-btn secondary">Browse GitHub</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Squirrel Ridge Observatory Centre | SQRRDG Project<br>
+        Transforming communities one audacious idea at a time 🌰</p>
+    </footer>
+
+    <script>
+        // Create floating idea particles
+        function createIdeaParticles() {
+            const particleField = document.getElementById('ideaParticles');
+            const symbols = ['💡', '⚡', '🚀', '🔧', '🎯', '✨', '🌟', '💫', '🔮', '🎪', '🎨', '🛠️', '📡', '🌈'];
+            const colors = ['#ff1493', '#ff006e', '#9d4edd', '#00ffff', '#00ff88'];
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'idea-symbol';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (20 + Math.random() * 10) + 's';
+                particleField.appendChild(particle);
+            }
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Interactive idea cards
+        document.querySelectorAll('.idea-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const title = this.querySelector('.idea-title').textContent;
+                console.log(`Exploring idea: ${title}`);
+                // In a real implementation, this would open a detailed view
+            });
+        });
+
+        // Initialize
+        createIdeaParticles();
+
+        // Console easter eggs
+        console.log('%c🌰 SQRRDG: MAKING CIVIC LIFE LESS BORING SINCE [REDACTED]', 'color: #ff1493; font-size: 20px; font-weight: bold;');
+        console.log('%cCurrent status: Plotting civic transformation in Barrie & Leslieville', 'color: #ff69b4;');
+        console.log('%cJoin the revolution: github.com/sqrrdg', 'color: #00ff88;');
+        console.log('%c⚡ Remember: The best ideas sound crazy at first!', 'color: #9d4edd;');
+    </script>
+</body>
+</html>

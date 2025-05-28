@@ -1,0 +1,2115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMOD Explorer - Orthographic-Phonetic Mapping Tool | SROC</title>
+    <meta name="description" content="Explore orthographic-phonetic mappings across world languages through our interactive database">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Noto+Sans:wght@400;700&family=Noto+Sans+Tamil:wght@400;700&family=Noto+Sans+Arabic:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #1a1a2e;
+            --accent-orange: #ff6b35;
+            --accent-amber: #ffa500;
+            --accent-gold: #ffd700;
+            --accent-cyan: #00ffff;
+            --accent-purple: #9d4edd;
+            --accent-green: #00ff88;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --terminal-orange: #ff8c00;
+            --ipa-blue: #4a9eff;
+            --hover-glow: rgba(255, 107, 53, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated gradient background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0f, #1a1a2e, #2d1b00, #1a1a2e);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            z-index: -3;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating IPA symbols */
+        .ipa-float {
+            position: fixed;
+            font-size: 2rem;
+            opacity: 0.1;
+            color: var(--terminal-orange);
+            animation: floatDiagonal 25s infinite linear;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes floatDiagonal {
+            from {
+                transform: translate(-100px, 100vh) rotate(0deg);
+            }
+            to {
+                transform: translate(calc(100vw + 100px), -100px) rotate(360deg);
+            }
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
+            background: var(--glass-bg);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-link {
+            color: var(--accent-orange);
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+            text-shadow: 0 0 20px var(--accent-orange);
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+            cursor: default;
+            user-select: none;
+            text-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-emoji {
+            font-size: 1.5rem;
+            animation: bob 3s ease-in-out infinite;
+        }
+
+        @keyframes bob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Stats */
+        .stats-mini {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .stat-mini {
+            text-align: center;
+        }
+
+        .stat-mini-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent-orange);
+            display: block;
+        }
+
+        .stat-mini-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Filter bar */
+        .filter-bar {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 60px;
+            z-index: 90;
+        }
+
+        .filter-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Search */
+        .search-wrapper {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.6rem 2.5rem 0.6rem 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-orange);
+            pointer-events: none;
+        }
+
+        /* Filter buttons */
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .filter-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .filter-select {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            padding: 0.5rem 2rem 0.5rem 1rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='14' height='8' viewBox='0 0 14 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M1 1L7 7L13 1' stroke='%23ff6b35' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.7rem center;
+            background-size: 14px;
+        }
+
+        .filter-select:hover,
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Quick filters */
+        .quick-filters {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: auto;
+        }
+
+        .quick-filter {
+            padding: 0.4rem 0.8rem;
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .quick-filter:hover {
+            border-color: var(--accent-orange);
+            background: rgba(255, 107, 53, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .quick-filter.active {
+            background: var(--accent-orange);
+            color: var(--bg-primary);
+            border-color: var(--accent-orange);
+        }
+
+        /* Main content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Results grid */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .mapping-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .mapping-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .mapping-card:hover::before {
+            left: 100%;
+        }
+
+        .mapping-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+            border-color: var(--accent-orange);
+        }
+
+        .language-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .language-name {
+            font-size: 0.9rem;
+            color: var(--accent-amber);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .language-family {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .mapping-display {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin: 1.5rem 0;
+            min-height: 80px;
+        }
+
+        .orthographic {
+            font-size: 3rem;
+            color: var(--accent-amber);
+            font-family: 'Noto Sans', 'Noto Sans Tamil', 'Noto Sans Arabic', 'Noto Sans Devanagari', 'Noto Sans Thai', sans-serif;
+            text-align: center;
+        }
+
+        .mapping-arrow {
+            font-size: 1.5rem;
+            color: var(--accent-orange);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .phonetic {
+            font-size: 2rem;
+            color: var(--ipa-blue);
+            font-family: 'Fira Code', monospace;
+            text-align: center;
+        }
+
+        .mapping-info {
+            border-top: 1px solid var(--glass-border);
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+        }
+
+        .info-value {
+            color: var(--text-primary);
+        }
+
+        /* Modal for detailed view */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border: 2px solid var(--accent-orange);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-orange);
+            transform: rotate(90deg);
+        }
+
+        /* Loading animation */
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            grid-column: 1 / -1;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--glass-border);
+            border-top-color: var(--accent-orange);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-secondary);
+            grid-column: 1 / -1;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .filter-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-wrapper {
+                width: 100%;
+            }
+            
+            .quick-filters {
+                margin-left: 0;
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+            
+            .stats-mini {
+                display: none;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background elements -->
+    <div class="bg-gradient" aria-hidden="true"></div>
+    
+    <!-- Floating IPA symbols -->
+    <div class="ipa-float" style="top: 10%; left: -100px; animation-delay: 0s;">ə</div>
+    <div class="ipa-float" style="top: 30%; left: -100px; animation-delay: 5s;">ɑ</div>
+    <div class="ipa-float" style="top: 50%; left: -100px; animation-delay: 10s;">ʃ</div>
+    <div class="ipa-float" style="top: 70%; left: -100px; animation-delay: 15s;">ŋ</div>
+    <div class="ipa-float" style="top: 90%; left: -100px; animation-delay: 20s;">θ</div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo-group">
+                <a href="/omod" class="back-link" aria-label="Back to OMOD">←</a>
+                <div class="logo">
+                    <span class="logo-emoji">🦜</span> OMOD EXPLORER
+                </div>
+            </div>
+            
+            <div class="stats-mini">
+                <div class="stat-mini">
+                    <span class="stat-mini-number" id="totalMappings">94</span>
+                    <span class="stat-mini-label">Mappings</span>
+                </div>
+                <div class="stat-mini">
+                    <span class="stat-mini-number" id="filteredCount">94</span>
+                    <span class="stat-mini-label">Showing</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <div class="filter-container">
+            <!-- Search -->
+            <div class="search-wrapper">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search character or IPA...">
+                <span class="search-icon">🔍</span>
+            </div>
+
+            <!-- Filter dropdowns -->
+            <div class="filter-group">
+                <label class="filter-label" for="languageFilter">Language:</label>
+                <select class="filter-select" id="languageFilter">
+                    <option value="all">All Languages</option>
+                    <option value="vietnamese">Vietnamese</option>
+                    <option value="arabic">Arabic</option>
+                    <option value="arabic (chat)">Arabic (Chat)</option>
+                    <option value="tamil">Tamil</option>
+                    <option value="thai">Thai</option>
+                    <option value="hindi">Hindi</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label class="filter-label" for="scriptFilter">Script:</label>
+                <select class="filter-select" id="scriptFilter">
+                    <option value="all">All Scripts</option>
+                    <option value="latin">Latin</option>
+                    <option value="arabic">Arabic</option>
+                    <option value="brahmic">Brahmic</option>
+                    <option value="devanagari">Devanagari</option>
+                    <option value="thai">Thai</option>
+                </select>
+            </div>
+
+            <!-- Quick filters -->
+            <div class="quick-filters">
+                <div class="quick-filter" data-feature="tones">Tones</div>
+                <div class="quick-filter" data-feature="diacritics">Diacritics</div>
+                <div class="quick-filter" data-feature="digraphs">Digraphs</div>
+                <div class="quick-filter" data-feature="retroflex">Retroflex</div>
+                <div class="quick-filter" data-feature="emphatic">Emphatic</div>
+                <div class="quick-filter" data-feature="aspirated">Aspirated</div>
+                <div class="quick-filter" data-feature="diphthong">Diphthong</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <main class="main-content">
+        <!-- Results Grid -->
+        <div class="results-grid" id="resultsGrid">
+            <!-- Loading state -->
+            <div class="loading" id="loadingState">
+                <div class="loading-spinner"></div>
+                <p style="margin-top: 1rem; color: var(--text-secondary);">Loading mappings...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Detail Modal -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">×</button>
+            <div id="modalBody">
+                <!-- Modal content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Comprehensive dataset from OMOD files
+        // This sample includes Vietnamese (tones, special letters), Tamil (retroflex sounds), 
+        // Arabic (pharyngeal sounds, chat alphabet), Thai, and Hindi examples
+        const mappings = [
+            // Vietnamese tonal vowels
+            {
+                id: 1,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'a',
+                phonetic: '/a˧˧/',
+                features: ['tones'],
+                context: 'All positions',
+                example: 'ba /ɓa˧˧/ = three',
+                notes: 'Mid level tone (ngang)'
+            },
+            {
+                id: 2,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'á',
+                phonetic: '/a˧˥/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'lá /la˧˥/ = leaf',
+                notes: 'High rising tone (sắc)'
+            },
+            {
+                id: 3,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'à',
+                phonetic: '/a˨˩/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'bà /ɓa˨˩/ = grandmother',
+                notes: 'Low falling tone (huyền)'
+            },
+            {
+                id: 4,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ả',
+                phonetic: '/a˧˩˧/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'hả /ha˧˩˧/ = huh?',
+                notes: 'Mid falling-rising tone (hỏi)'
+            },
+            {
+                id: 5,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ã',
+                phonetic: '/a˧˩˧/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'mã /ma˧˩˧/ = code',
+                notes: 'Rising glottalized tone (ngã)'
+            },
+            {
+                id: 6,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ạ',
+                phonetic: '/a˨˧/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'dạ /ja˨˧/ = yes (polite)',
+                notes: 'Low rising glottalized tone (nặng)'
+            },
+            {
+                id: 7,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ă',
+                phonetic: '/ă˧˧/',
+                features: ['diacritics'],
+                context: 'Initial, medial',
+                example: 'ăn /ăn˧˧/ = to eat',
+                notes: 'Short a vowel'
+            },
+            {
+                id: 8,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ư',
+                phonetic: '/ɨ˧˧/',
+                features: ['diacritics'],
+                context: 'All positions',
+                example: 'cư /kɨ˧˧/ = to reside',
+                notes: 'Close central unrounded vowel'
+            },
+            {
+                id: 9,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ơ',
+                phonetic: '/ə˧˧/',
+                features: ['diacritics'],
+                context: 'All positions',
+                example: 'mơ /mə˧˧/ = to dream',
+                notes: 'Mid central vowel (schwa)'
+            },
+            {
+                id: 10,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'đ',
+                phonetic: '/ɗ/',
+                features: ['diacritics'],
+                context: 'Initial position',
+                example: 'đúng /ɗuŋ˧˥/ = correct',
+                notes: 'Implosive alveolar stop'
+            },
+            {
+                id: 11,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ng',
+                phonetic: '/ŋ/',
+                features: ['digraphs'],
+                context: 'All positions',
+                example: 'người /ŋɨəi˧˧/ = person',
+                notes: 'Velar nasal'
+            },
+            {
+                id: 12,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'nh',
+                phonetic: '/ɲ/',
+                features: ['digraphs'],
+                context: 'All positions',
+                example: 'nhà /ɲa˨˩/ = house',
+                notes: 'Palatal nasal'
+            },
+            {
+                id: 13,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ph',
+                phonetic: '/f/',
+                features: ['digraphs'],
+                context: 'Initial position',
+                example: 'phúc /fuk˧˥/ = fortune',
+                notes: 'Labiodental fricative'
+            },
+            {
+                id: 14,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'kh',
+                phonetic: '/x/',
+                features: ['digraphs'],
+                context: 'Initial position',
+                example: 'khóc /xɔk˧˥/ = to cry',
+                notes: 'Voiceless velar fricative'
+            },
+            {
+                id: 15,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'tr',
+                phonetic: '/ʈ/',
+                features: ['digraphs', 'retroflex'],
+                context: 'Initial position',
+                example: 'trường /ʈɨəŋ˨˩/ = school',
+                notes: 'Retroflex stop'
+            },
+            
+            // Tamil vowels
+            {
+                id: 16,
+                language: 'Tamil',
+                languageCode: 'tam',
+                family: 'Dravidian',
+                script: 'Brahmic',
+                orthographic: 'அ',
+                phonetic: '/a/',
+                features: [],
+                context: 'All positions',
+                example: 'அப்பா /appaː/ = father',
+                notes: 'Short a vowel'
+            },
+            {
+                id: 17,
+                language: 'Tamil',
+                languageCode: 'tam',
+                family: 'Dravidian',
+                script: 'Brahmic',
+                orthographic: 'ஆ',
+                phonetic: '/aː/',
+                features: [],
+                context: 'All positions',
+                example: 'ஆடு /aːɖu/ = goat',
+                notes: 'Long a vowel'
+            },
+            {
+                id: 18,
+                language: 'Tamil',
+                languageCode: 'tam',
+                family: 'Dravidian',
+                script: 'Brahmic',
+                orthographic: 'இ',
+                phonetic: '/i/',
+                features: [],
+                context: 'All positions',
+                example: 'இலை /ilai̯/ = leaf',
+                notes: 'Short i vowel'
+            },
+            {
+                id: 19,
+                language: 'Tamil',
+                languageCode: 'tam',
+                family: 'Dravidian',
+                script: 'Brahmic',
+                orthographic: 'ஈ',
+                phonetic: '/iː/',
+                features: [],
+                context: 'All positions',
+                example: 'வீடு /ʋiːɖu/ = house',
+                notes: 'Long i vowel'
+            },
+            {
+                id: 20,
+                language: 'Tamil',
+                languageCode: 'tam',
+                family: 'Dravidian',
+                script: 'Brahmic',
+                orthographic: 'ஐ',
+                phonetic: '/ai̯/',
+                features: ['diphthong'],
+                context: 'All positions',
+                example: 'ஐந்து /ai̯n̪t̪u/ = five',
+                notes: 'Diphthong ai'
+            },
+            {
+                id: 21,
+                language: 'Tamil',
+                languageCode: 'tam',
+                family: 'Dravidian',
+                script: 'Brahmic',
+                orthographic: 'ஔ',
+                phonetic: '/au̯/',
+                features: ['diphthong'],
+                context: 'All positions',
+                example: 'ஔவை /au̯vai̯/ = Avvaiyar',
+                notes: 'Diphthong au'
+            },
+            
+            // Tamil consonants
+            {
+                id: 22,
+                language: 'Tamil',
+                languageCode: 'tam',
+                family: 'Dravidian',
+                script: 'Brahmic',
+                orthographic: 'க்',
+                phonetic: '/k/',
+                features: [],
+                context: 'All positions',
+                example: 'கல் /kal/ = stone',
+                notes: 'Voiceless velar stop'
+            },
+            {
+                id: 23,
+                language: 'Tamil',
+                languageCode: 'tam',
+                family: 'Dravidian',
+                script: 'Brahmic',
+                orthographic: 'ங்',
+                phonetic: '/ŋ/',
+                features: [],
+                context: 'Medial, final',
+                example: 'மரங் /maɾaŋ/ = trees',
+                notes: 'Velar nasal'
+            },
+            {
+                id: 24,
+                language: 'Tamil',
+                languageCode: 'tam',
+                family: 'Dravidian',
+                script: 'Brahmic',
+                orthographic: 'ச்',
+                phonetic: '/t͡ʃ/',
+                features: [],
+                context: 'All positions',
+                example: 'சட்டை /t͡ʃaʈʈai̯/ = shirt',
+                notes: 'Voiceless palatal affricate'
+            },
+            {
+                id: 25,
+                language: 'Tamil',
+                languageCode: 'tam',
+                family: 'Dravidian',
+                script: 'Brahmic',
+                orthographic: 'ஞ்',
+                phonetic: '/ɲ/',
+                features: [],
+                context: 'Medial, final',
+                example: 'பஞ்சு /paɲt͡ʃu/ = cotton',
+                notes: 'Palatal nasal'
+            },
+            {
+                id: 26,
+                language: 'Tamil',
+                languageCode: 'tam',
+                family: 'Dravidian',
+                script: 'Brahmic',
+                orthographic: 'ட்',
+                phonetic: '/ʈ/',
+                features: ['retroflex'],
+                context: 'Medial, final',
+                example: 'வீட்டு /ʋiːʈʈu/ = house (genitive)',
+                notes: 'Voiceless retroflex stop'
+            },
+            {
+                id: 27,
+                language: 'Tamil',
+                languageCode: 'tam',
+                family: 'Dravidian',
+                script: 'Brahmic',
+                orthographic: 'ண்',
+                phonetic: '/ɳ/',
+                features: ['retroflex'],
+                context: 'Medial, final',
+                example: 'கண் /kaɳ/ = eye',
+                notes: 'Retroflex nasal'
+            },
+            {
+                id: 28,
+                language: 'Tamil',
+                languageCode: 'tam',
+                family: 'Dravidian',
+                script: 'Brahmic',
+                orthographic: 'ழ்',
+                phonetic: '/ɻ/',
+                features: ['retroflex'],
+                context: 'Medial, final',
+                example: 'தமிழ் /t̪amiɻ/ = Tamil',
+                notes: 'Retroflex approximant - unique to Tamil/Malayalam'
+            },
+            {
+                id: 29,
+                language: 'Tamil',
+                languageCode: 'tam',
+                family: 'Dravidian',
+                script: 'Brahmic',
+                orthographic: 'ள்',
+                phonetic: '/ɭ/',
+                features: ['retroflex'],
+                context: 'Medial, final',
+                example: 'பள்ளி /paɭɭi/ = school',
+                notes: 'Retroflex lateral'
+            },
+            {
+                id: 30,
+                language: 'Tamil',
+                languageCode: 'tam',
+                family: 'Dravidian',
+                script: 'Brahmic',
+                orthographic: 'ற்',
+                phonetic: '/r/',
+                features: [],
+                context: 'Medial, final',
+                example: 'கற்றல் /karral/ = learning',
+                notes: 'Alveolar trill'
+            },
+            {
+                id: 31,
+                language: 'Tamil',
+                languageCode: 'tam',
+                family: 'Dravidian',
+                script: 'Brahmic',
+                orthographic: 'ன்',
+                phonetic: '/n/',
+                features: [],
+                context: 'Medial, final',
+                example: 'மன்னன் /mannan/ = king',
+                notes: 'Alveolar nasal'
+            },
+            
+            // Arabic letters
+            {
+                id: 32,
+                language: 'Arabic',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Arabic',
+                orthographic: 'أ',
+                phonetic: '/ʔ/',
+                features: [],
+                context: 'All positions',
+                example: 'أمل /ʔamal/ = hope',
+                notes: 'Glottal stop (hamza)'
+            },
+            {
+                id: 33,
+                language: 'Arabic',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Arabic',
+                orthographic: 'ب',
+                phonetic: '/b/',
+                features: [],
+                context: 'All positions',
+                example: 'باب /baːb/ = door',
+                notes: 'Voiced bilabial stop'
+            },
+            {
+                id: 34,
+                language: 'Arabic',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Arabic',
+                orthographic: 'ت',
+                phonetic: '/t/',
+                features: [],
+                context: 'All positions',
+                example: 'بيت /beːt/ = house',
+                notes: 'Voiceless alveolar stop'
+            },
+            {
+                id: 35,
+                language: 'Arabic',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Arabic',
+                orthographic: 'ث',
+                phonetic: '/θ/',
+                features: [],
+                context: 'All positions',
+                example: 'ثلاثة /θalaːθa/ = three',
+                notes: 'Voiceless dental fricative'
+            },
+            {
+                id: 36,
+                language: 'Arabic',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Arabic',
+                orthographic: 'ج',
+                phonetic: '/ʒ/',
+                features: [],
+                context: 'All positions',
+                example: 'جميل /ʒamiːl/ = beautiful',
+                notes: 'Voiced palatal fricative (varies by dialect)'
+            },
+            {
+                id: 37,
+                language: 'Arabic',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Arabic',
+                orthographic: 'ح',
+                phonetic: '/ħ/',
+                features: [],
+                context: 'All positions',
+                example: 'حبيب /ħabiːb/ = beloved',
+                notes: 'Voiceless pharyngeal fricative'
+            },
+            {
+                id: 38,
+                language: 'Arabic',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Arabic',
+                orthographic: 'خ',
+                phonetic: '/x/',
+                features: [],
+                context: 'All positions',
+                example: 'خبز /xubz/ = bread',
+                notes: 'Voiceless velar fricative'
+            },
+            {
+                id: 39,
+                language: 'Arabic',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Arabic',
+                orthographic: 'ش',
+                phonetic: '/ʃ/',
+                features: [],
+                context: 'All positions',
+                example: 'شمس /ʃams/ = sun',
+                notes: 'Voiceless palatal fricative'
+            },
+            {
+                id: 40,
+                language: 'Arabic',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Arabic',
+                orthographic: 'ص',
+                phonetic: '/sˁ/',
+                features: ['emphatic'],
+                context: 'All positions',
+                example: 'صباح /sˁabaːħ/ = morning',
+                notes: 'Emphatic voiceless alveolar fricative'
+            },
+            {
+                id: 41,
+                language: 'Arabic',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Arabic',
+                orthographic: 'ض',
+                phonetic: '/dˁ/',
+                features: ['emphatic'],
+                context: 'All positions',
+                example: 'ضوء /dˁawʔ/ = light',
+                notes: 'Emphatic voiced alveolar stop'
+            },
+            {
+                id: 42,
+                language: 'Arabic',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Arabic',
+                orthographic: 'ط',
+                phonetic: '/tˁ/',
+                features: ['emphatic'],
+                context: 'All positions',
+                example: 'طبيب /tˁabiːb/ = doctor',
+                notes: 'Emphatic voiceless alveolar stop'
+            },
+            {
+                id: 43,
+                language: 'Arabic',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Arabic',
+                orthographic: 'ظ',
+                phonetic: '/ðˁ/',
+                features: ['emphatic'],
+                context: 'All positions',
+                example: 'ظهر /ðˁuhr/ = noon',
+                notes: 'Emphatic voiced dental fricative'
+            },
+            {
+                id: 44,
+                language: 'Arabic',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Arabic',
+                orthographic: 'ع',
+                phonetic: '/ʕ/',
+                features: [],
+                context: 'All positions',
+                example: 'عرب /ʕarab/ = Arabs',
+                notes: 'Voiced pharyngeal fricative'
+            },
+            {
+                id: 45,
+                language: 'Arabic',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Arabic',
+                orthographic: 'غ',
+                phonetic: '/ɣ/',
+                features: [],
+                context: 'All positions',
+                example: 'غزال /ɣazaːl/ = gazelle',
+                notes: 'Voiced velar fricative'
+            },
+            {
+                id: 46,
+                language: 'Arabic',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Arabic',
+                orthographic: 'ق',
+                phonetic: '/q/',
+                features: [],
+                context: 'All positions',
+                example: 'قمر /qamar/ = moon',
+                notes: 'Voiceless uvular stop'
+            },
+            
+            // Arabic chat alphabet
+            {
+                id: 47,
+                language: 'Arabic (Chat)',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Latin',
+                orthographic: '7',
+                phonetic: '/ħ/',
+                features: [],
+                context: 'Chat/informal',
+                example: '7abibi = حبيبي = my dear',
+                notes: 'Number 7 represents ح'
+            },
+            {
+                id: 48,
+                language: 'Arabic (Chat)',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Latin',
+                orthographic: '3',
+                phonetic: '/ʕ/',
+                features: [],
+                context: 'Chat/informal',
+                example: '3arab = عرب = Arabs',
+                notes: 'Number 3 represents ع'
+            },
+            {
+                id: 49,
+                language: 'Arabic (Chat)',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Latin',
+                orthographic: '5',
+                phonetic: '/x/',
+                features: [],
+                context: 'Chat/informal',
+                example: '5amas = خمس = five',
+                notes: 'Number 5 represents خ'
+            },
+            {
+                id: 50,
+                language: 'Arabic (Chat)',
+                languageCode: 'ara',
+                family: 'Semitic',
+                script: 'Latin',
+                orthographic: '9',
+                phonetic: '/sˁ/',
+                features: ['emphatic'],
+                context: 'Chat/informal',
+                example: '9aba7 = صباح = morning',
+                notes: 'Number 9 represents ص'
+            },
+            
+            // Additional Thai examples
+            {
+                id: 51,
+                language: 'Thai',
+                languageCode: 'tha',
+                family: 'Tai-Kadai',
+                script: 'Thai',
+                orthographic: 'ข',
+                phonetic: '/kʰ/',
+                features: [],
+                context: 'Initial position',
+                example: 'ขาว /kʰaːw˩˧/ = white',
+                notes: 'High class aspirated consonant'
+            },
+            {
+                id: 52,
+                language: 'Thai',
+                languageCode: 'tha',
+                family: 'Tai-Kadai',
+                script: 'Thai',
+                orthographic: 'ฆ',
+                phonetic: '/kʰ/',
+                features: [],
+                context: 'Initial position',
+                example: 'ฆ่า /kʰâː/ = to kill',
+                notes: 'Low class consonant'
+            },
+            {
+                id: 53,
+                language: 'Thai',
+                languageCode: 'tha',
+                family: 'Tai-Kadai',
+                script: 'Thai',
+                orthographic: 'ง',
+                phonetic: '/ŋ/',
+                features: [],
+                context: 'All positions',
+                example: 'งาน /ŋaːn˧/ = work',
+                notes: 'Low class nasal consonant'
+            },
+            
+            // Hindi examples
+            {
+                id: 54,
+                language: 'Hindi',
+                languageCode: 'hin',
+                family: 'Indo-European',
+                script: 'Devanagari',
+                orthographic: 'ढ',
+                phonetic: '/ɖʱ/',
+                features: ['retroflex', 'aspirated'],
+                context: 'All positions',
+                example: 'पढ़ना /pəɖʱnaː/ = to read',
+                notes: 'Aspirated retroflex stop'
+            },
+            {
+                id: 55,
+                language: 'Hindi',
+                languageCode: 'hin',
+                family: 'Indo-European',
+                script: 'Devanagari',
+                orthographic: 'ङ',
+                phonetic: '/ŋ/',
+                features: [],
+                context: 'All positions',
+                example: 'रंग /rəŋg/ = color',
+                notes: 'Velar nasal'
+            },
+            {
+                id: 56,
+                language: 'Hindi',
+                languageCode: 'hin',
+                family: 'Indo-European',
+                script: 'Devanagari',
+                orthographic: 'ख',
+                phonetic: '/kʰ/',
+                features: ['aspirated'],
+                context: 'All positions',
+                example: 'खाना /kʰaːnaː/ = food/to eat',
+                notes: 'Aspirated velar stop'
+            },
+            
+            // More Vietnamese examples
+            {
+                id: 57,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'gi',
+                phonetic: '/j/',
+                features: ['digraphs'],
+                context: 'Initial position',
+                example: 'giang /jaŋ˧˧/ = river',
+                notes: 'Palatal approximant'
+            },
+            {
+                id: 58,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'qu',
+                phonetic: '/w/',
+                features: ['digraphs'],
+                context: 'Initial position',
+                example: 'quần /wən˨˩/ = pants',
+                notes: 'Labial-velar approximant'
+            },
+            {
+                id: 59,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'th',
+                phonetic: '/tʰ/',
+                features: ['digraphs', 'aspirated'],
+                context: 'Initial position',
+                example: 'thắng /tʰaŋ˧˥/ = to win',
+                notes: 'Aspirated alveolar stop'
+            },
+            {
+                id: 60,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ch',
+                phonetic: '/c/',
+                features: ['digraphs'],
+                context: 'Initial, final',
+                example: 'chưa /cɨə˧˧/ = not yet',
+                notes: 'Voiceless palatal stop'
+            },
+            
+            // Vietnamese tonal combinations - ă vowel series
+            {
+                id: 61,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ắ',
+                phonetic: '/ă˧˥/',
+                features: ['tones', 'diacritics'],
+                context: 'Initial, medial',
+                example: 'ngắn /ŋăn˧˥/ = short',
+                notes: 'Short a with high rising tone (sắc)'
+            },
+            {
+                id: 62,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ằ',
+                phonetic: '/ă˨˩/',
+                features: ['tones', 'diacritics'],
+                context: 'Initial, medial',
+                example: 'bằng /ɓăŋ˨˩/ = equal/by',
+                notes: 'Short a with low falling tone (huyền)'
+            },
+            {
+                id: 63,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ẳ',
+                phonetic: '/ă˧˩˧/',
+                features: ['tones', 'diacritics'],
+                context: 'Initial, medial',
+                example: 'thẳng /tʰăŋ˧˩˧/ = straight',
+                notes: 'Short a with mid falling-rising tone (hỏi)'
+            },
+            {
+                id: 64,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ẵ',
+                phonetic: '/ă˧˩˧/',
+                features: ['tones', 'diacritics'],
+                context: 'Initial, medial',
+                example: 'sẵn /săn˧˩˧/ = ready',
+                notes: 'Short a with rising glottalized tone (ngã)'
+            },
+            {
+                id: 65,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ặ',
+                phonetic: '/ă˨˧/',
+                features: ['tones', 'diacritics'],
+                context: 'Initial, medial',
+                example: 'nặng /năŋ˨˧/ = heavy',
+                notes: 'Short a with low rising glottalized tone (nặng)'
+            },
+            
+            // Vietnamese tonal combinations - â vowel series
+            {
+                id: 66,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'â',
+                phonetic: '/ə̆˧˧/',
+                features: ['diacritics'],
+                context: 'All positions',
+                example: 'âm /ə̆m˧˧/ = sound/negative',
+                notes: 'Reduced schwa with mid level tone'
+            },
+            {
+                id: 67,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ấ',
+                phonetic: '/ə̆˧˥/',
+                features: ['tones', 'diacritics'],
+                context: 'Initial, medial',
+                example: 'ấm /ə̆m˧˥/ = warm',
+                notes: 'Reduced schwa with high rising tone (sắc)'
+            },
+            {
+                id: 68,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ầ',
+                phonetic: '/ə̆˨˩/',
+                features: ['tones', 'diacritics'],
+                context: 'Initial, medial',
+                example: 'trầm /ʈə̆m˨˩/ = deep/bass',
+                notes: 'Reduced schwa with low falling tone (huyền)'
+            },
+            {
+                id: 69,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ẩ',
+                phonetic: '/ə̆˧˩˧/',
+                features: ['tones', 'diacritics'],
+                context: 'Initial, medial',
+                example: 'ẩm /ə̆m˧˩˧/ = humid',
+                notes: 'Reduced schwa with mid falling-rising tone (hỏi)'
+            },
+            {
+                id: 70,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ậ',
+                phonetic: '/ə̆˨˧/',
+                features: ['tones', 'diacritics'],
+                context: 'Initial, medial',
+                example: 'ngập /ŋə̆p˨˧/ = flooded',
+                notes: 'Reduced schwa with low rising glottalized tone (nặng)'
+            },
+            
+            // Vietnamese tonal combinations - ê vowel series
+            {
+                id: 71,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ê',
+                phonetic: '/e˧˧/',
+                features: ['diacritics'],
+                context: 'Initial, medial',
+                example: 'êm /em˧˧/ = smooth',
+                notes: 'Close-mid front vowel with mid level tone'
+            },
+            {
+                id: 72,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ế',
+                phonetic: '/e˧˥/',
+                features: ['tones', 'diacritics'],
+                context: 'Initial, medial',
+                example: 'chết /cet˧˥/ = die',
+                notes: 'Close-mid front vowel with high rising tone (sắc)'
+            },
+            {
+                id: 73,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ề',
+                phonetic: '/e˨˩/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'về /ve˨˩/ = return',
+                notes: 'Close-mid front vowel with low falling tone (huyền)'
+            },
+            {
+                id: 74,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ể',
+                phonetic: '/e˧˩˧/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'kể /ke˧˩˧/ = tell',
+                notes: 'Close-mid front vowel with mid falling-rising tone (hỏi)'
+            },
+            {
+                id: 75,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ễ',
+                phonetic: '/e˧˩˧/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'dễ /je˧˩˧/ = easy',
+                notes: 'Close-mid front vowel with rising glottalized tone (ngã)'
+            },
+            {
+                id: 76,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ệ',
+                phonetic: '/e˨˧/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'bệnh /ɓeɲ˨˧/ = sick',
+                notes: 'Close-mid front vowel with low rising glottalized tone (nặng)'
+            },
+            
+            // Vietnamese tonal combinations - ơ vowel series
+            {
+                id: 77,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ớ',
+                phonetic: '/ə˧˥/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'lớn /lən˧˥/ = big',
+                notes: 'Mid central vowel with high rising tone (sắc)'
+            },
+            {
+                id: 78,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ờ',
+                phonetic: '/ə˨˩/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'lười /lɨəi˨˩/ = lazy',
+                notes: 'Mid central vowel with low falling tone (huyền)'
+            },
+            {
+                id: 79,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ở',
+                phonetic: '/ə˧˩˧/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'ở /ə˧˩˧/ = at/in',
+                notes: 'Mid central vowel with mid falling-rising tone (hỏi)'
+            },
+            {
+                id: 80,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ỡ',
+                phonetic: '/ə˧˩˧/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'mỡ /mə˧˩˧/ = fat',
+                notes: 'Mid central vowel with rising glottalized tone (ngã)'
+            },
+            {
+                id: 81,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ợ',
+                phonetic: '/ə˨˧/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'mợ /mə˨˧/ = aunt',
+                notes: 'Mid central vowel with low rising glottalized tone (nặng)'
+            },
+            
+            // Vietnamese tonal combinations - ư vowel series
+            {
+                id: 82,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ứ',
+                phonetic: '/ɨ˧˥/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'ức /ɨk˧˥/ = chest',
+                notes: 'Close central unrounded vowel with high rising tone (sắc)'
+            },
+            {
+                id: 83,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ừ',
+                phonetic: '/ɨ˨˩/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'từ /tɨ˨˩/ = from',
+                notes: 'Close central unrounded vowel with low falling tone (huyền)'
+            },
+            {
+                id: 84,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ử',
+                phonetic: '/ɨ˧˩˧/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'tử /tɨ˧˩˧/ = death',
+                notes: 'Close central unrounded vowel with mid falling-rising tone (hỏi)'
+            },
+            {
+                id: 85,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ữ',
+                phonetic: '/ɨ˧˩˧/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'bữa /ɓɨə˧˩˧/ = meal',
+                notes: 'Close central unrounded vowel with rising glottalized tone (ngã)'
+            },
+            {
+                id: 86,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ự',
+                phonetic: '/ɨ˨˧/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'mực /mɨk˨˧/ = ink',
+                notes: 'Close central unrounded vowel with low rising glottalized tone (nặng)'
+            },
+            
+            // Vietnamese tonal combinations - o/ô vowel series
+            {
+                id: 87,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ó',
+                phonetic: '/ɔ˧˥/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'bó /ɓɔ˧˥/ = bundle',
+                notes: 'Open-mid back vowel with high rising tone (sắc)'
+            },
+            {
+                id: 88,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ò',
+                phonetic: '/ɔ˨˩/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'cò /kɔ˨˩/ = stork',
+                notes: 'Open-mid back vowel with low falling tone (huyền)'
+            },
+            {
+                id: 89,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ô',
+                phonetic: '/o˧˧/',
+                features: ['diacritics'],
+                context: 'All positions',
+                example: 'cô /ko˧˧/ = miss/aunt',
+                notes: 'Close-mid back vowel with mid level tone'
+            },
+            {
+                id: 90,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ố',
+                phonetic: '/o˧˥/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'cố /ko˧˥/ = try/paternal aunt',
+                notes: 'Close-mid back vowel with high rising tone (sắc)'
+            },
+            {
+                id: 91,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ồ',
+                phonetic: '/o˨˩/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'đồ /ɗo˨˩/ = thing/stuff',
+                notes: 'Close-mid back vowel with low falling tone (huyền)'
+            },
+            {
+                id: 92,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ổ',
+                phonetic: '/o˧˩˧/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'cổ /ko˧˩˧/ = neck',
+                notes: 'Close-mid back vowel with mid falling-rising tone (hỏi)'
+            },
+            {
+                id: 93,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ỗ',
+                phonetic: '/o˧˩˧/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'lỗ /lo˧˩˧/ = hole',
+                notes: 'Close-mid back vowel with rising glottalized tone (ngã)'
+            },
+            {
+                id: 94,
+                language: 'Vietnamese',
+                languageCode: 'vie',
+                family: 'Austroasiatic',
+                script: 'Latin',
+                orthographic: 'ộ',
+                phonetic: '/o˨˧/',
+                features: ['tones', 'diacritics'],
+                context: 'All positions',
+                example: 'lộ /lo˨˧/ = road/reveal',
+                notes: 'Close-mid back vowel with low rising glottalized tone (nặng)'
+            }
+        ];
+
+        // State management
+        let currentFilters = {
+            search: '',
+            language: 'all',
+            script: 'all',
+            features: new Set()
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMappings();
+            setupEventListeners();
+        });
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                currentFilters.search = e.target.value.toLowerCase();
+                renderMappings();
+            });
+
+            // Language filter
+            document.getElementById('languageFilter').addEventListener('change', (e) => {
+                currentFilters.language = e.target.value;
+                renderMappings();
+            });
+
+            // Script filter
+            document.getElementById('scriptFilter').addEventListener('change', (e) => {
+                currentFilters.script = e.target.value;
+                renderMappings();
+            });
+
+            // Quick feature filters
+            document.querySelectorAll('.quick-filter').forEach(filter => {
+                filter.addEventListener('click', () => {
+                    const feature = filter.dataset.feature;
+                    if (currentFilters.features.has(feature)) {
+                        currentFilters.features.delete(feature);
+                        filter.classList.remove('active');
+                    } else {
+                        currentFilters.features.add(feature);
+                        filter.classList.add('active');
+                    }
+                    renderMappings();
+                });
+            });
+
+            // Modal close
+            document.getElementById('modalClose').addEventListener('click', closeModal);
+            document.getElementById('detailModal').addEventListener('click', (e) => {
+                if (e.target.id === 'detailModal') closeModal();
+            });
+
+            // Escape key to close modal
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeModal();
+            });
+        }
+
+        // Filter mappings
+        function filterMappings() {
+            return mappings.filter(mapping => {
+                // Search filter
+                if (currentFilters.search) {
+                    const searchTerm = currentFilters.search;
+                    if (!mapping.orthographic.toLowerCase().includes(searchTerm) &&
+                        !mapping.phonetic.toLowerCase().includes(searchTerm) &&
+                        !mapping.language.toLowerCase().includes(searchTerm)) {
+                        return false;
+                    }
+                }
+
+                // Language filter
+                if (currentFilters.language !== 'all' && 
+                    mapping.language.toLowerCase() !== currentFilters.language) {
+                    return false;
+                }
+
+                // Script filter
+                if (currentFilters.script !== 'all') {
+                    const scriptMap = {
+                        'latin': 'Latin',
+                        'arabic': 'Arabic',
+                        'brahmic': 'Brahmic',
+                        'devanagari': 'Devanagari',
+                        'thai': 'Thai'
+                    };
+                    
+                    if (mapping.script !== scriptMap[currentFilters.script]) {
+                        return false;
+                    }
+                }
+
+                // Feature filters
+                if (currentFilters.features.size > 0) {
+                    const hasRequiredFeatures = Array.from(currentFilters.features).every(
+                        feature => mapping.features.includes(feature)
+                    );
+                    if (!hasRequiredFeatures) return false;
+                }
+
+                return true;
+            });
+        }
+
+        // Render mappings
+        function renderMappings() {
+            const grid = document.getElementById('resultsGrid');
+            const filtered = filterMappings();
+
+            // Update stats
+            document.getElementById('filteredCount').textContent = filtered.length;
+
+            // Clear loading state
+            document.getElementById('loadingState')?.remove();
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <h3 style="margin-bottom: 0.5rem;">No mappings found</h3>
+                        <p>Try adjusting your filters or search terms</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(mapping => `
+                <div class="mapping-card" onclick="showDetail(${mapping.id})">
+                    <div class="language-header">
+                        <span class="language-name">${mapping.language}</span>
+                        <span class="language-family">${mapping.family}</span>
+                    </div>
+                    <div class="mapping-display">
+                        <div class="orthographic">${mapping.orthographic}</div>
+                        <div class="mapping-arrow">→</div>
+                        <div class="phonetic">${mapping.phonetic}</div>
+                    </div>
+                    <div class="mapping-info">
+                        <div class="info-row">
+                            <span class="info-label">Script:</span>
+                            <span class="info-value">${mapping.script}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Context:</span>
+                            <span class="info-value">${mapping.context}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Show detail modal
+        function showDetail(id) {
+            const mapping = mappings.find(m => m.id === id);
+            if (!mapping) return;
+
+            const modal = document.getElementById('detailModal');
+            const modalBody = document.getElementById('modalBody');
+
+            modalBody.innerHTML = `
+                <h2 style="color: var(--accent-orange); margin-bottom: 1.5rem;">
+                    ${mapping.language} Orthographic Mapping
+                </h2>
+                
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div style="font-size: 4rem; color: var(--accent-amber); margin-bottom: 0.5rem;">
+                        ${mapping.orthographic}
+                    </div>
+                    <div style="font-size: 1rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                        ↓
+                    </div>
+                    <div style="font-size: 3rem; color: var(--ipa-blue);">
+                        ${mapping.phonetic}
+                    </div>
+                </div>
+
+                <div style="display: grid; gap: 1rem;">
+                    <div>
+                        <strong style="color: var(--accent-amber);">Example:</strong>
+                        <p style="color: var(--text-secondary); margin-top: 0.5rem;">
+                            ${mapping.example}
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <strong style="color: var(--accent-amber);">Notes:</strong>
+                        <p style="color: var(--text-secondary); margin-top: 0.5rem;">
+                            ${mapping.notes}
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <strong style="color: var(--accent-amber);">Details:</strong>
+                        <p style="color: var(--text-secondary); margin-top: 0.5rem;">
+                            Language Family: ${mapping.family}<br>
+                            Script Type: ${mapping.script}<br>
+                            Context: ${mapping.context}<br>
+                            Features: ${mapping.features.join(', ') || 'None'}
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('detailModal').classList.remove('active');
+        }
+
+        <!-- Console easter eggs -->
+        console.log('%c🦜 OMOD EXPLORER: MAPPING THE WORLD\'S WRITING SYSTEMS', 'color: #ff6b35; font-size: 20px; font-weight: bold;');
+        console.log('%cExploring 94 orthographic mappings from Vietnamese, Tamil, Arabic, Thai, and Hindi!', 'color: #ffa500;');
+        console.log('%cThis is a sample dataset. The full OMOD database contains thousands of mappings.', 'color: #00ffff;');
+        console.log('%cContribute more mappings at github.com/squirridge/omod', 'color: #00ff88;');
+    </script>
+</body>
+</html>

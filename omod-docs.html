@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMOD Documentation - Orthographic Mapping Ondemand Datasystem | SROC</title>
+    <meta name="description" content="Technical documentation for the OMOD orthographic-phonetic mapping system">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://squirrelridge.org/omod/docs/">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://squirrelridge.org/assets/sroc-logo.png">
+    <link rel="apple-touch-icon" href="https://squirrelridge.org/assets/sroc-logo.png">
+    <link rel="shortcut icon" href="https://squirrelridge.org/assets/sroc-logo.png">
+    <!-- Fonts -->
+    <link rel="preload" href="/assets/woff2/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/woff2/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link href="/assets/fira-code.css" rel="stylesheet" />
+    
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #1a1a2e;
+            --accent-orange: #ff6b35;
+            --accent-amber: #ffa500;
+            --accent-gold: #ffd700;
+            --accent-cyan: #00ffff;
+            --accent-purple: #9d4edd;
+            --accent-green: #00ff88;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --terminal-orange: #ff8c00;
+            --ipa-blue: #4a9eff;
+            --code-bg: rgba(0, 0, 0, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Animated gradient background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0f, #1a1a2e, #2d1b00, #1a1a2e);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            z-index: -3;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
+            background: var(--glass-bg);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-link {
+            color: var(--accent-orange);
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+            text-shadow: 0 0 20px var(--accent-orange);
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+            cursor: default;
+            user-select: none;
+            text-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-emoji {
+            font-size: 1.5rem;
+            animation: bob 3s ease-in-out infinite;
+        }
+
+        @keyframes bob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Navigation */
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            margin: 0;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-orange);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--accent-orange);
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+        }
+
+        /* Main content layout */
+        .doc-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            flex: 0 0 280px;
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .toc-title {
+            font-size: 1.2rem;
+            color: var(--accent-orange);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.75rem;
+        }
+
+        .toc-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: block;
+            padding: 0.25rem 0;
+        }
+
+        .toc-list a:hover {
+            color: var(--accent-orange);
+            padding-left: 0.5rem;
+        }
+
+        .toc-list .toc-subsection {
+            margin-left: 1rem;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        /* Main content */
+        .main-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* Content sections */
+        .doc-section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 120px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--accent-orange);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-orange), transparent);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--accent-amber);
+            margin: 2rem 0 1rem;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--accent-gold);
+            margin: 1.5rem 0 0.75rem;
+            font-weight: 500;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        /* Code blocks */
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            color: var(--accent-cyan);
+            background: rgba(0, 255, 255, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        th {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--accent-orange);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.9rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        /* Info boxes */
+        .info-box {
+            background: var(--glass-bg);
+            border-left: 4px solid var(--accent-orange);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-box.note {
+            border-left-color: var(--accent-cyan);
+        }
+
+        .info-box.warning {
+            border-left-color: var(--accent-amber);
+        }
+
+        .info-box-title {
+            color: var(--accent-orange);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.9rem;
+        }
+
+        /* Example cards */
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .example-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .example-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+            border-color: var(--accent-orange);
+        }
+
+        .example-title {
+            color: var(--accent-amber);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Schema display */
+        .schema-display {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--accent-orange);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .schema-display::before {
+            content: 'SCHEMA';
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            color: var(--accent-orange);
+            opacity: 0.3;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Links */
+        a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-orange);
+            text-decoration: underline;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(255, 107, 53, 0.2);
+            color: var(--accent-orange);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin: 0 0.25rem;
+        }
+
+        .badge.cyan {
+            background: rgba(0, 255, 255, 0.2);
+            color: var(--accent-cyan);
+        }
+
+        .badge.green {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--accent-green);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .doc-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: static;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .example-grid {
+                grid-template-columns: 1fr;
+            }
+
+            pre {
+                padding: 1rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background elements -->
+    <div class="bg-gradient" aria-hidden="true"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo-group">
+                <a href="/omod" class="back-link" aria-label="Back to OMOD">←</a>
+                <div class="logo">
+                    <span class="logo-emoji">🦜</span> OMOD DOCS
+                </div>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="/omod">[HOME]</a></li>
+                    <li><a href="/omod/explorer">[EXPLORER]</a></li>
+                    <li><a href="/omod/docs" class="active">[DOCS]</a></li>
+                    <li><a href="https://github.com/squirridge" target="_blank">[GITHUB]</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Documentation -->
+    <div class="doc-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3 class="toc-title">Contents</h3>
+            <ul class="toc-list">
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#concepts">Core Concepts</a>
+                    <ul class="toc-subsection">
+                        <li><a href="#orthogon">Orthogon</a></li>
+                        <li><a href="#glyphon">Glyphon</a></li>
+                        <li><a href="#interphon">Interphon</a></li>
+                        <li><a href="#orthoset">Orthoset (Writing Variants)</a></li>
+                        <li><a href="#languoid">Languoid (Language Varieties)</a></li>
+                    </ul>
+                </li>
+                <li><a href="#schema">Data Schema</a></li>
+                <li><a href="#examples">Languoid Examples</a>
+                    <ul class="toc-subsection">
+                        <li><a href="#tamil">Tamil</a></li>
+                        <li><a href="#arabic">Arabic</a></li>
+                        <li><a href="#vietnamese">Vietnamese</a></li>
+                    </ul>
+                </li>
+                <li><a href="#implementation">Implementation</a></li>
+                <li><a href="#contributing">Contributing</a></li>
+                <li><a href="#api">API Reference</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main content -->
+        <main class="main-content">
+            <!-- Overview -->
+            <section id="overview" class="doc-section">
+                <h1 class="section-title">OMOD Documentation</h1>
+                
+                <p>
+                    The Orthographic Mapping Ondemand Datasystem (OMOD) is a comprehensive framework for mapping 
+                    orthographic representations (written characters) to their phonetic realizations (pronunciations) 
+                    across world languages, dialects, and written sources. Like Glottocode provides unique identifiers 
+                    for languoids (languages, dialects, and language varieties), OMOD provides a systematic way to 
+                    understand and document orthographic-phonetic relationships at any level of granularity.
+                </p>
+
+                <div class="info-box">
+                    <div class="info-box-title">Key Features</div>
+                    <ul>
+                        <li>Standardized JSON schema for orthographic-phonetic mappings</li>
+                        <li>Context-aware mappings (initial, medial, final positions)</li>
+                        <li>Support for multiple writing systems per languoid</li>
+                        <li>Granular orthosets - from national standards to single manuscripts</li>
+                        <li>Flexible languoid system - languages, dialects, continuums, and varieties</li>
+                        <li>IPA (International Phonetic Alphabet) based pronunciations</li>
+                        <li>Source documentation for scholarly attribution</li>
+                        <li>Extensible framework for new languages, dialects, and sources</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Core Concepts -->
+            <section id="concepts" class="doc-section">
+                <h1 class="section-title">Core Concepts</h1>
+                
+                <h2 id="orthogon">Orthogon</h2>
+                <p>
+                    An <strong>orthogon</strong> is the fundamental unit in OMOD - a single mapping between a 
+                    written form and its pronunciation. Each orthogon contains:
+                </p>
+                
+                <pre><code>{
+    "glyphon": "ழ்",
+    "interphon": "ɻ",
+    "context": ["medial", "final"],
+    "examples": [
+        { 
+            "word": "தமிழ்", 
+            "pronunciation": "t̪amiɻ", 
+            "meaning": "Tamil" 
+        }
+    ]
+}</code></pre>
+
+                <h2 id="glyphon">Glyphon</h2>
+                <p>
+                    A <strong>glyphon</strong> is the orthographic unit - the written character or character 
+                    sequence. This can be:
+                </p>
+                <ul>
+                    <li>A single character: <code>a</code>, <code>க</code>, <code>ع</code></li>
+                    <li>A diacritic combination: <code>á</code>, <code>கா</code>, <code>عَ</code></li>
+                    <li>A digraph: <code>ng</code>, <code>ch</code>, <code>gh</code></li>
+                </ul>
+
+                <h2 id="interphon">Interphon</h2>
+                <p>
+                    An <strong>interphon</strong> is the phonetic representation in IPA notation. For tonal 
+                    languages, this includes tone markers:
+                </p>
+                <ul>
+                    <li>Simple consonant: <code>/k/</code></li>
+                    <li>Vowel with tone: <code>/a˧˥/</code> (rising tone)</li>
+                    <li>Complex sound: <code>/ʈʂ/</code> (retroflex affricate)</li>
+                </ul>
+
+                <h2 id="orthoset">Orthoset</h2>
+                <p>
+                    An <strong>orthoset</strong> is a collection of orthogons representing a specific writing 
+                    system, orthographic variant, or even conventions from a single source. Orthosets can be 
+                    extremely granular - they might represent:
+                </p>
+                <ul>
+                    <li>A standardized national orthography</li>
+                    <li>Regional spelling variations</li>
+                    <li>Historical spelling conventions from a specific era</li>
+                    <li>Orthographic choices found in a single manuscript or publication</li>
+                    <li>Digital adaptations (like chat alphabets)</li>
+                    <li>Individual author's spelling preferences</li>
+                </ul>
+                
+                <div class="example-grid">
+                    <div class="example-card">
+                        <div class="example-title">Modern Standard Arabic</div>
+                        <p>Contemporary Arabic script used in formal contexts</p>
+                        <span class="badge">arb-msa</span>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-title">Arabic Chat Alphabet</div>
+                        <p>Latin numerals representing Arabic sounds in digital communication</p>
+                        <span class="badge">arb-chat</span>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-title">Vietnamese Quốc Ngữ</div>
+                        <p>Latin-based script with tone diacritics</p>
+                        <span class="badge">viet-quocngu</span>
+                    </div>
+                </div>
+
+                <div class="info-box note">
+                    <div class="info-box-title">Orthoset Granularity</div>
+                    <p>
+                        Orthosets can be as specific as needed. For example, you might have separate orthosets for:
+                    </p>
+                    <ul>
+                        <li><code>tam-sangam-300bce</code> - Tamil orthography in Sangam literature (300 BCE)</li>
+                        <li><code>tam-pallava-600ce</code> - Pallava dynasty inscriptions (600 CE)</li>
+                        <li><code>tam-modern-tn-gov</code> - Tamil Nadu government standard (2020s)</li>
+                        <li><code>tam-modern-sri-lanka</code> - Sri Lankan Tamil conventions</li>
+                    </ul>
+                </div>
+
+                <h2 id="languoid">Languoid</h2>
+                <p>
+                    A <strong>languoid</strong> represents any linguistic variety - not just "languages" but also 
+                    dialects, sociolects, chronolects, or even language continuums. Following Glottolog's approach, 
+                    languoids acknowledge that linguistic boundaries are often fuzzy and politically charged. A 
+                    languoid might represent:
+                </p>
+                <ul>
+                    <li>A standardized national language</li>
+                    <li>A regional dialect with distinct phonology</li>
+                    <li>A historical stage of a language</li>
+                    <li>A sociolect (social variety)</li>
+                    <li>A point on a dialect continuum</li>
+                    <li>A contact variety or creole</li>
+                </ul>
+                
+                <pre><code>{
+    "languoid": "Tamil",
+    "endonym": "தமிழ்",
+    "glottologCode": "tam1289",
+    "iso639_3": "tam",
+    "region": "South Asia",
+    "population": "75000000"
+}</code></pre>
+
+                <div class="info-box">
+                    <div class="info-box-title">Languoid Examples</div>
+                    <p>Languoids can represent various levels of linguistic granularity:</p>
+                    <ul>
+                        <li><strong>Macro-language:</strong> <code>arab1395</code> - Arabic macrolanguage</li>
+                        <li><strong>Regional variety:</strong> <code>egyp1253</code> - Egyptian Arabic</li>
+                        <li><strong>Urban dialect:</strong> <code>cair1241</code> - Cairene Arabic</li>
+                        <li><strong>Historical stage:</strong> <code>clas1252</code> - Classical Arabic</li>
+                        <li><strong>Contact variety:</strong> <code>malt1254</code> - Maltese (Arabic-influenced)</li>
+                        <li><strong>Continuum point:</strong> <code>nort3208</code> - Northern Vietnamese</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Data Schema -->
+            <section id="schema" class="doc-section">
+                <h1 class="section-title">Data Schema</h1>
+                
+                <p>
+                    OMOD uses JSON Schema for validation and consistency across all language implementations.
+                </p>
+
+                <h2>Orthogon Schema</h2>
+                <div class="schema-display">
+                    <pre><code>{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "OMOD Orthogon",
+    "type": "object",
+    "properties": {
+        "glyphon": { 
+            "type": "string",
+            "description": "The written form/character(s)"
+        },
+        "interphon": { 
+            "type": "string",
+            "description": "IPA phonetic representation" 
+        },
+        "context": {
+            "type": "array",
+            "items": {
+                "enum": ["initial", "medial", "final", "standalone", "allophonic"]
+            },
+            "description": "Positions where this mapping applies"
+        },
+        "examples": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "word": { "type": "string" },
+                    "pronunciation": { "type": "string" },
+                    "meaning": { "type": "string" }
+                },
+                "required": ["word", "pronunciation"]
+            }
+        }
+    },
+    "required": ["glyphon", "interphon"]
+}</code></pre>
+                </div>
+
+                <h2>Context Values</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Context</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>initial</code></td>
+                            <td>Beginning of a word/syllable</td>
+                            <td>Vietnamese <em>ng</em> in "người"</td>
+                        </tr>
+                        <tr>
+                            <td><code>medial</code></td>
+                            <td>Middle of a word</td>
+                            <td>Tamil <em>ழ்</em> in "வாழ்க்கை"</td>
+                        </tr>
+                        <tr>
+                            <td><code>final</code></td>
+                            <td>End of a word/syllable</td>
+                            <td>Arabic <em>ه</em> in "الله"</td>
+                        </tr>
+                        <tr>
+                            <td><code>standalone</code></td>
+                            <td>Character by itself</td>
+                            <td>Tamil <em>அ</em> as "the letter a"</td>
+                        </tr>
+                        <tr>
+                            <td><code>allophonic</code></td>
+                            <td>Varies by phonetic environment</td>
+                            <td>English <em>t</em> aspirated vs unaspirated</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Languoid Examples -->
+            <section id="examples" class="doc-section">
+                <h1 class="section-title">Languoid Examples</h1>
+                
+                <h2 id="tamil">Tamil (தமிழ்)</h2>
+                <p>
+                    Tamil orthography demonstrates complex mappings with retroflex sounds unique to Dravidian languages:
+                </p>
+                
+                <div class="info-box note">
+                    <div class="info-box-title">Tamil Features</div>
+                    <ul>
+                        <li>247 orthogons including vowels, consonants, and combinations</li>
+                        <li>Retroflex consonants: ட் /ʈ/, ண் /ɳ/, ழ் /ɻ/, ள் /ɭ/</li>
+                        <li>Context-sensitive pronunciations</li>
+                        <li>Brahmic abugida structure</li>
+                    </ul>
+                </div>
+
+                <h3>Example: Retroflex Approximant</h3>
+                <pre><code>{
+    "glyphon": "ழ்",
+    "interphon": "ɻ",
+    "context": ["medial", "final"],
+    "examples": [
+        { "word": "தமிழ்", "pronunciation": "t̪amiɻ", "meaning": "Tamil" },
+        { "word": "வாழ்க்கை", "pronunciation": "ʋaːɻkkai̯", "meaning": "life" }
+    ]
+}</code></pre>
+
+                <h2 id="arabic">Arabic (العربية)</h2>
+                <p>
+                    Arabic demonstrates multiple orthosets including traditional script and digital adaptations:
+                </p>
+                
+                <h3>Traditional Arabic Script</h3>
+                <pre><code>{
+    "glyphon": "ع",
+    "interphon": "ʕ",
+    "context": ["initial", "medial", "final"],
+    "examples": [
+        { "word": "عرب", "pronunciation": "ʕarab", "meaning": "Arabs" }
+    ]
+}</code></pre>
+
+                <h3>Arabic Chat Alphabet</h3>
+                <pre><code>{
+    "orthoset": "arb-chat",
+    "glyphon": "3",
+    "interphon": "ʕ",
+    "context": ["initial", "medial", "final"],
+    "examples": [
+        { "word": "3arab", "pronunciation": "ʕarab", "meaning": "Arabs (chat spelling)" }
+    ]
+}</code></pre>
+
+                <div class="info-box warning">
+                    <div class="info-box-title">Note on Arabic Numerals</div>
+                    <p>
+                        The Arabic chat alphabet uses numerals to represent sounds that don't exist in Latin:
+                        <code>2</code> = ء (hamza), <code>3</code> = ع (ain), <code>5</code> = خ (kha), 
+                        <code>7</code> = ح (ha), <code>9</code> = ص (sad)
+                    </p>
+                </div>
+
+                <h2 id="vietnamese">Vietnamese (Tiếng Việt)</h2>
+                <p>
+                    Vietnamese showcases a tonal language with systematic tone marking:
+                </p>
+                
+                <h3>Tonal System</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tone</th>
+                            <th>Name</th>
+                            <th>Diacritic</th>
+                            <th>IPA Tone</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Level</td>
+                            <td>ngang</td>
+                            <td>a</td>
+                            <td>˧˧ (33)</td>
+                            <td>ma "ghost"</td>
+                        </tr>
+                        <tr>
+                            <td>Rising</td>
+                            <td>sắc</td>
+                            <td>á</td>
+                            <td>˧˥ (35)</td>
+                            <td>má "mother"</td>
+                        </tr>
+                        <tr>
+                            <td>Falling</td>
+                            <td>huyền</td>
+                            <td>à</td>
+                            <td>˨˩ (21)</td>
+                            <td>mà "but"</td>
+                        </tr>
+                        <tr>
+                            <td>Dipping-rising</td>
+                            <td>hỏi</td>
+                            <td>ả</td>
+                            <td>˧˩˧ (313)</td>
+                            <td>mả "tomb"</td>
+                        </tr>
+                        <tr>
+                            <td>Rising glottalized</td>
+                            <td>ngã</td>
+                            <td>ã</td>
+                            <td>˧˩˧ (313)</td>
+                            <td>mã "code"</td>
+                        </tr>
+                        <tr>
+                            <td>Low glottalized</td>
+                            <td>nặng</td>
+                            <td>ạ</td>
+                            <td>˨˧ (23)</td>
+                            <td>mạ "rice seedling"</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Special Characters</h3>
+                <pre><code>{
+    "glyphon": "đ",
+    "interphon": "ɗ",
+    "context": ["initial"],
+    "examples": [
+        { "word": "đúng", "pronunciation": "ɗuŋ˧˥", "meaning": "correct" }
+    ]
+}</code></pre>
+
+                <div class="info-box note">
+                    <div class="info-box-title">Dialectal Variation Example</div>
+                    <p>
+                        The same glyphon can have different pronunciations across languoids. For example, 
+                        Vietnamese "r" varies by region:
+                    </p>
+                    <pre><code>// Northern Vietnamese (Hanoi)
+{
+    "orthoset": "viet-north-hanoi",
+    "glyphon": "r",
+    "interphon": "z"
+}
+
+// Southern Vietnamese (Saigon)
+{
+    "orthoset": "viet-south-saigon",
+    "glyphon": "r",
+    "interphon": "ʐ"
+}
+
+// Central Vietnamese (Hue)
+{
+    "orthoset": "viet-central-hue",
+    "glyphon": "r",
+    "interphon": "ʐ"  // but with different phonetic realization
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- Implementation -->
+            <section id="implementation" class="doc-section">
+                <h1 class="section-title">Implementation Guide</h1>
+                
+                <h2>File Structure</h2>
+                <p>Each languoid implementation follows this structure:</p>
+                
+                <pre><code>omod-[languoid]/
+├── omod-[languoid]-data.json        # Main orthogon mappings
+├── omod-[languoid]-languoids.json   # Language metadata
+├── omod-[languoid]-orthosets.json   # Writing system variants
+├── omod-[languoid]-schema.json      # Validation schema
+└── README.md                        # Languoid-specific notes</code></pre>
+
+                <h2>Data Format Example</h2>
+                <h3>Languoid File</h3>
+                <pre><code>{
+    "languoid": "Vietnamese",
+    "endonym": "Tiếng Việt",
+    "glottologCode": "viet1251",
+    "iso639_3": "vie",
+    "region": "Southeast Asia",
+    "population": "100400000"
+}</code></pre>
+
+                <h3>Orthoset File</h3>
+                <pre><code>[
+    {
+        "id": "viet-quocngu-2025",
+        "languoid": "viet1251",
+        "name": "Vietnamese Quốc Ngữ (2025)",
+        "description": "Modern Latin-based Vietnamese orthography with tone diacritics",
+        "script": "Latin",
+        "created": "2025-01-01"
+    }
+]</code></pre>
+
+                <h2>Best Practices</h2>
+                <ul>
+                    <li><strong>Use standard IPA notation</strong> - Ensure consistency across languages</li>
+                    <li><strong>Provide context</strong> - Specify where each mapping applies</li>
+                    <li><strong>Include examples</strong> - Real words help users understand usage</li>
+                    <li><strong>Document edge cases</strong> - Note dialectal variations or exceptions</li>
+                    <li><strong>Cite your sources</strong> - Especially important for orthosets from specific texts or authors</li>
+                    <li><strong>Be granular when needed</strong> - Don't hesitate to create specific orthosets for unique sources</li>
+                    <li><strong>Validate with schema</strong> - Use JSON Schema validation before commits</li>
+                </ul>
+
+                <div class="info-box note">
+                    <div class="info-box-title">Source Documentation</div>
+                    <p>
+                        When creating an orthoset from a specific source, include metadata about:
+                    </p>
+                    <ul>
+                        <li>Publication title and author</li>
+                        <li>Year of publication</li>
+                        <li>Page numbers (if relevant)</li>
+                        <li>Any editorial decisions or normalizations made</li>
+                        <li>Dialectal or regional context</li>
+                    </ul>
+                    <pre><code>{
+    "id": "sencoten-elliott-1984",
+    "name": "SENĆOŦEN as used in 'Saanich Placenames'",
+    "source": {
+        "title": "Saanich Placenames",
+        "author": "Dave Elliott Sr.",
+        "year": 1984,
+        "publisher": "First Edition",
+        "notes": "Orthography developed by PENÁĆ"
+    }
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- Contributing -->
+            <section id="contributing" class="doc-section">
+                <h1 class="section-title">Contributing</h1>
+                
+                <p>
+                    OMOD is an open project welcoming contributions for new languages and improvements 
+                    to existing mappings.
+                </p>
+
+                <h2>How to Contribute</h2>
+                <ol>
+                    <li><strong>Fork the repository</strong> on GitHub</li>
+                    <li><strong>Create a languoid folder</strong> following the naming convention</li>
+                    <li><strong>Implement required files</strong>:
+                        <ul>
+                            <li>Data file with orthogon mappings</li>
+                            <li>Languoid metadata</li>
+                            <li>Orthoset definitions</li>
+                            <li>Schema (can extend base schema)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Validate your data</strong> against the schema</li>
+                    <li><strong>Submit a pull request</strong> with description of changes</li>
+                </ol>
+
+                <h2>Contribution Guidelines</h2>
+                <div class="info-box">
+                    <div class="info-box-title">Requirements</div>
+                    <ul>
+                        <li>Use accurate IPA transcriptions</li>
+                        <li>Cite linguistic sources where applicable</li>
+                        <li>Include native speaker verification when possible</li>
+                        <li>Follow existing formatting conventions</li>
+                        <li>Add comprehensive examples</li>
+                    </ul>
+                </div>
+
+                <h2>Priority Languages</h2>
+                <p>We're particularly interested in:</p>
+                <ul>
+                    <li>Languages with complex orthographies</li>
+                    <li>Endangered languages needing documentation</li>
+                    <li>Languages with multiple writing systems</li>
+                    <li>Historical orthographies and manuscript traditions</li>
+                    <li>Dialectal variations within language families</li>
+                    <li>Contact varieties and creoles</li>
+                    <li>Source-specific orthographies from important texts</li>
+                </ul>
+
+                <div class="info-box">
+                    <div class="info-box-title">Documenting Variations</div>
+                    <p>
+                        When contributing, consider creating separate orthosets for:
+                    </p>
+                    <ul>
+                        <li><strong>Regional variations:</strong> Northern vs Southern pronunciations</li>
+                        <li><strong>Historical periods:</strong> Medieval vs Modern spellings</li>
+                        <li><strong>Literary sources:</strong> Specific authors or manuscripts</li>
+                        <li><strong>Official vs colloquial:</strong> Government standards vs street usage</li>
+                        <li><strong>Digital adaptations:</strong> SMS spelling, chat alphabets</li>
+                    </ul>
+                    <p>
+                        This granularity helps researchers track orthographic evolution and variation.
+                    </p>
+                </div>
+            </section>
+
+            <!-- API Reference -->
+            <section id="api" class="doc-section">
+                <h1 class="section-title">API Reference</h1>
+                
+                <p>
+                    OMOD data can be accessed programmatically through various methods:
+                </p>
+
+                <h2>Direct JSON Access</h2>
+                <pre><code>// Fetch Tamil orthogons
+const response = await fetch('/omod-tamil/omod-tamil-data.json');
+const tamilData = await response.json();
+
+// Find specific mapping
+const zha = tamilData.find(o => o.glyphon === 'ழ்');
+console.log(zha.interphon); // Output: ɻ</code></pre>
+
+                <h2>Query Functions</h2>
+                <pre><code>// Get all orthogons for a specific context
+function getByContext(data, context) {
+    return data.filter(o => o.context.includes(context));
+}
+
+// Get mappings by script type
+function getByScript(orthosets, script) {
+    return orthosets.filter(s => s.script === script);
+}
+
+// Get orthosets from a specific source
+function getBySource(orthosets, author, year) {
+    return orthosets.filter(s => 
+        s.source?.author === author && 
+        s.source?.year === year
+    );
+}
+
+// Find dialectal variations
+function getDialectalVariants(data, glyphon, languoids) {
+    return data.filter(o => o.glyphon === glyphon)
+        .map(o => ({
+            orthoset: o.orthoset,
+            languoid: languoids.find(l => l.id === o.languoid),
+            pronunciation: o.interphon
+        }));
+}</code></pre>
+
+                <h2>Validation</h2>
+                <pre><code>// Validate orthogon against schema
+import Ajv from 'ajv';
+import schema from './omod-orthogon.schema.json';
+
+const ajv = new Ajv();
+const validate = ajv.compile(schema);
+
+const valid = validate(orthogonData);
+if (!valid) console.log(validate.errors);</code></pre>
+
+                <h2>Integration Examples</h2>
+                <h3>Text-to-Speech</h3>
+                <pre><code>// Convert Tamil text to IPA for TTS
+function tamilToIPA(text, mappings) {
+    let ipa = '';
+    for (let char of text) {
+        const mapping = mappings.find(m => m.glyphon === char);
+        ipa += mapping ? mapping.interphon : char;
+    }
+    return ipa;
+}</code></pre>
+
+                <h3>Language Learning</h3>
+                <pre><code>// Generate pronunciation guide
+function getPronunciationGuide(word, mappings) {
+    return word.split('').map(char => {
+        const m = mappings.find(m => m.glyphon === char);
+        return {
+            char: char,
+            ipa: m?.interphon || '?',
+            examples: m?.examples || []
+        };
+    });
+}</code></pre>
+            </section>
+
+            <!-- Footer info -->
+            <div class="info-box note" style="margin-top: 4rem;">
+                <div class="info-box-title">Version Information</div>
+                <p>
+                    OMOD Documentation v0.7 • Last updated: May 2025<br>
+                    Schema Version: Draft-07 • Languages: Tamil, Arabic, Vietnamese<br><br>
+                    Supporting languoids from macro-languages to village dialects<br>
+                    Orthosets from national standards to individual manuscripts<br><br>
+                    © 2025 Squirrel Ridge Observatory Centre 🐿️
+        </p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Smooth scrolling for TOC links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Highlight current section in TOC
+        const sections = document.querySelectorAll('.doc-section');
+        const tocLinks = document.querySelectorAll('.toc-list a');
+
+        function highlightTOC() {
+            let current = '';
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom > 150) {
+                    current = section.id;
+                }
+            });
+
+            tocLinks.forEach(link => {
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.style.color = 'var(--accent-orange)';
+                    link.style.paddingLeft = '0.5rem';
+                } else {
+                    link.style.color = '';
+                    link.style.paddingLeft = '';
+                }
+            });
+        }
+
+        window.addEventListener('scroll', highlightTOC);
+        highlightTOC();
+
+        // Copy code blocks
+        document.querySelectorAll('pre').forEach(pre => {
+            pre.style.position = 'relative';
+            
+            const button = document.createElement('button');
+            button.textContent = 'Copy';
+            button.style.cssText = `
+                position: absolute;
+                top: 0.5rem;
+                right: 0.5rem;
+                padding: 0.25rem 0.75rem;
+                background: var(--accent-orange);
+                color: var(--bg-primary);
+                border: none;
+                border-radius: 4px;
+                font-size: 0.8rem;
+                cursor: pointer;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                font-family: 'Fira Code', monospace;
+            `;
+            
+            pre.appendChild(button);
+            
+            pre.addEventListener('mouseenter', () => {
+                button.style.opacity = '1';
+            });
+            
+            pre.addEventListener('mouseleave', () => {
+                button.style.opacity = '0';
+            });
+            
+            button.addEventListener('click', () => {
+                const code = pre.querySelector('code').textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    button.textContent = 'Copied!';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                    }, 2000);
+                });
+            });
+        });
+
+        // Console message
+        console.log('%c🦜 OMOD DOCS: MAPPING THE WORLD\'S WRITING SYSTEMS', 'color: #ff6b35; font-size: 20px; font-weight: bold;');
+        console.log('%cContribute new languages at github.com/squirridge', 'color: #ffa500;');
+    </script>
+</body>
+</html>
