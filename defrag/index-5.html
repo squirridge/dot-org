@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Defrag - Urban-Wildland Interface Optimizer | SROC</title>
+    <meta name="description" content="Optimize fragmented habitats to create wildlife corridors. A Windows 95-inspired game about urban ecology and habitat defragmentation.">
+    
+    <style>
+        /* Windows 95 System Colors */
+        :root {
+            --win95-bg: #c0c0c0;
+            --win95-dark: #000080;
+            --win95-highlight: #000080;
+            --win95-3dhighlight: #ffffff;
+            --win95-3dshadow: #808080;
+            --win95-3ddkshadow: #000000;
+            --win95-window: #c0c0c0;
+            --win95-text: #000000;
+            --win95-titlebar: #000080;
+            --win95-titletext: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: default;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'MS Sans Serif', 'Microsoft Sans Serif', sans-serif;
+            font-size: 11px;
+            background: #008080;
+            color: var(--win95-text);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Windows 95 Window Chrome */
+        .window {
+            background: var(--win95-bg);
+            border: 2px solid;
+            border-color: var(--win95-3dhighlight) var(--win95-3ddkshadow) var(--win95-3ddkshadow) var(--win95-3dhighlight);
+            box-shadow: 1px 1px 0 0 #000;
+            position: relative;
+            max-width: 900px;
+            width: 95%;
+        }
+
+        .window-inner {
+            border: 1px solid;
+            border-color: #dfdfdf #404040 #404040 #dfdfdf;
+        }
+
+        .titlebar {
+            background: var(--win95-titlebar);
+            background: linear-gradient(to right, #000080, #1084d0);
+            color: var(--win95-titletext);
+            padding: 2px 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 11px;
+            height: 18px;
+        }
+
+        .titlebar-text {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .titlebar-icon {
+            width: 16px;
+            height: 16px;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        .titlebar-buttons {
+            display: flex;
+            gap: 2px;
+        }
+
+        .titlebar-button {
+            width: 16px;
+            height: 14px;
+            background: var(--win95-bg);
+            border: 1px solid;
+            border-color: var(--win95-3dhighlight) var(--win95-3ddkshadow) var(--win95-3ddkshadow) var(--win95-3dhighlight);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Marlett', sans-serif;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        .titlebar-button:active {
+            border-color: var(--win95-3ddkshadow) var(--win95-3dhighlight) var(--win95-3dhighlight) var(--win95-3ddkshadow);
+            padding-top: 1px;
+            padding-left: 1px;
+        }
+
+        /* Menu Bar */
+        .menubar {
+            background: var(--win95-bg);
+            border-bottom: 1px solid;
+            border-color: var(--win95-3dshadow) var(--win95-3dhighlight) var(--win95-3dhighlight) var(--win95-3dshadow);
+            padding: 2px 4px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .menu-item {
+            padding: 4px 8px;
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            background: var(--win95-highlight);
+            color: var(--win95-titletext);
+        }
+
+        /* Main Content Area */
+        .content {
+            padding: 8px;
+            background: var(--win95-bg);
+        }
+
+        /* Info Panel */
+        .info-panel {
+            border: 2px solid;
+            border-color: var(--win95-3dshadow) var(--win95-3dhighlight) var(--win95-3dhighlight) var(--win95-3dshadow);
+            padding: 8px;
+            margin-bottom: 8px;
+            background: white;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 11px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--win95-3dshadow);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .legend-block {
+            width: 16px;
+            height: 16px;
+            border: 1px solid #000;
+        }
+
+        /* Game Grid */
+        .game-container {
+            border: 2px solid;
+            border-color: var(--win95-3dshadow) var(--win95-3dhighlight) var(--win95-3dhighlight) var(--win95-3dshadow);
+            padding: 4px;
+            background: #000;
+            position: relative;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(25, 1fr);
+            grid-template-rows: repeat(12, 1fr);
+            gap: 1px;
+            background: #000;
+            aspect-ratio: 25/12;
+            position: relative;
+        }
+
+        .grid-cell {
+            background: #808080;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .grid-cell.movable {
+            cursor: pointer;
+        }
+
+        .grid-cell.movable:hover {
+            border: 1px solid #ffff00;
+            z-index: 5;
+        }
+
+        .grid-cell.selected {
+            border: 2px solid #ffff00;
+            z-index: 10;
+            animation: blink 0.5s infinite;
+            box-shadow: 0 0 5px rgba(255,255,0,0.5);
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.8; }
+        }
+
+        .grid-cell.moving {
+            z-index: 20;
+            transition: all 0.5s ease;
+        }
+
+        /* Habitat Types */
+        .habitat-homeowner { background: #00ff00; }
+        .habitat-community { background: #00ffff; }
+        .habitat-business { background: #0000ff; }
+        
+        .habitat-homeowner.defragged,
+        .habitat-community.defragged,
+        .habitat-business.defragged {
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+            position: relative;
+        }
+
+        .habitat-homeowner.defragged::after,
+        .habitat-community.defragged::after,
+        .habitat-business.defragged::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255,255,255,0.7);
+            font-size: 10px;
+        }
+
+        .habitat-great {
+            background: #00ff00;
+            position: relative;
+            cursor: not-allowed !important;
+        }
+        .habitat-great::after {
+            content: '★';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 10px;
+        }
+        
+        .habitat-bad {
+            background: white;
+            position: relative;
+            cursor: not-allowed !important;
+        }
+        .habitat-bad::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 45%, red 45%, red 55%, transparent 55%);
+        }
+        
+        .habitat-restoring { 
+            background: #8b4513; 
+            cursor: not-allowed !important;
+        }
+        
+        .habitat-losing { 
+            background: #ff0000;
+            cursor: not-allowed !important;
+        }
+        
+        .empty { 
+            background: #ffffff;
+            cursor: pointer !important;
+        }
+        
+        .empty:hover {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+        }
+
+        /* Animals */
+        .animal {
+            position: absolute;
+            font-size: 16px;
+            z-index: 30;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
+            pointer-events: none;
+        }
+
+        .animal.clickable {
+            pointer-events: auto;
+        }
+
+        .animal.clickable:hover {
+            transform: scale(1.2);
+        }
+
+        /* Status Bar */
+        .statusbar {
+            border-top: 1px solid var(--win95-3dhighlight);
+            padding: 2px 4px;
+            display: flex;
+            gap: 1px;
+            background: var(--win95-bg);
+            margin-top: 8px;
+        }
+
+        .statusbar-section {
+            border: 1px solid;
+            border-color: var(--win95-3dshadow) var(--win95-3dhighlight) var(--win95-3dhighlight) var(--win95-3dshadow);
+            padding: 2px 8px;
+            flex: 1;
+            font-size: 11px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin: 8px 0;
+            padding: 8px;
+            border: 2px solid;
+            border-color: var(--win95-3dshadow) var(--win95-3dhighlight) var(--win95-3dhighlight) var(--win95-3dshadow);
+            background: white;
+        }
+
+        .progress-label {
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background: var(--win95-bg);
+            border: 1px solid;
+            border-color: var(--win95-3ddkshadow) var(--win95-3dhighlight) var(--win95-3dhighlight) var(--win95-3ddkshadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--win95-highlight);
+            background-image: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.1) 10px,
+                rgba(255,255,255,0.1) 20px
+            );
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        /* Defrag blocks animation */
+        @keyframes defragBlock {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+
+        .defragging {
+            animation: defragBlock 0.5s ease;
+        }
+
+        /* Popup Windows */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            display: none;
+        }
+
+        .popup.active {
+            display: block;
+        }
+
+        .popup-content {
+            background: var(--win95-bg);
+            border: 2px solid;
+            border-color: var(--win95-3dhighlight) var(--win95-3ddkshadow) var(--win95-3ddkshadow) var(--win95-3dhighlight);
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            min-width: 300px;
+        }
+
+        .popup-body {
+            padding: 16px;
+            background: white;
+            margin: 8px;
+            border: 1px solid;
+            border-color: var(--win95-3dshadow) var(--win95-3dhighlight) var(--win95-3dhighlight) var(--win95-3dshadow);
+        }
+
+        .popup-buttons {
+            padding: 8px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Buttons */
+        .button {
+            padding: 6px 16px;
+            background: var(--win95-bg);
+            border: 2px solid;
+            border-color: var(--win95-3dhighlight) var(--win95-3ddkshadow) var(--win95-3ddkshadow) var(--win95-3dhighlight);
+            cursor: pointer;
+            font-size: 11px;
+            font-family: inherit;
+            min-width: 75px;
+        }
+
+        .button:active {
+            border-color: var(--win95-3ddkshadow) var(--win95-3dhighlight) var(--win95-3dhighlight) var(--win95-3ddkshadow);
+            padding-top: 7px;
+            padding-bottom: 5px;
+        }
+
+        .button:focus {
+            outline: 1px dotted #000;
+            outline-offset: -4px;
+        }
+
+        /* Control buttons */
+        .control-panel {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+
+        /* Mode indicator */
+        .mode-indicator {
+            padding: 4px 8px;
+            background: #ffffcc;
+            border: 1px solid var(--win95-3dshadow);
+            font-weight: bold;
+        }
+
+        /* Help text */
+        .help-text {
+            margin-top: 8px;
+            padding: 8px;
+            background: #ffffcc;
+            border: 1px solid var(--win95-3dshadow);
+            font-size: 11px;
+        }
+
+        /* Observation log */
+        .observation-log {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: var(--win95-bg);
+            border: 2px solid;
+            border-color: var(--win95-3dhighlight) var(--win95-3ddkshadow) var(--win95-3ddkshadow) var(--win95-3dhighlight);
+            width: 250px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .observation-log.active {
+            display: block;
+        }
+
+        .log-entry {
+            padding: 4px 8px;
+            border-bottom: 1px solid var(--win95-3dshadow);
+            font-size: 10px;
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        /* Win message */
+        .win-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--win95-bg);
+            border: 2px solid;
+            border-color: var(--win95-3dhighlight) var(--win95-3ddkshadow) var(--win95-3ddkshadow) var(--win95-3dhighlight);
+            padding: 20px;
+            text-align: center;
+            z-index: 1001;
+            display: none;
+            box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+        }
+
+        .win-message.active {
+            display: block;
+        }
+
+        .win-message h2 {
+            color: var(--win95-highlight);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Window -->
+    <div class="window">
+        <div class="window-inner">
+            <!-- Title Bar -->
+            <div class="titlebar">
+                <div class="titlebar-text">
+                    <span>🌿</span>
+                    <span>Defrag - Urban-Wildland Interface Optimizer</span>
+                </div>
+                <div class="titlebar-buttons">
+                    <button class="titlebar-button" onclick="showHelp()">?</button>
+                    <button class="titlebar-button" onclick="resetGame()">↻</button>
+                </div>
+            </div>
+
+            <!-- Menu Bar -->
+            <div class="menubar">
+                <span class="menu-item" onclick="resetGame()">Game</span>
+                <span class="menu-item" onclick="showHelp()">Help</span>
+                <span class="menu-item" onclick="showAbout()">About</span>
+                <span class="menu-item" onclick="autoDefrag()">Auto-Defrag</span>
+            </div>
+
+            <!-- Content -->
+            <div class="content">
+                <!-- Control Panel -->
+                <div class="control-panel">
+                    <button class="button" onclick="autoDefragStep()">Defrag Step →</button>
+                    <button class="button" onclick="autoDefrag()">Auto-Defrag ⚡</button>
+                    <div class="mode-indicator">Manual Mode</div>
+                </div>
+
+                <!-- Info Panel -->
+                <div class="info-panel">
+                    <div class="stats">
+                        <div class="stat-item">
+                            <strong>Fragmentation:</strong>
+                            <span id="fragmentation">73%</span>
+                        </div>
+                        <div class="stat-item">
+                            <strong>Corridors:</strong>
+                            <span id="corridors">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <strong>Wildlife:</strong>
+                            <span id="wildlife">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <strong>Score:</strong>
+                            <span id="score">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <strong>Moves:</strong>
+                            <span id="moves">0</span>
+                        </div>
+                    </div>
+
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-block habitat-homeowner"></div>
+                            <span>Homeowner habitat</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-block habitat-community"></div>
+                            <span>Community habitat</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-block habitat-business"></div>
+                            <span>Business habitat</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-block empty"></div>
+                            <span>Free space</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-block habitat-bad"></div>
+                            <span>Unmovable/Bad</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-label">Defragmentation Progress</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress" style="width: 27%"></div>
+                    </div>
+                </div>
+
+                <!-- Game Grid -->
+                <div class="game-container">
+                    <div class="game-grid" id="gameGrid"></div>
+                </div>
+
+                <!-- Status Bar -->
+                <div class="statusbar">
+                    <div class="statusbar-section" id="status">Ready - Click a habitat block, then click an empty space to move it</div>
+                    <div class="statusbar-section" style="flex: 0 0 auto;">SROC Wildlife Reserve v95</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Win Message -->
+    <div class="win-message" id="winMessage">
+        <h2>🎉 Defragmentation Complete!</h2>
+        <p>You've optimized the urban-wildland interface!</p>
+        <p>Wildlife corridors: <span id="finalCorridors">0</span></p>
+        <p>Final score: <span id="finalScore">0</span></p>
+        <button class="button" onclick="closeWin()">OK</button>
+    </div>
+
+    <!-- Observation Log -->
+    <div class="observation-log" id="observationLog">
+        <div class="titlebar">
+            <div class="titlebar-text">
+                <span>📋</span>
+                <span>Citizen Science Log</span>
+            </div>
+        </div>
+        <div id="logContent"></div>
+    </div>
+
+    <!-- Help Popup -->
+    <div class="popup" id="helpPopup">
+        <div class="popup-content">
+            <div class="titlebar">
+                <div class="titlebar-text">
+                    <span>❓</span>
+                    <span>Help</span>
+                </div>
+            </div>
+            <div class="popup-body">
+                <h3>How to Play:</h3>
+                <ul style="margin: 8px 0; padding-left: 20px;">
+                    <li>Click a colored habitat block to select it</li>
+                    <li>Click an empty (white) space to move the block there</li>
+                    <li>Group same-colored habitats together to create corridors</li>
+                    <li>Long corridors (4+ connected blocks) spawn wildlife</li>
+                    <li>Some blocks (marked with symbols) cannot be moved</li>
+                    <li>Use Auto-Defrag for automatic optimization</li>
+                </ul>
+                <p style="margin-top: 8px;">Goal: Reduce fragmentation to create continuous wildlife corridors!</p>
+            </div>
+            <div class="popup-buttons">
+                <button class="button" onclick="closeHelp()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Popup -->
+    <div class="popup" id="aboutPopup">
+        <div class="popup-content">
+            <div class="titlebar">
+                <div class="titlebar-text">
+                    <span>🌿</span>
+                    <span>About Defrag</span>
+                </div>
+            </div>
+            <div class="popup-body">
+                <h3>Defrag v1.0</h3>
+                <p style="margin: 8px 0;">A project by SROC (Squirrel Ridge Observatory Centre)</p>
+                <p style="margin: 8px 0;">Just as disk defragmentation consolidates scattered data, habitat defragmentation connects isolated wildlife areas to create thriving ecosystems.</p>
+                <p style="margin: 8px 0;">Based on real urban ecology research!</p>
+                <p style="margin: 8px 0;">© 2025 SROC - No blockchain detected ✓</p>
+            </div>
+            <div class="popup-buttons">
+                <button class="button" onclick="closeAbout()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game state
+        let grid = [];
+        const GRID_WIDTH = 25;
+        const GRID_HEIGHT = 12;
+        let selectedCell = null;
+        let score = 0;
+        let moves = 0;
+        let animals = [];
+        let observations = [];
+        let autoDefragRunning = false;
+
+        // Habitat types
+        const HABITAT_TYPES = {
+            EMPTY: 'empty',
+            HOMEOWNER: 'habitat-homeowner',
+            COMMUNITY: 'habitat-community',
+            BUSINESS: 'habitat-business',
+            GREAT: 'habitat-great',
+            BAD: 'habitat-bad',
+            RESTORING: 'habitat-restoring',
+            LOSING: 'habitat-losing'
+        };
+
+        // Movable types
+        const MOVABLE_TYPES = [
+            HABITAT_TYPES.HOMEOWNER,
+            HABITAT_TYPES.COMMUNITY,
+            HABITAT_TYPES.BUSINESS
+        ];
+
+        // Unmovable types
+        const UNMOVABLE_TYPES = [
+            HABITAT_TYPES.GREAT,
+            HABITAT_TYPES.BAD,
+            HABITAT_TYPES.RESTORING,
+            HABITAT_TYPES.LOSING
+        ];
+
+        // Animal types
+        const ANIMALS = ['🐿️', '🦝', '🦊', '🦆', '🦉', '🐸', '🦋', '🐝', '🐦', '🦌'];
+
+        // Initialize game
+        function initGame() {
+            const gameGrid = document.getElementById('gameGrid');
+            gameGrid.innerHTML = '';
+            grid = [];
+
+            // Create more realistic fragmented landscape
+            for (let y = 0; y < GRID_HEIGHT; y++) {
+                for (let x = 0; x < GRID_WIDTH; x++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'grid-cell';
+                    cell.dataset.x = x;
+                    cell.dataset.y = y;
+                    
+                    // Generate fragmented habitat distribution
+                    const rand = Math.random();
+                    let habitatType;
+                    
+                    // Create scattered patches
+                    if (rand < 0.4) {
+                        habitatType = HABITAT_TYPES.EMPTY;
+                    } else if (rand < 0.55) {
+                        habitatType = HABITAT_TYPES.HOMEOWNER;
+                    } else if (rand < 0.70) {
+                        habitatType = HABITAT_TYPES.COMMUNITY;
+                    } else if (rand < 0.85) {
+                        habitatType = HABITAT_TYPES.BUSINESS;
+                    } else {
+                        // Unmovable blocks
+                        const special = Math.random();
+                        if (special < 0.4) habitatType = HABITAT_TYPES.BAD;
+                        else if (special < 0.7) habitatType = HABITAT_TYPES.RESTORING;
+                        else habitatType = HABITAT_TYPES.GREAT;
+                    }
+                    
+                    cell.classList.add(habitatType);
+                    
+                    // Make movable cells clickable
+                    if (MOVABLE_TYPES.includes(habitatType) || habitatType === HABITAT_TYPES.EMPTY) {
+                        cell.classList.add('movable');
+                        cell.addEventListener('click', handleCellClick);
+                    }
+                    
+                    grid.push({
+                        element: cell,
+                        x: x,
+                        y: y,
+                        type: habitatType,
+                        defragged: false
+                    });
+                    
+                    gameGrid.appendChild(cell);
+                }
+            }
+
+            updateStats();
+            checkCorridors();
+        }
+
+        // Handle cell clicks
+        function handleCellClick(e) {
+            if (autoDefragRunning) return;
+            
+            const cell = e.target;
+            const x = parseInt(cell.dataset.x);
+            const y = parseInt(cell.dataset.y);
+            const index = y * GRID_WIDTH + x;
+            const gridCell = grid[index];
+
+            if (selectedCell === null) {
+                // First click - select a movable habitat
+                if (MOVABLE_TYPES.includes(gridCell.type)) {
+                    selectedCell = index;
+                    cell.classList.add('selected');
+                    updateStatus('Habitat selected. Click an empty space to move it.');
+                }
+            } else {
+                const sourceCell = grid[selectedCell];
+                
+                if (selectedCell === index) {
+                    // Clicking same cell - deselect
+                    cell.classList.remove('selected');
+                    selectedCell = null;
+                    updateStatus('Ready - Click a habitat block, then click an empty space to move it');
+                } else if (gridCell.type === HABITAT_TYPES.EMPTY) {
+                    // Move to empty space
+                    moveBlock(selectedCell, index);
+                } else {
+                    // Can't move there
+                    updateStatus('Can only move to empty spaces!');
+                    sourceCell.element.classList.remove('selected');
+                    selectedCell = null;
+                }
+            }
+        }
+
+        // Move a block
+        function moveBlock(fromIndex, toIndex) {
+            const fromCell = grid[fromIndex];
+            const toCell = grid[toIndex];
+
+            // Animate the move
+            fromCell.element.classList.add('moving');
+            
+            // Calculate visual position
+            const fromRect = fromCell.element.getBoundingClientRect();
+            const toRect = toCell.element.getBoundingClientRect();
+            const deltaX = toRect.left - fromRect.left;
+            const deltaY = toRect.top - fromRect.top;
+            
+            fromCell.element.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+
+            setTimeout(() => {
+                // Swap types
+                toCell.type = fromCell.type;
+                fromCell.type = HABITAT_TYPES.EMPTY;
+
+                // Update visual classes
+                fromCell.element.className = 'grid-cell movable ' + HABITAT_TYPES.EMPTY;
+                toCell.element.className = 'grid-cell movable ' + toCell.type;
+                
+                // Reset transform
+                fromCell.element.style.transform = '';
+                fromCell.element.classList.remove('moving', 'selected');
+                
+                selectedCell = null;
+                moves++;
+                document.getElementById('moves').textContent = moves;
+                
+                // Check for corridors
+                checkCorridors();
+                updateStats();
+                
+                // Add score for move
+                score += 5;
+                document.getElementById('score').textContent = score;
+                
+                updateStatus('Block moved! Keep consolidating habitats.');
+            }, 500);
+        }
+
+        // Check for habitat corridors
+        function checkCorridors() {
+            // Reset defragged status
+            grid.forEach(cell => {
+                cell.defragged = false;
+                cell.element.classList.remove('defragged');
+            });
+
+            // Clear existing animals
+            animals.forEach(a => a.element.remove());
+            animals = [];
+
+            let corridorCount = 0;
+            const visited = new Set();
+
+            // Find connected components for each habitat type
+            for (let type of MOVABLE_TYPES) {
+                for (let i = 0; i < grid.length; i++) {
+                    if (!visited.has(i) && grid[i].type === type) {
+                        const component = [];
+                        const queue = [i];
+
+                        while (queue.length > 0) {
+                            const current = queue.shift();
+                            if (visited.has(current)) continue;
+                            
+                            visited.add(current);
+                            component.push(current);
+
+                            // Check 4-directional neighbors
+                            const neighbors = getNeighbors(current);
+                            neighbors.forEach(n => {
+                                if (!visited.has(n) && grid[n].type === type) {
+                                    queue.push(n);
+                                }
+                            });
+                        }
+
+                        // Mark large components as defragged
+                        if (component.length >= 4) {
+                            corridorCount++;
+                            component.forEach(idx => {
+                                grid[idx].defragged = true;
+                                grid[idx].element.classList.add('defragged');
+                                grid[idx].element.classList.add('defragging');
+                                setTimeout(() => {
+                                    grid[idx].element.classList.remove('defragging');
+                                }, 500);
+                            });
+
+                            // Spawn wildlife
+                            const wildlifeCount = Math.min(3, Math.floor(component.length / 4));
+                            for (let w = 0; w < wildlifeCount; w++) {
+                                setTimeout(() => spawnAnimal(component), w * 500);
+                            }
+
+                            // Bonus score for corridors
+                            score += component.length * 10;
+                        }
+                    }
+                }
+            }
+
+            document.getElementById('corridors').textContent = corridorCount;
+            updateWildlifeCount();
+        }
+
+        // Get neighboring cell indices
+        function getNeighbors(index) {
+            const x = index % GRID_WIDTH;
+            const y = Math.floor(index / GRID_WIDTH);
+            const neighbors = [];
+
+            if (y > 0) neighbors.push(index - GRID_WIDTH); // Up
+            if (y < GRID_HEIGHT - 1) neighbors.push(index + GRID_WIDTH); // Down
+            if (x > 0) neighbors.push(index - 1); // Left
+            if (x < GRID_WIDTH - 1) neighbors.push(index + 1); // Right
+
+            return neighbors;
+        }
+
+        // Spawn wildlife
+        function spawnAnimal(corridor) {
+            const cellIndex = corridor[Math.floor(Math.random() * corridor.length)];
+            const cell = grid[cellIndex];
+            const animal = ANIMALS[Math.floor(Math.random() * ANIMALS.length)];
+
+            const animalEl = document.createElement('div');
+            animalEl.className = 'animal';
+            animalEl.textContent = animal;
+            animalEl.style.left = (cell.x * 100 / GRID_WIDTH) + '%';
+            animalEl.style.top = (cell.y * 100 / GRID_HEIGHT) + '%';
+
+            document.querySelector('.game-grid').appendChild(animalEl);
+            animals.push({ element: animalEl, corridor: corridor, animal: animal });
+
+            // Make clickable after spawn animation
+            setTimeout(() => {
+                animalEl.classList.add('clickable');
+                animalEl.onclick = () => logObservation(animal, cell);
+            }, 1000);
+
+            // Animate movement along corridor
+            animateAnimal(animalEl, corridor);
+            updateWildlifeCount();
+        }
+
+        // Animate animal movement
+        function animateAnimal(animalEl, corridor) {
+            let currentIndex = 0;
+            
+            const moveInterval = setInterval(() => {
+                if (!animalEl.parentNode) {
+                    clearInterval(moveInterval);
+                    return;
+                }
+                
+                currentIndex = (currentIndex + 1) % corridor.length;
+                const cell = grid[corridor[currentIndex]];
+                
+                animalEl.style.left = (cell.x * 100 / GRID_WIDTH) + '%';
+                animalEl.style.top = (cell.y * 100 / GRID_HEIGHT) + '%';
+            }, 2000 + Math.random() * 2000);
+        }
+
+        // Log observation
+        function logObservation(animal, location) {
+            const timestamp = new Date().toLocaleTimeString();
+            const habitatType = location.type.replace('habitat-', '');
+            
+            observations.unshift({
+                time: timestamp,
+                species: animal,
+                habitat: habitatType,
+                location: `Grid ${location.x},${location.y}`
+            });
+            
+            score += 50;
+            
+            // Update log display
+            const log = document.getElementById('observationLog');
+            const logContent = document.getElementById('logContent');
+            
+            log.classList.add('active');
+            
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `<strong>${timestamp}</strong> - ${animal} in ${habitatType} corridor`;
+            
+            logContent.insertBefore(entry, logContent.firstChild);
+            
+            if (logContent.children.length > 10) {
+                logContent.removeChild(logContent.lastChild);
+            }
+            
+            updateStatus(`Wildlife observed: ${animal} in ${habitatType} habitat!`);
+            document.getElementById('score').textContent = score;
+            playBeep(1200, 100);
+        }
+
+        // Update statistics
+        function updateStats() {
+            let fragmentedCells = 0;
+            let totalHabitat = 0;
+
+            // Count fragmented vs defragged habitat
+            grid.forEach((cell, i) => {
+                if (MOVABLE_TYPES.includes(cell.type)) {
+                    totalHabitat++;
+                    if (!cell.defragged) {
+                        fragmentedCells++;
+                    }
+                }
+            });
+
+            const fragmentation = totalHabitat > 0 ? 
+                Math.round((fragmentedCells / totalHabitat) * 100) : 0;
+            
+            document.getElementById('fragmentation').textContent = fragmentation + '%';
+            document.getElementById('progress').style.width = (100 - fragmentation) + '%';
+
+            // Check win condition
+            if (fragmentation < 20 && totalHabitat > 30) {
+                setTimeout(() => {
+                    document.getElementById('finalCorridors').textContent = 
+                        document.getElementById('corridors').textContent;
+                    document.getElementById('finalScore').textContent = score;
+                    document.getElementById('winMessage').classList.add('active');
+                    playBeep(800, 200);
+                    score += 1000;
+                }, 500);
+            }
+        }
+
+        // Auto defrag step
+        function autoDefragStep() {
+            // Find a fragmented block and best empty space
+            let bestMove = null;
+            let bestScore = -1;
+
+            for (let i = 0; i < grid.length; i++) {
+                if (MOVABLE_TYPES.includes(grid[i].type) && !grid[i].defragged) {
+                    // Find best empty space for this block
+                    for (let j = 0; j < grid.length; j++) {
+                        if (grid[j].type === HABITAT_TYPES.EMPTY) {
+                            const score = calculateMoveScore(i, j);
+                            if (score > bestScore) {
+                                bestScore = score;
+                                bestMove = { from: i, to: j };
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (bestMove) {
+                // Highlight source
+                grid[bestMove.from].element.classList.add('selected');
+                setTimeout(() => {
+                    moveBlock(bestMove.from, bestMove.to);
+                }, 300);
+            } else {
+                updateStatus('Defragmentation complete!');
+            }
+        }
+
+        // Calculate score for a potential move
+        function calculateMoveScore(fromIndex, toIndex) {
+            const fromCell = grid[fromIndex];
+            const toNeighbors = getNeighbors(toIndex);
+            let score = 0;
+
+            // Count same-type neighbors at destination
+            toNeighbors.forEach(n => {
+                if (grid[n].type === fromCell.type) {
+                    score += 10;
+                    if (grid[n].defragged) score += 5;
+                }
+            });
+
+            // Prefer moves that join fragments
+            const fromNeighbors = getNeighbors(fromIndex);
+            let isolatedFrom = true;
+            fromNeighbors.forEach(n => {
+                if (grid[n].type === fromCell.type) {
+                    isolatedFrom = false;
+                }
+            });
+            if (isolatedFrom) score += 20;
+
+            return score;
+        }
+
+        // Auto defrag
+        function autoDefrag() {
+            if (autoDefragRunning) return;
+            
+            autoDefragRunning = true;
+            document.querySelector('.mode-indicator').textContent = 'Auto-Defrag Running...';
+            document.querySelector('.mode-indicator').style.background = '#ffcccc';
+            
+            const defragInterval = setInterval(() => {
+                autoDefragStep();
+                
+                // Check if done
+                const fragmentation = parseInt(document.getElementById('fragmentation').textContent);
+                if (fragmentation < 20) {
+                    clearInterval(defragInterval);
+                    autoDefragRunning = false;
+                    document.querySelector('.mode-indicator').textContent = 'Manual Mode';
+                    document.querySelector('.mode-indicator').style.background = '#ffffcc';
+                    updateStatus('Auto-defragmentation complete!');
+                }
+            }, 1000);
+        }
+
+        // Update wildlife count
+        function updateWildlifeCount() {
+            const count = animals.length;
+            document.getElementById('wildlife').textContent = count;
+        }
+
+        // Update status message
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+
+        // Reset game
+        function resetGame() {
+            if (confirm('Start a new habitat optimization session?')) {
+                score = 0;
+                moves = 0;
+                animals = [];
+                observations = [];
+                selectedCell = null;
+                autoDefragRunning = false;
+                document.getElementById('score').textContent = '0';
+                document.getElementById('moves').textContent = '0';
+                document.getElementById('logContent').innerHTML = '';
+                document.getElementById('observationLog').classList.remove('active');
+                document.querySelector('.mode-indicator').textContent = 'Manual Mode';
+                document.querySelector('.mode-indicator').style.background = '#ffffcc';
+                initGame();
+            }
+        }
+
+        // Show help
+        function showHelp() {
+            document.getElementById('helpPopup').classList.add('active');
+        }
+
+        function closeHelp() {
+            document.getElementById('helpPopup').classList.remove('active');
+        }
+
+        // Show about
+        function showAbout() {
+            document.getElementById('aboutPopup').classList.add('active');
+        }
+
+        function closeAbout() {
+            document.getElementById('aboutPopup').classList.remove('active');
+        }
+
+        // Close win message
+        function closeWin() {
+            document.getElementById('winMessage').classList.remove('active');
+        }
+
+        // Initialize on load
+        window.onload = initGame;
+
+        // Add Windows 95 sound effects
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playBeep(frequency = 800, duration = 100) {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = frequency;
+            gainNode.gain.value = 0.1;
+            
+            oscillator.start();
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+            oscillator.stop(audioContext.currentTime + duration / 1000);
+        }
+
+        // Add sound to clicks
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('grid-cell') || 
+                e.target.classList.contains('button') ||
+                e.target.classList.contains('menu-item')) {
+                playBeep(600, 50);
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && selectedCell !== null) {
+                grid[selectedCell].element.classList.remove('selected');
+                selectedCell = null;
+                updateStatus('Selection cancelled');
+            } else if (e.key === 'a' || e.key === 'A') {
+                autoDefrag();
+            } else if (e.key === 's' || e.key === 'S') {
+                autoDefragStep();
+            }
+        });
+    </script>
+</body>
+</html>
