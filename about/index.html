@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About SROC - Squirrel Ridge Observatory Centre | Digital Preservation & Community Innovation</title>
+    <meta name="description" content="Learn about Squirrel Ridge Observatory Centre (SROC), a Canadian not-for-profit organization dedicated to digital preservation, Indigenous knowledge, linguistic technology, urban ecology, and civic innovation.">
+    <meta name="keywords" content="SROC, Squirrel Ridge Observatory Centre, digital preservation, Indigenous toponymy, orthographic mapping, urban ecology, civic innovation, Canadian non-profit, Jay Gerbrandt">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://squirrelridge.org/about">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://squirrelridge.org/assets/sroc-logo.png">
+    <link rel="apple-touch-icon" href="https://squirrelridge.org/assets/sroc-logo.png">
+    <link rel="shortcut icon" href="https://squirrelridge.org/assets/sroc-logo.png">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://squirrelridge.org/about">
+    <meta property="og:title" content="About SROC - Preserving Knowledge, Building Community">
+    <meta property="og:description" content="Discover how SROC combines digital preservation, Indigenous knowledge, and community innovation through five groundbreaking projects.">
+    <meta property="og:image" content="https://squirrelridge.org/assets/sroc-about-og.png">
+    <meta property="og:locale" content="en_CA">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://squirrelridge.org/about">
+    <meta name="twitter:title" content="About SROC - Digital Preservation & Innovation">
+    <meta name="twitter:description" content="Canadian not-for-profit preserving Indigenous knowledge, mapping languages, and building sustainable communities.">
+    <meta name="twitter:image" content="https://squirrelridge.org/assets/sroc-about-twitter.png">
+    
+    <!-- Fonts -->
+    <link rel="preload" href="/assets/woff2/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/woff2/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link href="/assets/fira-code.css" rel="stylesheet" />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        "mainEntity": {
+            "@type": "Organization",
+            "@id": "https://squirrelridge.org/#organization",
+            "name": "Squirrel Ridge Observatory Centre",
+            "alternateName": "SROC",
+            "url": "https://squirrelridge.org",
+            "logo": "https://squirrelridge.org/assets/sroc-logo.png",
+            "description": "A Canadian not-for-profit organization dedicated to digital preservation, Indigenous knowledge systems, linguistic technology, urban ecology, and civic innovation.",
+            "foundingDate": "2024",
+            "founder": {
+                "@type": "Person",
+                "name": "Jay Gerbrandt",
+                "url": "https://squirrelridge.org/about/jay"
+            },
+            "areaServed": {
+                "@type": "Country",
+                "name": "Canada"
+            },
+            "knowsAbout": [
+                "Digital Preservation",
+                "Indigenous Knowledge Systems",
+                "Linguistic Technology",
+                "Urban Ecology",
+                "Civic Innovation",
+                "Community Building",
+                "Open Source Technology"
+            ],
+            "slogan": "Preserving Knowledge, Building Community",
+            "nonprofitStatus": "Nonprofit501c3",
+            "email": "jay@squirrelridge.org",
+            "sameAs": [
+                "https://github.com/squirridge"
+            ]
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://squirrelridge.org"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "About",
+                    "item": "https://squirrelridge.org/about"
+                }
+            ]
+        }
+    }
+    </script>
+    
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #1a1a2e;
+            --accent-yellow: #ffd700;
+            --accent-cyan: #00ffff;
+            --accent-purple: #9d4edd;
+            --accent-green: #00ff88;
+            --accent-orange: #ff6b35;
+            --accent-pink: #ff006e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Animated gradient background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0f, #1a1a2e, #0f3460, #1a1a2e);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            z-index: -3;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating elements */
+        .float-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .float-element {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.3;
+            animation: floatUp 20s infinite linear;
+            color: var(--accent-cyan);
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            to {
+                transform: translateY(-10vh) rotate(360deg);
+            }
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
+            background: var(--glass-bg);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 100;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--accent-cyan) 20%, var(--accent-yellow) 50%, var(--accent-cyan) 80%, transparent 100%);
+            opacity: 0.5;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            position: relative;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+        }
+
+        .logo .blink {
+            animation: blink 4s infinite;
+        }
+
+        @keyframes blink {
+            0%, 90%, 100% { opacity: 1; }
+            95% { opacity: 0; }
+        }
+
+        .logo::after {
+            content: '🐿️';
+            position: absolute;
+            top: -10px;
+            right: -30px;
+            font-size: 1rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover::after {
+            opacity: 1;
+            transform: rotate(20deg);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            margin: 0;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-cyan);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--text-primary);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--accent-yellow), var(--accent-cyan), var(--accent-purple));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShimmer 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+        }
+
+        @keyframes textShimmer {
+            0%, 100% { filter: brightness(1) drop-shadow(0 0 20px rgba(255, 215, 0, 0.3)); }
+            50% { filter: brightness(1.2) drop-shadow(0 0 30px rgba(0, 255, 255, 0.5)); }
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Decorative elements */
+        .hero-decoration {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.6;
+            animation: float 10s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section {
+            margin-bottom: 6rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--accent-yellow);
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        h2::before,
+        h2::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-yellow));
+        }
+
+        h2::before {
+            left: 20%;
+        }
+
+        h2::after {
+            right: 20%;
+            background: linear-gradient(270deg, transparent, var(--accent-yellow));
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        /* Mission Box */
+        .mission-box {
+            background: var(--glass-bg);
+            border: 2px solid var(--accent-purple);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(157, 78, 221, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .mission-box h3 {
+            color: var(--accent-purple);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .project-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .project-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px var(--accent-cyan);
+            border-color: var(--accent-cyan);
+        }
+
+        .project-card:nth-child(1) { background: rgba(255, 215, 0, 0.05); }
+        .project-card:nth-child(2) { background: rgba(0, 255, 255, 0.05); }
+        .project-card:nth-child(3) { background: rgba(157, 78, 221, 0.05); }
+        .project-card:nth-child(4) { background: rgba(255, 107, 53, 0.05); }
+        .project-card:nth-child(5) { background: rgba(0, 255, 136, 0.05); }
+
+        .project-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+            animation: wobble 2s ease-in-out infinite;
+        }
+
+        @keyframes wobble {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-yellow);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-cyan);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover .project-link {
+            gap: 1rem;
+            text-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        /* Values Section */
+        .values-container {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--accent-green);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .value-item {
+            text-align: center;
+            padding: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .value-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .value-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        .value-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-green);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .value-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Blockchain Badge */
+        .blockchain-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .blockchain-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--accent-green), var(--accent-cyan));
+            color: var(--bg-primary);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            animation: glowPulse 2s ease-in-out infinite;
+            position: relative;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(0, 255, 255, 0.8); }
+        }
+
+        .blockchain-joke {
+            margin-top: 1rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Team Section */
+        .team-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .founder-info {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .founder-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            background: linear-gradient(45deg, var(--accent-purple), var(--accent-pink));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            animation: rotateGlow 4s linear infinite;
+        }
+
+        @keyframes rotateGlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .founder-image::after {
+            content: '';
+            position: absolute;
+            inset: -10px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-purple), var(--accent-pink));
+            opacity: 0.3;
+            filter: blur(20px);
+            animation: rotateGlow 4s linear infinite reverse;
+        }
+
+        .founder-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .founder-role {
+            color: var(--accent-cyan);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .founder-bio {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .founder-link {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--accent-purple), var(--accent-pink));
+            color: var(--text-primary);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .founder-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.5s ease;
+        }
+
+        .founder-link:hover::before {
+            left: 100%;
+        }
+
+        .founder-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(157, 78, 221, 0.5);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, rgba(74, 158, 255, 0.1), rgba(0, 184, 148, 0.1));
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(74, 158, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .cta-section h2 {
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.5);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: var(--accent-cyan);
+            border: 2px solid var(--accent-cyan);
+        }
+
+        .cta-button.secondary:hover {
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 2rem 2rem;
+            margin-top: 6rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent-yellow);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-cyan);
+            text-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            h2::before,
+            h2::after {
+                width: 50px;
+            }
+
+            h2::before {
+                left: 10%;
+            }
+
+            h2::after {
+                right: 10%;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Easter Egg */
+        .konami-activated {
+            animation: rainbow 2s linear infinite;
+        }
+
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background elements -->
+    <div class="bg-gradient" aria-hidden="true"></div>
+    
+    <!-- Floating particles -->
+    <div class="float-container" aria-hidden="true" id="floatContainer"></div>
+    
+    <!-- Hero decorations -->
+    <span class="hero-decoration" style="top: 10%; left: 5%;">🌲</span>
+    <span class="hero-decoration" style="top: 20%; right: 10%;">🐿️</span>
+    <span class="hero-decoration" style="bottom: 20%; left: 15%;">🏔️</span>
+    <span class="hero-decoration" style="bottom: 10%; right: 5%;">🍃</span>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">°<span class="blink">•</span>°</a>
+            
+            <nav role="navigation" aria-label="Main navigation">
+                <ul>
+                    <li><a href="/">[HOME]</a></li>
+                    <li><a href="/about" class="active">[ABOUT]</a></li>
+                    <li><a href="/projects">[PROJECTS]</a></li>
+                    <li><a href="/contribute">[CONTRIBUTE]</a></li>
+                    <li><a href="https://github.com/squirridge" target="_blank">[GITHUB]</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>About Squirrel Ridge Observatory Centre</h1>
+        <p class="tagline">// Preserving Knowledge, Building Community</p>
+        <p class="hero-description">Where digital preservation meets playful innovation, and squirrels watch over everything we do.</p>
+    </section>
+
+    <!-- Main Content -->
+    <main id="main">
+        <!-- Introduction -->
+        <section class="section">
+            <h2>What We're All About</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 2rem; font-size: 1.1rem;">
+                Squirrel Ridge Observatory Centre (SROC) is a Canadian not-for-profit organization founded in 2024. 
+                We're on a mission to preserve disappearing knowledge, build stronger communities, and create 
+                innovative digital tools that actually make a difference.
+            </p>
+            
+            <p style="text-align: center; max-width: 800px; margin: 0 auto;">
+                Think of us as digital archaeologists meets community builders meets slightly chaotic innovators. 
+                We rescue information before it vanishes, create tools for understanding languages, study how 
+                cities and nature can better coexist, and incubate wild ideas to improve civic life.
+            </p>
+            
+            <div class="mission-box">
+                <h3>Our Mission</h3>
+                <p>To create open-source tools and resources that preserve cultural knowledge, advance linguistic understanding, promote urban ecology, and foster civic innovation—all while building communities around shared interests and values.</p>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="section">
+            <h2>Five Projects, One Vision</h2>
+            
+            <div class="projects-grid">
+                <a href="/indigenymy" class="project-card">
+                    <span class="project-icon" aria-hidden="true">🏔️</span>
+                    <h3 class="project-title">Indigenymy</h3>
+                    <p class="project-description">
+                        Preserving Indigenous place names through digital cartography. We document traditional 
+                        toponymy in contemporary orthographies, ensuring these cultural treasures survive.
+                    </p>
+                    <span class="project-link">Explore toponymy →</span>
+                </a>
+
+                <a href="/omod" class="project-card">
+                    <span class="project-icon" aria-hidden="true">🦜</span>
+                    <h3 class="project-title">OMOD</h3>
+                    <p class="project-description">
+                        The Orthographic Mapping Ondemand Datasystem. Like Glottocode for orthographic-phonetic 
+                        mapping, showing how written symbols become sounds across languages.
+                    </p>
+                    <span class="project-link">Decode languages →</span>
+                </a>
+
+                <a href="/defrag" class="project-card">
+                    <span class="project-icon" aria-hidden="true">🌿</span>
+                    <h3 class="project-title">Defrag</h3>
+                    <p class="project-description">
+                        Research on the urban-wildland interface. We collect citizen science observations 
+                        and develop strategies for cities and nature to thrive together.
+                    </p>
+                    <span class="project-link">View research →</span>
+                </a>
+
+                <a href="/factso" class="project-card">
+                    <span class="project-icon" aria-hidden="true">🍂</span>
+                    <h3 class="project-title">Factso</h3>
+                    <p class="project-description">
+                        A wild dispensary of source material. We digitize primary sources, rescue lost 
+                        websites, and preserve local histories before they disappear forever.
+                    </p>
+                    <span class="project-link">Browse archives →</span>
+                </a>
+
+                <a href="/sqrrdg" class="project-card">
+                    <span class="project-icon" aria-hidden="true">🌰</span>
+                    <h3 class="project-title">SQRRDG</h3>
+                    <p class="project-description">
+                        An incubator for off-the-wall civic transformation ideas. From smart transit 
+                        to community tech hubs, we're making cities work better for everyone.
+                    </p>
+                    <span class="project-link">See innovations →</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Values Section -->
+        <section class="section">
+            <h2>Our Guiding Principles</h2>
+            
+            <div class="values-container">
+                <div class="values-grid">
+                    <div class="value-item">
+                        <span class="value-icon" aria-hidden="true">🌐</span>
+                        <h3 class="value-title">Open Everything</h3>
+                        <p class="value-description">All our work is open-source and freely available. Knowledge wants to be free.</p>
+                    </div>
+
+                    <div class="value-item">
+                        <span class="value-icon" aria-hidden="true">🤝</span>
+                        <h3 class="value-title">Community-Driven</h3>
+                        <p class="value-description">We build with communities, not for them. Your knowledge matters.</p>
+                    </div>
+
+                    <div class="value-item">
+                        <span class="value-icon" aria-hidden="true">🔬</span>
+                        <h3 class="value-title">Evidence-Based</h3>
+                        <p class="value-description">Real research, real testing, real results. No handwaving allowed.</p>
+                    </div>
+
+                    <div class="value-item">
+                        <span class="value-icon" aria-hidden="true">♻️</span>
+                        <h3 class="value-title">Built to Last</h3>
+                        <p class="value-description">Sustainable solutions that work today and tomorrow.</p>
+                    </div>
+
+                    <div class="value-item">
+                        <span class="value-icon" aria-hidden="true">🎯</span>
+                        <h3 class="value-title">Action-Oriented</h3>
+                        <p class="value-description">Less talking, more building. Ideas become reality here.</p>
+                    </div>
+
+                    <div class="value-item">
+                        <span class="value-icon" aria-hidden="true">✨</span>
+                        <h3 class="value-title">Playfully Serious</h3>
+                        <p class="value-description">Important work doesn't mean boring interfaces.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blockchain Badge Section -->
+        <section class="blockchain-section">
+            <div class="blockchain-badge">✓ No blockchain detected</div>
+            <p class="blockchain-joke">This has become our favorite feature. We focus on practical solutions, not buzzword bingo.</p>
+        </section>
+
+        <!-- Team Section -->
+        <section class="section">
+            <h2>The Human Behind the Code</h2>
+            <div class="team-section">
+                <div class="founder-info">
+                    <div class="founder-image">
+                        <span aria-hidden="true">🐿️</span>
+                    </div>
+                    <h3 class="founder-name">Jay Gerbrandt</h3>
+                    <p class="founder-role">Founder & Executive Director</p>
+                    <p class="founder-bio">
+                        Jay founded SROC in 2024 after a lightning strike (literally) changed his perspective on what matters. 
+                        With a background spanning child acting, Harvard education, tech consulting, and surviving 300,000 volts, 
+                        Jay brings a unique interdisciplinary approach to digital preservation and community building.
+                    </p>
+                    <a href="/about/jay" class="founder-link">Read the Full Story →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2>Join the Observatory</h2>
+            <p>Whether you're a researcher, developer, archivist, or just someone who cares about preserving knowledge and building better communities, there's a place for you at SROC.</p>
+            
+            <div class="cta-buttons">
+                <a href="/contribute" class="cta-button">Start Contributing</a>
+                <a href="mailto:jay@squirrelridge.org" class="cta-button secondary">Get in Touch</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Organization</h4>
+                <ul class="footer-links">
+                    <li><a href="/about">About SROC</a></li>
+                    <li><a href="/about/jay">Jay's Story</a></li>
+                    <li><a href="/mission">Mission & Values</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Projects</h4>
+                <ul class="footer-links">
+                    <li><a href="/indigenymy">Indigenymy</a></li>
+                    <li><a href="/omod">OMOD</a></li>
+                    <li><a href="/defrag">Defrag</a></li>
+                    <li><a href="/factso">Factso</a></li>
+                    <li><a href="/sqrrdg">SQRRDG</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/squirridge" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a href="/docs">Documentation</a></li>
+                    <li><a href="/api">API Access</a></li>
+                    <li><a href="/datasets">Datasets</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <ul class="footer-links">
+                    <li><a href="mailto:jay@squirrelridge.org">jay@squirrelridge.org</a></li>
+                    <li><a href="https://twitter.com/squirridge" target="_blank" rel="noopener">Twitter</a></li>
+                    <li><a href="/donate">Support Our Work</a></li>
+                    <li><a href="/newsletter">Updates</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 Squirrel Ridge Observatory Centre | Canadian Not-for-Profit<br>
+            Preserving knowledge, building community, watching from the trees 🐿️</p>
+        </div>
+    </footer>
+
+    <script>
+        // Create floating particles
+        function createFloatingElements() {
+            const container = document.getElementById('floatContainer');
+            const symbols = ['◊', '°', '•', '∴', '∵', '※', '◈', '◉', '◎', '⬡'];
+            const colors = ['#ffd700', '#00ffff', '#9d4edd', '#00ff88', '#ff6b35'];
+            
+            for (let i = 0; i < 30; i++) {
+                const element = document.createElement('div');
+                element.className = 'float-element';
+                element.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                element.style.left = Math.random() * 100 + '%';
+                element.style.animationDelay = Math.random() * 20 + 's';
+                element.style.animationDuration = (20 + Math.random() * 10) + 's';
+                element.style.color = colors[Math.floor(Math.random() * colors.length)];
+                container.appendChild(element);
+            }
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Konami code easter egg
+        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiIndex = 0;
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === konamiCode[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiCode.length) {
+                    document.body.classList.add('konami-activated');
+                    alert('🐿️ Achievement Unlocked: Squirrel Vision Activated!');
+                    konamiIndex = 0;
+                }
+            } else {
+                konamiIndex = 0;
+            }
+        });
+
+        // Initialize
+        createFloatingElements();
+
+        // Console easter eggs
+        console.log('%c🐿️ SQUIRREL RIDGE OBSERVATORY CENTRE', 'color: #ffd700; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px #ffd700;');
+        console.log('%cPreserving knowledge, building community, no blockchain detected ✓', 'color: #00ffff; font-size: 14px;');
+        console.log('%c5 projects, 1 mission, 0 crypto', 'color: #9d4edd; font-size: 12px;');
+        console.log('%cWant to contribute? Visit squirrelridge.org/contribute', 'color: #00ff88;');
+        console.log('%cFun fact: Try the Konami code! ↑↑↓↓←→←→BA', 'color: #ff6b35;');
+    </script>
+</body>
+</html>
