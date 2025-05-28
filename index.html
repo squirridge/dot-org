@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Squirrel Ridge Observatory Centre | Discover SROC</title>
+    <meta name="description" content="Where digital cartography meets orthographic chaos, citizen science collides with civic transformation. Explore SROC's five innovative subunits: Indigenymy, OMOD, Defrag, Factso, and SQRRDG.">
+    <meta name="keywords" content="digital cartography, orthographic mapping, Indigenous toponymy, urban-wildland interface, civic transformation, SROC">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://squirrelridge.org/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://squirrelridge.org/assets/sroc-logo.png">
+    <link rel="apple-touch-icon" href="https://squirrelridge.org/assets/sroc-logo.png">
+    <link rel="shortcut icon" href="https://squirrelridge.org/assets/sroc-logo.png">
+    
+    <!-- Theme and Browser Configuration -->
+    <meta name="theme-color" content="#ffd700">
+    <meta name="color-scheme" content="dark">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Jay Gerbrandt">
+    <meta name="organization" content="Squirrel Ridge Observatory Centre">
+    
+    <!-- Open Graph (Facebook, LinkedIn) -->
+    <meta property="og:site_name" content="Squirrel Ridge Observatory Centre">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Squirrel Ridge Observatory Centre | Digital Innovation Hub">
+    <meta property="og:description" content="Where digital cartography meets orthographic chaos, citizen science collides with civic transformation. Explore SROC's five innovative subunits.">
+    <meta property="og:url" content="https://squirrelridge.org/">
+    <meta property="og:image" content="https://squirrelridge.org/assets/sroc-social-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_CA">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@squirridge">
+    <meta name="twitter:creator" content="@jaygerbrandt">
+    <meta name="twitter:title" content="Squirrel Ridge Observatory Centre">
+    <meta name="twitter:description" content="Digital cartography, orthographic mapping, urban-wildland research & civic transformation. No crypto detected ✓">
+    <meta name="twitter:image" content="https://squirrelridge.org/assets/sroc-social-preview.png">
+    
+    <!-- Fonts -->
+    <link rel="preload" href="/assets/woff2/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/woff2/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link href="/assets/fira-code.css" rel="stylesheet" />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://squirrelridge.org/#organization",
+        "name": "Squirrel Ridge Observatory Centre",
+        "alternateName": "SROC",
+        "url": "https://squirrelridge.org",
+        "logo": "https://squirrelridge.org/assets/sroc-logo.png",
+        "description": "A Canadian not-for-profit focused on digital cartography, orthographic mapping, urban-wildland research, and civic transformation",
+        "email": "jay@squirrelridge.org",
+        "founder": {
+            "@type": "Person",
+            "name": "Jay Gerbrandt",
+            "jobTitle": "Executive Director",
+            "url": "https://jaygerbrandt.com"
+        },
+        "foundingDate": "2024",
+        "areaServed": {
+            "@type": "Country",
+            "name": "Canada"
+        },
+        "sameAs": [
+            "https://github.com/squirridge"
+        ],
+        "department": [
+            {
+                "@type": "Organization",
+                "name": "Indigenymy",
+                "description": "Digital cartography of Indigenous toponymy"
+            },
+            {
+                "@type": "Organization", 
+                "name": "OMOD",
+                "description": "Orthographic Mapping Ondemand Datasystem"
+            },
+            {
+                "@type": "Organization",
+                "name": "Defrag",
+                "description": "Urban-wildland interface research"
+            },
+            {
+                "@type": "Organization",
+                "name": "Factso",
+                "description": "Historical source material archive"
+            },
+            {
+                "@type": "Organization",
+                "name": "SQRRDG",
+                "description": "Canadian civic transformation incubator"
+            }
+        ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "https://squirrelridge.org",
+        "name": "Squirrel Ridge Observatory Centre",
+        "alternateName": "SROC",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://squirrelridge.org/search?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    
+    <!-- Minified CSS -->
+    <style>:root{--bg-primary:#0a0a0f;--bg-secondary:#1a1a2e;--accent-yellow:#ffd700;--accent-cyan:#00ffff;--accent-purple:#9d4edd;--accent-green:#00ff88;--accent-pink:#ff006e;--text-primary:#ffffff;--text-secondary:#b0b0b0;--glass-bg:rgba(255, 255, 255, 0.05);--glass-border:rgba(255, 255, 255, 0.1);--terminal-green:#00ff00;--terminal-amber:#ffb000}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Fira Code',monospace;background:var(--bg-primary);color:var(--text-primary);overflow-x:hidden;min-height:100vh;letter-spacing:-0.02em}.bg-gradient{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(45deg,#0a0a0f,#1a1a2e,#0f3460,#1a1a2e);background-size:400% 400%;animation:gradientShift 20s ease infinite;z-index:-3}@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}.particle-field{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2;pointer-events:none;overflow:hidden}.particle-char{position:absolute;font-family:'Fira Code',monospace;animation:floatRotate 20s infinite linear;opacity:0.4;font-size:1.2rem;transition:all 0.5s ease}@keyframes floatRotate{from{transform:translateY(100vh) rotate(0deg)}to{transform:translateY(-10vh) rotate(360deg)}}.skip-link{position:absolute;top:-40px;left:0;background:var(--accent-yellow);color:var(--bg-primary);padding:8px;text-decoration:none;font-weight:bold;z-index:100}.skip-link:focus{top:0}header{position:relative;padding:1rem 2rem;backdrop-filter:blur(10px);background:var(--glass-bg);border-bottom:1px solid var(--glass-border);z-index:10}header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,var(--accent-cyan) 20%,var(--accent-yellow) 50%,var(--accent-cyan) 80%,transparent 100%);opacity:0.5}.header-content{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}.logo{font-family:'Fira Code',monospace;font-size:3rem;font-weight:700;color:var(--accent-yellow);cursor:default;user-select:none;transition:all 0.3s ease;text-shadow:0 0 20px rgba(255,215,0,0.5);position:relative}.logo:hover{transform:scale(1.1);text-shadow:0 0 40px rgba(255,215,0,0.8),0 0 60px rgba(255,215,0,0.6),0 0 80px rgba(255,215,0,0.4)}.logo .blink{animation:blink 4s infinite}@keyframes blink{0%,90%,100%{opacity:1}95%{opacity:0}}.logo::after{content:'🐿️';position:absolute;top:-10px;right:-30px;font-size:1rem;opacity:0;transition:all 0.3s ease}.logo:hover::after{opacity:1;transform:rotate(20deg)}nav{display:flex;align-items:center;gap:2rem;flex-wrap:wrap}nav ul{list-style:none;display:flex;gap:2rem;flex-wrap:wrap;margin:0}nav a{color:var(--text-secondary);text-decoration:none;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em;transition:all 0.3s ease;position:relative;font-weight:500}nav a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:2px;background:var(--accent-cyan);transition:width 0.3s ease;box-shadow:0 0 10px var(--accent-cyan)}nav a:hover::after,nav a:focus::after{width:100%}nav a:hover,nav a:focus{color:var(--text-primary);outline:none;text-shadow:0 0 10px rgba(0,255,255,0.5)}.nav-features{display:flex;gap:0.5rem}.feature-btn{background:var(--glass-bg);border:1px solid var(--glass-border);color:var(--text-primary);padding:0.5rem 0.75rem;border-radius:4px;cursor:pointer;transition:all 0.3s ease;font-size:0.9rem;backdrop-filter:blur(10px);font-family:'Fira Code',monospace}.feature-btn:hover{transform:translateY(-2px);box-shadow:0 5px 20px rgba(0,0,0,0.5),0 0 20px var(--accent-green);border-color:var(--accent-green)}main{position:relative;z-index:1;padding:4rem 2rem;max-width:1200px;margin:0 auto}.hero{text-align:center;margin-bottom:4rem;position:relative;padding:2rem 0}.hero h1{font-size:clamp(1.5rem,4vw,3rem);font-weight:700;margin-bottom:2rem;background:linear-gradient(45deg,var(--accent-yellow),var(--accent-cyan),var(--accent-purple));background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:textShimmer 3s ease-in-out infinite;filter:drop-shadow(0 0 20px rgba(255,215,0,0.3));letter-spacing:-0.05em;line-height:1.2}@keyframes textShimmer{0%,100%{filter:brightness(1) drop-shadow(0 0 20px rgba(255,215,0,0.3))}50%{filter:brightness(1.2) drop-shadow(0 0 30px rgba(0,255,255,0.5))}}.tagline{font-size:0.9rem;color:var(--text-secondary);max-width:700px;margin:0 auto;line-height:1.8;text-align:left;padding:1.5rem 2rem;background:var(--glass-bg);border-left:3px solid var(--accent-yellow);backdrop-filter:blur(10px);position:relative}.comment-marker{color:var(--accent-yellow);opacity:0.5;margin-right:0.5rem}.hero-ascii{font-size:0.8rem;color:var(--accent-yellow);opacity:0.3;margin:1rem 0;letter-spacing:0.1em}.hero-decoration{position:absolute;font-size:2rem;opacity:0.6;animation:float 10s infinite ease-in-out;pointer-events:none}@keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-20px) rotate(180deg)}}.arcade-section{margin:4rem 0;padding:2rem;background:#000;border-radius:20px;box-shadow:inset 0 0 50px rgba(0,255,0,0.2),0 0 30px rgba(0,0,0,0.8);position:relative;overflow:hidden}.arcade-terminal{background:#0a0a0a;border:3px solid #333;border-radius:10px;padding:2rem;position:relative;min-height:500px;font-family:'Fira Code',monospace;color:var(--terminal-green);text-shadow:0 0 5px var(--terminal-green);overflow:hidden}.arcade-terminal::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,0,0.03) 2px,rgba(0,255,0,0.03) 4px);pointer-events:none;animation:scanlines 8s linear infinite}@keyframes scanlines{0%{transform:translateY(0)}100%{transform:translateY(10px)}}.terminal-header{margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--terminal-green)}.terminal-title{font-size:1.5rem;text-align:center;animation:terminalGlow 2s ease-in-out infinite}@keyframes terminalGlow{0%,100%{opacity:0.8}50%{opacity:1}}.game-area{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin:2rem 0}.game-unit{background:rgba(0,255,0,0.1);border:2px solid transparent;padding:1.5rem 1rem;text-align:center;cursor:pointer;transition:all 0.3s ease;position:relative;overflow:hidden}.game-unit::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:radial-gradient(circle,var(--terminal-green) 0%,transparent 70%);transition:all 0.5s ease;transform:translate(-50%,-50%)}.game-unit:hover::before{width:150%;height:150%}.game-unit:hover{border-color:var(--terminal-green);transform:scale(1.05);box-shadow:0 0 20px var(--terminal-green)}.game-unit-icon{font-size:2rem;margin-bottom:0.5rem;filter:grayscale(1) brightness(0) invert(1)}.game-unit.active .game-unit-icon{filter:none;animation:bounce 0.5s ease}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}.game-unit-name{font-size:0.9rem;text-transform:uppercase;letter-spacing:1px}.terminal-output{min-height:150px;padding:1rem;background:rgba(0,0,0,0.5);border:1px solid var(--terminal-green);margin-top:2rem;font-size:0.9rem;line-height:1.6;overflow-y:auto;max-height:200px}.terminal-line{margin:0.5rem 0;opacity:0;animation:typeIn 0.5s ease forwards}@keyframes typeIn{to{opacity:1}}.terminal-input-wrapper{display:flex;align-items:center;margin-top:0.5rem}.terminal-prompt{color:var(--terminal-green);margin-right:0.5rem}.terminal-input{background:transparent;border:none;color:var(--terminal-green);font-family:'Fira Code',monospace;font-size:0.9rem;outline:none;flex:1;text-shadow:0 0 5px var(--terminal-green)}.terminal-cursor{display:inline-block;width:10px;height:1.2em;background:var(--terminal-green);animation:cursorBlink 1s infinite;margin-left:2px}@keyframes cursorBlink{0%,50%{opacity:1}51%,100%{opacity:0}}.game-instructions{text-align:center;margin-bottom:1rem;font-size:0.9rem;color:var(--terminal-amber);text-shadow:0 0 5px var(--terminal-amber)}.initiatives-grid{display:flex;flex-direction:column;gap:1.5rem;margin-bottom:4rem;max-width:800px;margin-left:auto;margin-right:auto}.initiative-card{background:var(--glass-bg);backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:1rem;padding:2.5rem 3rem;transition:all 0.3s ease;cursor:pointer;position:relative;overflow:hidden;width:100%}.initiative-card:nth-child(1){background:rgba(100,149,237,0.08)}.initiative-card:nth-child(2){background:rgba(255,140,0,0.08)}.initiative-card:nth-child(3){background:rgba(34,139,34,0.08)}.initiative-card:nth-child(4){background:rgba(160,82,45,0.08)}.initiative-card:nth-child(5){background:rgba(255,20,147,0.08)}.initiative-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(45deg,transparent,rgba(255,255,255,0.1),transparent);transform:translateX(-100%);transition:transform 0.6s ease}.initiative-card:hover::before{transform:translateX(100%)}.initiative-card:hover,.initiative-card:focus-within{transform:translateY(-5px) scale(1.02);box-shadow:0 10px 30px rgba(0,0,0,0.5),0 0 30px rgba(0,255,255,0.3);border-color:var(--accent-cyan)}.initiative-card h2{font-size:1.2rem;margin-bottom:1rem;color:var(--accent-yellow);display:flex;align-items:center;gap:0.75rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:600}.initiative-emoji{font-size:1.5rem;animation:wobble 2s infinite ease-in-out}@keyframes wobble{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}.initiative-card p{color:var(--text-secondary);line-height:1.8;margin-bottom:1.5rem;font-size:0.85rem;letter-spacing:0.02em}.initiative-link{display:inline-block;color:var(--accent-cyan);text-decoration:none;font-size:0.8rem;transition:all 0.3s ease;text-transform:uppercase;letter-spacing:0.1em;padding:0.5rem 1rem;border:1px solid var(--accent-cyan);border-radius:4px}.initiative-link:hover,.initiative-link:focus{color:var(--bg-primary);background:var(--accent-cyan);transform:translateX(0);text-shadow:none;box-shadow:0 0 20px var(--accent-cyan)}.float-element{position:fixed;font-family:'Fira Code',monospace;color:rgba(255,215,0,0.3);font-size:1rem;pointer-events:none;z-index:0;animation:drift 15s infinite ease-in-out}@keyframes drift{0%,100%{transform:translate(0,0)}33%{transform:translate(30px,-20px)}66%{transform:translate(-20px,10px)}}footer{background:var(--glass-bg);backdrop-filter:blur(10px);border-top:1px solid var(--glass-border);padding:2rem;text-align:center;margin-top:4rem;position:relative}footer p{color:var(--text-secondary);font-size:0.8rem;letter-spacing:0.05em}footer a{color:var(--accent-cyan);text-decoration:none;transition:all 0.3s ease;border-bottom:1px dashed var(--accent-cyan)}footer a:hover{text-shadow:0 0 10px var(--accent-cyan);border-bottom-style:solid}@media (prefers-reduced-motion:reduce){*{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}}.console-message{position:fixed;bottom:20px;right:20px;background:rgba(0,0,0,0.9);color:#0f0;font-family:'Fira Code',monospace;padding:1rem;border-radius:5px;display:none;max-width:300px;font-size:0.8rem;border:1px solid #0f0;box-shadow:0 0 20px rgba(0,255,0,0.5)}.celebration{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:4rem;animation:celebrate 2s ease-out forwards;pointer-events:none;z-index:100}@keyframes celebrate{0%{opacity:0;transform:translate(-50%,-50%) scale(0) rotate(0deg)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.5) rotate(180deg)}100%{opacity:0;transform:translate(-50%,-50%) scale(2) rotate(360deg)}}.sound-toggle{position:fixed;bottom:20px;left:20px;background:var(--glass-bg);border:1px solid var(--glass-border);padding:0.5rem 1rem;border-radius:2rem;cursor:pointer;backdrop-filter:blur(10px);transition:all 0.3s ease;font-size:1.2rem}.sound-toggle:hover{box-shadow:0 0 20px var(--accent-pink);border-color:var(--accent-pink)}@media (max-width:768px){.game-area{grid-template-columns:repeat(2,1fr)}.nav-features{width:100%;justify-content:center}}</style>
+</head>
+<body>
+<p><a class="skip-link" href="#main">Skip to main content</a></p>
+
+<div aria-hidden="true" class="bg-gradient"></div>
+
+<div aria-hidden="true" class="particle-field" id="particleField"></div>
+
+<header>
+<div class="header-content">
+<div aria-label="Squirrel Ridge Observatory Centre logo" class="logo" role="img">&ordm;<span class="blink">&bull;</span>&ordm;</div>
+
+<nav aria-label="Main navigation" role="navigation">
+<ul>
+	<li><a href="#arcade">[DISCOVER]</a></li>
+	<li><a href="#initiatives">[INITIATIVES]</a></li>
+	<li><a href="#contact">[CONTACT]</a></li>
+	<li></li>
+</ul>
+
+<div class="nav-features"><button aria-label="Toggle particle effects" class="feature-btn" onclick="toggleParticles()">✨</button><button aria-label="Change theme" class="feature-btn" onclick="changeTheme()">🌈</button><button aria-label="Celebrate" class="feature-btn" onclick="activateCelebration()">🐿️</button><button aria-label="Toggle sound effects" class="feature-btn" id="soundToggle" onclick="toggleSound()">🔊</button></div>
+</nav>
+</div>
+</header>
+
+<main id="main">
+<section class="hero"><span class="hero-decoration" style="top: -30px; left: 10%;">🌲</span> <span class="hero-decoration" style="top: -20px; right: 15%;">🐿️</span> <span class="hero-decoration" style="bottom: -40px; left: 20%;">🏔️</span> <span class="hero-decoration" style="bottom: -30px; right: 10%;">🍃</span>
+
+<h1>Squirrel Ridge Observatory Centre</h1>
+
+<div aria-hidden="true" class="hero-ascii">══════════════════════════════════════════</div>
+
+<p class="tagline"><span class="comment-marker">//</span> Where digital cartography meets orthographic chaos, citizen science collides with civic transformation, and squirrels observe from every possible angle. &ordm;&bull;&ordm;</p>
+</section>
+
+<section aria-label="Interactive Discovery Terminal" class="arcade-section" id="arcade">
+<div class="arcade-terminal">
+<div class="terminal-header">
+<h2 class="terminal-title">&gt; SROC DISCOVERY TERMINAL v2.0</h2>
+</div>
+
+<div class="game-instructions">SELECT_INITIATIVE() || TYPE(<strong>&#39;HELP&#39;</strong>) FOR_COMMANDS ▮</div>
+
+<div class="game-area">
+<div aria-label="Discover Indigenymy" class="game-unit" data-unit="indigenymy" role="button" tabindex="0">
+<div class="game-unit-icon">🏔️</div>
+
+<div class="game-unit-name">Nymy</div>
+</div>
+
+<div aria-label="Discover OMOD" class="game-unit" data-unit="omod" role="button" tabindex="0">
+<div class="game-unit-icon">🦜</div>
+
+<div class="game-unit-name">OMOD</div>
+</div>
+
+<div aria-label="Discover Defrag" class="game-unit" data-unit="defrag" role="button" tabindex="0">
+<div class="game-unit-icon">🌿</div>
+
+<div class="game-unit-name">Defrag</div>
+</div>
+
+<div aria-label="Discover Factso" class="game-unit" data-unit="factso" role="button" tabindex="0">
+<div class="game-unit-icon">🍂</div>
+
+<div class="game-unit-name">Factso</div>
+</div>
+
+<div aria-label="Discover SQRRDG" class="game-unit" data-unit="sqrrdg" role="button" tabindex="0">
+<div class="game-unit-icon">🌰</div>
+
+<div class="game-unit-name">SQRRDG</div>
+</div>
+</div>
+
+<div class="terminal-output" id="terminalOutput">
+<div class="terminal-line">&gt; AWAITING USER INPUT...</div>
+</div>
+
+<div class="terminal-input-wrapper"><span class="terminal-prompt">&gt;</span> <input autocomplete="off" class="terminal-input" id="terminalInput" spellcheck="false" type="text" aria-label="Terminal command input"
+    placeholder="Type a command..." /></div>
+</div>
+</section>
+
+<section aria-label="SROC Initiatives" id="initiatives">
+<div class="initiatives-grid">
+<article aria-labelledby="indigenymy-heading" class="initiative-card" role="article" tabindex="0">
+<h2 id="indigenymy-heading"><span class="initiative-emoji">🏔️</span> [INDIGENYMY]</h2>
+
+<p>Digital cartography exploring Indigenous toponymy in contemporary orthographies. Mapping stories, not just places.</p>
+<a aria-label="Explore Indigenymy" class="initiative-link" href="/indigenymy">&rarr; explore_toponymy</a></article>
+
+<article aria-labelledby="omod-heading" class="initiative-card" role="article" tabindex="0">
+<h2 id="omod-heading"><span class="initiative-emoji">🦜</span> [OMOD]</h2>
+
+<p>The Orthographic Mapping Ondemand Datasystem. Like Glottocode, but for orthographic-phonetic mapping via IPA.</p>
+<a aria-label="Access OMOD system" class="initiative-link" href="/omod">&rarr; access_system</a></article>
+
+<article aria-labelledby="defrag-heading" class="initiative-card" role="article" tabindex="0">
+<h2 id="defrag-heading"><span class="initiative-emoji">🌿</span> [DEFRAG]</h2>
+
+<p>Research focused on the urban-wildland interface. Home to citizen science observations and nature&#39;s digital footprints.</p>
+<a aria-label="View Defrag research" class="initiative-link" href="/defrag">&rarr; view_research</a></article>
+
+<article aria-labelledby="factso-heading" class="initiative-card" role="article" tabindex="0">
+<h2 id="factso-heading"><span class="initiative-emoji">🍂</span> [FACTSO]</h2>
+
+<p>Dispensary of source material. Scanned primary sources, lost Geocities pages, and hand-digitized local histories.</p>
+<a aria-label="Browse Factso archives" class="initiative-link" href="/factso">&rarr; browse_archives</a></article>
+
+<article aria-labelledby="sqrrdg-heading" class="initiative-card" role="article" tabindex="0">
+<h2 id="sqrrdg-heading"><span class="initiative-emoji">🌰</span> [SQRRDG]</h2>
+
+<p>An incubator for off-the-wall civic transformation ideas. Smart transit, apolitical advocacy, and our Github presence.</p>
+<a aria-label="Visit SQRRDG incubator" class="initiative-link" href="/sqrrdg">&rarr; incubate_ideas</a></article>
+</div>
+</section>
+</main>
+
+<footer id="contact">
+<p>&copy; 2025 Squirrel Ridge Observatory Centre, a Canadian not-for-profit<br />
+Executive Director: <a href="https://jaygerbrandt.com">Jay Gerbrandt</a> | <a href="mailto:jay@squirrelridge.org">jay@squirrelridge.org</a> | 🐿️</p>
+</footer>
+<!-- Floating decorative elements -->
+
+<div aria-hidden="true" class="float-element" style="top: 20%; left: 5%;">{;}</div>
+
+<div aria-hidden="true" class="float-element" style="top: 60%; right: 10%;">&ordm;&bull;&ordm;</div>
+
+<div aria-hidden="true" class="float-element" style="bottom: 30%; left: 15%;">&lt;/&gt;</div>
+
+<div aria-hidden="true" class="float-element" style="top: 40%; right: 20%;">[*]</div>
+
+<div aria-hidden="true" class="float-element" style="top: 80%; left: 50%;">::</div>
+<!-- Console message for developers -->
+
+<div aria-live="polite" class="console-message" id="console-msg" role="status">&gt; SROC systems online 🟢<br />
+&gt; No crypto detected ✓<br />
+&gt; Squirrels: definitely watching 🐿️<br />
+&gt; Easter eggs: multiple 🥚</div>
+<script>
+        // ASCII characters and emojis for particle field
+        const asciiChars = ['*', '+', '.', ':', '~', '^', '°', '¤', '§', '¢', '£', '¥', '×', '÷', '=', '_', '-', '|', '/', '\\'];
+        const emojiChars = ['✨', '🌟', '💫', '⭐', '🌠', '🔮', '💎', '🦋', '🌈', '🍃', '🌸', '🎨', '🎭', '🎪', '🎯', '🎲', '🧩', '🔥', '❄️', '🌊'];
+        
+        // Generate ASCII to Emoji particle field
+        const particleField = document.getElementById('particleField');
+        const particleCount = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 40;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle-char';
+            
+            const x = Math.random() * 100;
+            const isEmoji = x > 50;
+            const charSet = isEmoji ? emojiChars : asciiChars;
+            const char = charSet[Math.floor(Math.random() * charSet.length)];
+            
+            particle.textContent = char;
+            particle.style.left = x + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particle.style.color = isEmoji ? 'inherit' : `hsl(${Math.random() * 60 + 180}, 100%, 70%)`;
+            
+            particleField.appendChild(particle);
+        }
+
+        // Terminal game data
+        const unitData = {
+            indigenymy: {
+                name: 'INDIGENYMY',
+                description: 'Digital cartography archive focused on Indigenous toponymy',
+                details: [
+                    '> Initializing toponymy database...',
+                    '> Loading contemporary orthographies...',
+                    '> Mapping stories across territories...',
+                    '> STATUS: Preserving place-based knowledge ✓'
+                ]
+            },
+            omod: {
+                name: 'OMOD',
+                description: 'Orthographic Mapping Ondemand Datasystem',
+                details: [
+                    '> Booting phonetic analysis engine...',
+                    '> Loading IPA translation matrix...',
+                    '> Syncing with global linguistic databases...',
+                    '> STATUS: Orthographic-phonetic bridge active ✓'
+                ]
+            },
+            defrag: {
+                name: 'DEFRAG',
+                description: 'Urban-wildland interface research centre',
+                details: [
+                    '> Scanning citizen science observations...',
+                    '> Processing nature interaction data...',
+                    '> Analyzing urban-wild boundaries...',
+                    '> STATUS: Ecosystem monitoring online ✓'
+                ]
+            },
+            factso: {
+                name: 'FACTSO',
+                description: 'Wild dispensary of historical source material',
+                details: [
+                    '> Accessing archival databases...',
+                    '> Retrieving lost Geocities pages...',
+                    '> Digitizing local history collections...',
+                    '> STATUS: Time machine operational ✓'
+                ]
+            },
+            sqrrdg: {
+                name: 'SQRRDG',
+                description: 'Civic transformation idea incubator',
+                details: [
+                    '> Loading innovation protocols...',
+                    '> Connecting to sqrrdg GitHub repos...',
+                    '> Generating civic transformation ideas...',
+                    '> STATUS: Ideation engine running ✓'
+                ]
+            }
+        };
+
+        // Terminal commands
+        const commands = {
+            help: {
+                output: [
+                    '> Available commands:',
+                    '  HELP - Show this message',
+                    '  LIST - List all initiatives',
+                    '  INFO <initiative> - Get info about an initiative',
+                    '  SQUIRREL - 🐿️',
+                    '  CLEAR - Clear terminal',
+                    '  ABOUT - Learn about SROC',
+                    '  TEAM - Meet the team',
+                    '  KONAMI - You know what to do'
+                ]
+            },
+            list: {
+                output: [
+                    '> Active SROC Initiatives:',
+                    '  - INDIGENYMY (Digital Toponymy)',
+                    '  - OMOD (Orthographic Mapping)',
+                    '  - DEFRAG (Urban-Wildland Research)',
+                    '  - FACTSO (Historical Archives)',
+                    '  - SQRRDG (Civic Innovation)'
+                ]
+            },
+            squirrel: {
+                output: [
+                    '> 🐿️ *chittering noises* 🐿️',
+                    '> A squirrel has been dispatched to your location.',
+                    '> Please have acorns ready.'
+                ]
+            },
+            clear: {
+                action: 'clear'
+            },
+            konami: {
+                output: [
+                    '> ↑↑↓↓←→←→BA',
+                    '> Nice try, but you have to actually do it!'
+                ]
+            },
+            about: {
+                output: [
+                    '> SQUIRREL RIDGE OBSERVATORY CENTRE',
+                    '> Established: [REDACTED]',
+                    '> Location: Where the trees meet the sky',
+                    '> Mission: Observe. Archive. Transform.',
+                    '> Status: NO CRYPTO DETECTED ✓'
+                ]
+            },
+            team: {
+                output: [
+                    '> SROC TEAM:',
+                    '> Executive Director: Jay Gerbrandt',
+                    '> Chief Squirrel Officer: [CLASSIFIED]',
+                    '> Archivist Emeritus: The Internet',
+                    '> Contact: jay@squirrelridge.org'
+                ]
+            },
+            // Hidden commands
+            matrix: {
+                output: [
+                    '> Wake up, Neo...',
+                    '> The squirrels have you...',
+                    '> Follow the white rabbit. 🐇',
+                    '> Knock, knock, Neo.'
+                ]
+            },
+            sudo: {
+                output: [
+                    '> Nice try, but squirrels don\'t need sudo.',
+                    '> 🐿️ has all permissions by default.'
+                ]
+            },
+            dance: {
+                output: [
+                    '> ♪┏(・o･)┛♪┗ ( ･o･) ┓♪',
+                    '> The terminal is dancing!',
+                    '> Even the cursor is grooving ~'
+                ]
+            },
+            weather: {
+                output: [
+                    '> SQUIRREL RIDGE WEATHER:',
+                    '> Currently: Partially nutty',
+                    '> High: Tree-top level',
+                    '> Low: Burrow depth',
+                    '> Chance of acorns: 87%'
+                ]
+            },
+            hello: {
+                output: [
+                    '> Hello, friend.',
+                    '> Welcome to SROC.',
+                    '> The squirrels have been expecting you.'
+                ]
+            },
+            pwd: {
+                output: [
+                    '> /home/squirrel/observatory/centre',
+                    '> You are here: 🌲🐿️🏔️'
+                ]
+            },
+            ls: {
+                output: [
+                    '> .',
+                    '> ..',
+                    '> acorns/',
+                    '> observations/',
+                    '> secret_plans/',
+                    '> definitely_not_crypto/'
+                ]
+            },
+            whoami: {
+                output: [
+                    '> You are a visitor to SROC',
+                    '> Security clearance: ACORN',
+                    '> Squirrel trust level: PENDING'
+                ]
+            },
+            exit: {
+                output: [
+                    '> You can check out any time you like,',
+                    '> But you can never leave.',
+                    '> 🎸 *guitar solo* 🎸'
+                ]
+            },
+            vim: {
+                output: [
+                    '> You are now trapped in vim.',
+                    '> May the squirrels have mercy on your soul.',
+                    '> (Type :q! to pretend to exit)'
+                ]
+            },
+            ':q!': {
+                output: [
+                    '> Nice try escaping vim!',
+                    '> But this is just a terminal simulator.',
+                    '> The squirrels are impressed though.'
+                ]
+            }
+        };
+
+        // Terminal game functionality
+        const gameUnits = document.querySelectorAll('.game-unit');
+        const terminalOutput = document.getElementById('terminalOutput');
+        const terminalInput = document.getElementById('terminalInput');
+        let currentUnit = null;
+
+        function typeTerminalLine(text, delay = 0) {
+            setTimeout(() => {
+                const line = document.createElement('div');
+                line.className = 'terminal-line';
+                line.textContent = text;
+                terminalOutput.appendChild(line);
+                
+                // Keep only last 10 lines
+                const lines = terminalOutput.querySelectorAll('.terminal-line');
+                if (lines.length > 10) {
+                    lines[0].remove();
+                }
+                
+                // Scroll to bottom
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                playSound('type');
+            }, delay);
+        }
+
+        gameUnits.forEach(unit => {
+            unit.addEventListener('click', () => selectUnit(unit));
+            unit.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    selectUnit(unit);
+                }
+            });
+        });
+
+        function selectUnit(unit) {
+            // Remove active state from all units
+            gameUnits.forEach(u => u.classList.remove('active'));
+            unit.classList.add('active');
+            
+            const unitKey = unit.dataset.unit;
+            const data = unitData[unitKey];
+            
+            // Clear terminal
+            terminalOutput.innerHTML = '';
+            
+            // Type out unit information
+            typeTerminalLine(`> ACCESSING ${data.name} SUBSYSTEM...`, 0);
+            typeTerminalLine(`> ${data.description}`, 500);
+            
+            data.details.forEach((detail, index) => {
+                typeTerminalLine(detail, 1000 + (index * 500));
+            });
+            
+            playSound('success');
+        }
+
+        // Terminal input handling
+        terminalInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const command = terminalInput.value.toLowerCase().trim();
+                terminalInput.value = '';
+                
+                // Show user input
+                typeTerminalLine(`> ${command}`, 0);
+                
+                // Process command
+                if (command in commands) {
+                    const cmd = commands[command];
+                    if (cmd.action === 'clear') {
+                        terminalOutput.innerHTML = '';
+                    } else {
+                        cmd.output.forEach((line, index) => {
+                            typeTerminalLine(line, 200 + (index * 100));
+                        });
+                    }
+                } else if (command.startsWith('info ')) {
+                    const unitName = command.substring(5);
+                    const unit = Object.keys(unitData).find(key => key === unitName);
+                    if (unit) {
+                        const data = unitData[unit];
+                        typeTerminalLine(`> ${data.name}: ${data.description}`, 200);
+                    } else {
+                        typeTerminalLine('> Initiative not found. Try LIST to see all.', 200);
+                    }
+                } else {
+                    typeTerminalLine('> Command not recognized. Type HELP for commands.', 200);
+                }
+                
+                playSound('click');
+            }
+        });
+
+        // Focus terminal input when clicking terminal
+        document.querySelector('.arcade-terminal').addEventListener('click', () => {
+            terminalInput.focus();
+        });
+
+        // Konami code easter egg
+        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiIndex = 0;
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === konamiCode[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiCode.length) {
+                    document.getElementById('console-msg').style.display = 'block';
+                    typeTerminalLine('> KONAMI CODE ACCEPTED - EASTER EGG UNLOCKED! 🥚');
+                    playSound('squirrel');
+                    setTimeout(() => {
+                        document.getElementById('console-msg').style.display = 'none';
+                    }, 5000);
+                    konamiIndex = 0;
+                }
+            } else {
+                konamiIndex = 0;
+            }
+        });
+
+        // Logo interactive effect
+        const logo = document.querySelector('.logo');
+        let mouseX = 0, mouseY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX / window.innerWidth - 0.5;
+            mouseY = e.clientY / window.innerHeight - 0.5;
+            
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                logo.style.transform = `perspective(100px) rotateY(${mouseX * 10}deg) rotateX(${-mouseY * 10}deg)`;
+            }
+        });
+
+        // Sound effects (using Web Audio API)
+        let soundEnabled = true;
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (!soundEnabled || !audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            switch(type) {
+                case 'hover':
+                    oscillator.frequency.value = 800;
+                    gainNode.gain.value = 0.1;
+                    break;
+                case 'click':
+                    oscillator.frequency.value = 1200;
+                    gainNode.gain.value = 0.2;
+                    break;
+                case 'success':
+                    oscillator.frequency.value = 1600;
+                    gainNode.gain.value = 0.3;
+                    break;
+                case 'type':
+                    oscillator.frequency.value = 600;
+                    gainNode.gain.value = 0.05;
+                    break;
+                case 'squirrel':
+                    // Squirrel chittering sound (rapid frequency changes)
+                    oscillator.frequency.setValueAtTime(2000, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(3000, audioContext.currentTime + 0.1);
+                    oscillator.frequency.exponentialRampToValueAtTime(2500, audioContext.currentTime + 0.2);
+                    gainNode.gain.value = 0.2;
+                    break;
+            }
+            
+            oscillator.start();
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            oscillator.stop(audioContext.currentTime + 0.2);
+        }
+
+        // Add sound to interactions
+        document.querySelectorAll('.initiative-card, .feature-btn, nav a').forEach(el => {
+            el.addEventListener('mouseenter', () => playSound('hover'));
+            el.addEventListener('click', () => playSound('click'));
+        });
+
+        // Interactive features
+        let particlesVisible = true;
+        function toggleParticles() {
+            particlesVisible = !particlesVisible;
+            particleField.style.display = particlesVisible ? 'block' : 'none';
+            playSound('click');
+        }
+
+        function activateCelebration() {
+            const celebration = document.createElement('div');
+            celebration.className = 'celebration';
+            celebration.textContent = '🐿️';
+            document.body.appendChild(celebration);
+            playSound('squirrel');
+            
+            setTimeout(() => celebration.remove(), 2000);
+        }
+
+        let currentTheme = 0;
+        const themes = [
+            { primary: '#0a0a0f', accent: '#ffd700', terminal: '#00ff00' },
+            { primary: '#1a0033', accent: '#ff006e', terminal: '#ff00ff' },
+            { primary: '#001a33', accent: '#00ffff', terminal: '#00ffff' },
+            { primary: '#0a2e0a', accent: '#00ff88', terminal: '#ffb000' }
+        ];
+
+        function changeTheme() {
+            currentTheme = (currentTheme + 1) % themes.length;
+            document.documentElement.style.setProperty('--bg-primary', themes[currentTheme].primary);
+            document.documentElement.style.setProperty('--accent-yellow', themes[currentTheme].accent);
+            document.documentElement.style.setProperty('--terminal-green', themes[currentTheme].terminal);
+            playSound('click');
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('soundToggle').textContent = soundEnabled ? '🔊' : '🔇';
+            playSound('click');
+        }
+
+        // Console messages for developers
+        console.log('%c🐿️ SROC DISCOVERY TERMINAL', 'color: #00ff00; font-size: 30px; font-weight: bold; text-shadow: 0 0 10px #00ff00;');
+        console.log('%cWelcome to the mainframe!', 'color: #00ffff; font-size: 16px;');
+        console.log('%c✨ Try the Konami code: ↑↑↓↓←→←→BA', 'color: #ff006e;');
+        console.log('%c🎮 Type HELP in the terminal for commands!', 'color: #00ff88;');
+        console.log('%c🚫 Still no blockchain, still no NFTs', 'color: #9d4edd;');
+        console.log('%c📧 jay@squirrelridge.org', 'color: #ffd700;');
+    </script></body>
+</html>
