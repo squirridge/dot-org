@@ -5,50 +5,164 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OMOD Documentation - Orthographic Mapping Ondemand Datasystem | SROC</title>
     <meta name="description" content="Technical documentation for the OMOD orthographic-phonetic mapping system. Learn about orthogons, glyphons, interphons, and how to contribute language mappings.">
-    <meta name="keywords" content="OMOD documentation, orthographic mapping, phonetic transcription, IPA notation, linguistic software docs">
-
+    <meta name="keywords" content="OMOD documentation, orthographic mapping, phonetic transcription, IPA notation, linguistic software docs, orthogon, glyphon, interphon, orthoset, languoid">
+    
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://squirrelridge.org/omod/docs/">
+    <link rel="canonical" href="https://squirrelridge.org/omod/docs">
+    
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://squirrelridge.org/assets/sroc-logo.png">
     <link rel="apple-touch-icon" href="https://squirrelridge.org/assets/sroc-logo.png">
     <link rel="shortcut icon" href="https://squirrelridge.org/assets/sroc-logo.png">
+    
+    <!-- Theme and Browser Configuration -->
+    <meta name="theme-color" content="#ffd700">
+    <meta name="color-scheme" content="dark">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Jay Gerbrandt">
+    <meta name="organization" content="Squirrel Ridge Observatory Centre">
+    
+    <!-- Open Graph (Facebook, LinkedIn) -->
+    <meta property="og:site_name" content="Squirrel Ridge Observatory Centre">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="OMOD Documentation - Orthographic Mapping System | SROC">
+    <meta property="og:description" content="Comprehensive technical documentation for OMOD. Learn how to map orthography to phonetics using IPA notation across world languages.">
+    <meta property="og:url" content="https://squirrelridge.org/omod/docs">
+    <meta property="og:image" content="https://squirrelridge.org/assets/omod-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_CA">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@squirridge">
+    <meta name="twitter:creator" content="@jaygerbrandt">
+    <meta name="twitter:title" content="OMOD Documentation - Technical Guide">
+    <meta name="twitter:description" content="Learn how to use and contribute to OMOD, the orthographic-phonetic mapping system. Full technical documentation and examples.">
+    <meta name="twitter:image" content="https://squirrelridge.org/assets/omod-preview.png">
+    
     <!-- Fonts -->
     <link rel="preload" href="/assets/woff2/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/woff2/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin>
     <link href="/assets/fira-code.css" rel="stylesheet" />
-
-    <!-- JSON-LD for Documentation -->
+    
+    <!-- Structured Data -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "OMOD Documentation - Orthographic Mapping System",
-        "description": "Comprehensive technical documentation for the OMOD system",
+        "description": "Comprehensive technical documentation for the OMOD orthographic-phonetic mapping system",
         "url": "https://squirrelridge.org/omod/docs",
         "author": {
             "@type": "Organization",
-            "name": "Squirrel Ridge Observatory Centre"
+            "name": "Squirrel Ridge Observatory Centre",
+            "url": "https://squirrelridge.org"
         },
-        "datePublished": "2025-05-26",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Squirrel Ridge Observatory Centre",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://squirrelridge.org/assets/sroc-logo.png"
+            }
+        },
+        "datePublished": "2025-01-01",
         "dateModified": "2025-05-28",
-        "keywords": ["orthography", "phonetics", "IPA", "linguistics", "mapping"],
+        "keywords": ["orthography", "phonetics", "IPA", "linguistics", "mapping", "documentation"],
         "articleSection": "Technical Documentation",
+        "inLanguage": "en-CA",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "OMOD - Orthographic Mapping Ondemand Datasystem",
+            "url": "https://squirrelridge.org/omod"
+        },
         "hasPart": [
             {
                 "@type": "HowTo",
                 "name": "Contributing to OMOD",
+                "description": "Step-by-step guide to adding new language mappings",
                 "step": [
-                    {"@type": "HowToStep", "text": "Use the repository on GitHub"},
-                    {"@type": "HowToStep", "text": "Create a languoid folder"},
-                    {"@type": "HowToStep", "text": "Implement required files"},
-                    {"@type": "HowToStep", "text": "Validate your data"},
-                    {"@type": "HowToStep", "text": "Submit a pull request"}
+                    {
+                        "@type": "HowToStep",
+                        "name": "Fork Repository",
+                        "text": "Fork the repository on GitHub"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "name": "Create Languoid",
+                        "text": "Create a languoid folder following the naming convention"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "name": "Implement Files",
+                        "text": "Implement required files: data, languoid metadata, orthoset definitions, schema"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "name": "Validate Data",
+                        "text": "Validate your data against the schema"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "name": "Submit PR",
+                        "text": "Submit a pull request with description of changes"
+                    }
                 ]
+            }
+        ],
+        "about": [
+            {
+                "@type": "Thing",
+                "name": "Orthogon",
+                "description": "A single mapping between a written form and its pronunciation"
+            },
+            {
+                "@type": "Thing",
+                "name": "Glyphon",
+                "description": "The orthographic unit - the written character or character sequence"
+            },
+            {
+                "@type": "Thing",
+                "name": "Interphon",
+                "description": "The phonetic representation in IPA notation"
+            },
+            {
+                "@type": "Thing",
+                "name": "Orthoset",
+                "description": "A collection of orthogons representing a specific writing system"
+            },
+            {
+                "@type": "Thing",
+                "name": "Languoid",
+                "description": "Any linguistic variety - languages, dialects, sociolects, or language continuums"
             }
         ]
     }
-    </script>   
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://squirrelridge.org"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "OMOD",
+            "item": "https://squirrelridge.org/omod"
+        },{
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Documentation",
+            "item": "https://squirrelridge.org/omod/docs"
+        }]
+    }
+    </script>
     
     <style>
         :root {
