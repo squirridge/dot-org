@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPA Terminal - Interactive Phonetic Keyboard | SROC</title>
+    <meta name="description" content="Professional IPA keyboard for linguists, language learners, and researchers. Input phonetic transcriptions with click-to-add IPA characters, diacritics, and prosodic markers.">
+    <meta name="keywords" content="IPA keyboard, International Phonetic Alphabet, phonetic transcription, linguistics tools, IPA input, phonetics, language learning, linguistic research">
+    <meta name="author" content="Squirrel Ridge Observatory Centre">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://squirrelridge.org/ipa">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://squirrelridge.org/ipa">
+    <meta property="og:title" content="IPA Terminal - Interactive Phonetic Keyboard | SROC">
+    <meta property="og:description" content="Professional IPA keyboard for phonetic transcription. Click-to-add interface with comprehensive IPA character coverage.">
+    <meta property="og:image" content="https://squirrelridge.org/assets/ipa-terminal-preview.png">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="Squirrel Ridge Observatory Centre">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@squirridge">
+    <meta name="twitter:title" content="IPA Terminal - Interactive Phonetic Keyboard">
+    <meta name="twitter:description" content="Professional IPA keyboard for linguists and language learners. Comprehensive phonetic transcription tool.">
+    <meta name="twitter:image" content="https://squirrelridge.org/assets/ipa-terminal-preview.png">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "IPA Terminal",
+        "alternateName": "International Phonetic Alphabet Keyboard",
+        "description": "Professional IPA keyboard for phonetic transcription with comprehensive character coverage",
+        "url": "https://squirrelridge.org/ipa",
+        "applicationCategory": "Linguistics Tool",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "Squirrel Ridge Observatory Centre",
+            "url": "https://squirrelridge.org"
+        },
+        "audience": [
+            {
+                "@type": "Audience",
+                "audienceType": "Linguists"
+            },
+            {
+                "@type": "Audience", 
+                "audienceType": "Language Learners"
+            },
+            {
+                "@type": "Audience",
+                "audienceType": "Researchers"
+            },
+            {
+                "@type": "Audience",
+                "audienceType": "Speech Therapists"
+            }
+        ],
+        "featureList": [
+            "Click-to-add IPA characters",
+            "Comprehensive vowel matrix",
+            "Complete consonant inventory", 
+            "Diacritics and modifiers",
+            "Prosodic markers",
+            "Copy to clipboard",
+            "Keyboard shortcuts",
+            "Character counter"
+        ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://squirrelridge.org"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "IPA Terminal",
+            "item": "https://squirrelridge.org/ipa"
+        }]
+    }
+    </script>
+    
+    <!-- Preload fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://squirrelridge.org/assets/sroc-logo.png">
+    <link rel="apple-touch-icon" href="https://squirrelridge.org/assets/sroc-logo.png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fira Code', 'Courier New', 'Monaco', 'Lucida Console', monospace;
+            background: #0a0a0a;
+            color: #00ff41;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.4;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #111;
+            border: 2px solid #333;
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+        }
+
+        .header {
+            background: #1a1a1a;
+            border-bottom: 1px solid #333;
+            padding: 20px 30px;
+            position: relative;
+        }
+
+        .header::before {
+            content: "█";
+            color: #00ff41;
+            margin-right: 8px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: inline;
+            color: #00ff41;
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+        }
+
+        .header p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .output-section {
+            margin-bottom: 30px;
+        }
+
+        .output-label {
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .output-label::before {
+            content: "$ ";
+            color: #00ff41;
+        }
+
+        .output-box {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            font-size: 1.2rem;
+            font-family: 'Fira Code', monospace;
+            background: #000;
+            color: #00ff41;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .output-box:focus {
+            outline: none;
+            border-color: #00ff41;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+        }
+
+        .output-box::placeholder {
+            color: #444;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            background: #1a1a1a;
+            color: #888;
+        }
+
+        .btn:hover {
+            background: #333;
+            color: #00ff41;
+            border-color: #00ff41;
+            box-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
+        }
+
+        .btn-primary {
+            background: #003300;
+            color: #00ff41;
+            border-color: #006600;
+        }
+
+        .btn-primary:hover {
+            background: #006600;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
+        }
+
+        .keyboard-section {
+            display: grid;
+            gap: 25px;
+        }
+
+        .ipa-group {
+            border: 1px solid #333;
+            border-radius: 4px;
+            background: #0d0d0d;
+        }
+
+        .group-header {
+            background: #1a1a1a;
+            padding: 12px 20px;
+            color: #00ff41;
+            border-bottom: 1px solid #333;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .group-header::before {
+            content: "▶ ";
+            margin-right: 8px;
+        }
+
+        .group-content {
+            padding: 20px;
+        }
+
+        .char-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 8px;
+        }
+
+        .ipa-char {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 8px;
+            border: 1px solid #222;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s;
+            background: #111;
+            min-height: 75px;
+            justify-content: center;
+        }
+
+        .ipa-char:hover {
+            background: #003300;
+            color: #00ff41;
+            border-color: #006600;
+            box-shadow: 0 0 8px rgba(0, 255, 65, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .char-symbol {
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 4px;
+            font-family: 'Fira Code', monospace;
+            color: #00ff41;
+        }
+
+        .char-label {
+            font-size: 0.65rem;
+            text-align: center;
+            line-height: 1.1;
+            color: #666;
+            text-transform: lowercase;
+        }
+
+        .ipa-char:hover .char-label {
+            color: #999;
+        }
+
+        .subgroup {
+            margin-bottom: 20px;
+        }
+
+        .subgroup:last-child {
+            margin-bottom: 0;
+        }
+
+        .subgroup-title {
+            color: #888;
+            margin-bottom: 12px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .subgroup-title::before {
+            content: "// ";
+            color: #444;
+        }
+
+        .statusbar {
+            border-top: 1px solid #333;
+            padding: 8px 20px;
+            display: flex;
+            gap: 1px;
+            background: #1a1a1a;
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: #666;
+            justify-content: space-between;
+        }
+
+        .statusbar-section {
+            border: 1px solid;
+            border-color: #444 #666 #666 #444;
+            padding: 2px 8px;
+            background: #111;
+        }
+
+        /* Glitch effect for copy confirmation */
+        .glitch {
+            animation: glitch 0.3s;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        /* Terminal-style scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #111;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .char-grid {
+                grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+            }
+            
+            .ipa-char {
+                min-height: 65px;
+                padding: 8px 4px;
+            }
+            
+            .char-symbol {
+                font-size: 1.3rem;
+            }
+            
+            .char-label {
+                font-size: 0.6rem;
+            }
+            
+            .controls {
+                gap: 5px;
+            }
+            
+            .btn {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
+        }
+
+        /* Accessibility improvements */
+        .ipa-char:focus {
+            outline: 2px solid #00ff41;
+            outline-offset: 2px;
+        }
+
+        .btn:focus {
+            outline: 2px solid #00ff41;
+            outline-offset: 2px;
+        }
+
+        /* Loading animation */
+        .loading {
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container loading">
+        <div class="header">
+            <h1>IPA.TERMINAL</h1>
+            <p>// orthographic-phonetic mapping interface // squirrelridge digital linguistics</p>
+        </div>
+
+        <div class="main-content">
+            <div class="output-section">
+                <div class="output-label">phonetic_output.txt</div>
+                <textarea id="output" class="output-box" placeholder="// enter phonetic transcription here // click symbols below to populate" aria-label="IPA transcription output"></textarea>
+            </div>
+
+            <div class="controls">
+                <button class="btn" onclick="clearOutput()" title="Clear output (Ctrl+L)" aria-label="Clear output">clear</button>
+                <button class="btn" onclick="addSpace()" aria-label="Add space">[space]</button>
+                <button class="btn" onclick="addSlashes()" title="Add phonemic slashes (Ctrl+/)" aria-label="Add phonemic slashes">/phonemic/</button>
+                <button class="btn" onclick="addBrackets()" title="Add phonetic brackets (Ctrl+[)" aria-label="Add phonetic brackets">[phonetic]</button>
+                <button class="btn btn-primary" onclick="copyOutput()" aria-label="Copy to clipboard">copy_to_buffer</button>
+            </div>
+
+            <div class="keyboard-section">
+                <!-- Vowels -->
+                <div class="ipa-group">
+                    <div class="group-header">vowel_matrix</div>
+                    <div class="group-content">
+                        <div class="subgroup">
+                            <div class="subgroup-title">front_vowels</div>
+                            <div class="char-grid">
+                                <div class="ipa-char" onclick="addChar('i')" tabindex="0" role="button" aria-label="i: close front unrounded">
+                                    <div class="char-symbol">i</div>
+                                    <div class="char-label">close front unrounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɪ')" tabindex="0" role="button" aria-label="ɪ: near-close front unrounded">
+                                    <div class="char-symbol">ɪ</div>
+                                    <div class="char-label">near-close front unrounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('e')" tabindex="0" role="button" aria-label="e: close-mid front unrounded">
+                                    <div class="char-symbol">e</div>
+                                    <div class="char-label">close-mid front unrounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɛ')" tabindex="0" role="button" aria-label="ɛ: open-mid front unrounded">
+                                    <div class="char-symbol">ɛ</div>
+                                    <div class="char-label">open-mid front unrounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('æ')" tabindex="0" role="button" aria-label="æ: near-open front unrounded">
+                                    <div class="char-symbol">æ</div>
+                                    <div class="char-label">near-open front unrounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('a')" tabindex="0" role="button" aria-label="a: open front unrounded">
+                                    <div class="char-symbol">a</div>
+                                    <div class="char-label">open front unrounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('y')" tabindex="0" role="button" aria-label="y: close front rounded">
+                                    <div class="char-symbol">y</div>
+                                    <div class="char-label">close front rounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ø')" tabindex="0" role="button" aria-label="ø: close-mid front rounded">
+                                    <div class="char-symbol">ø</div>
+                                    <div class="char-label">close-mid front rounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('œ')" tabindex="0" role="button" aria-label="œ: open-mid front rounded">
+                                    <div class="char-symbol">œ</div>
+                                    <div class="char-label">open-mid front rounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɶ')" tabindex="0" role="button" aria-label="ɶ: open front rounded">
+                                    <div class="char-symbol">ɶ</div>
+                                    <div class="char-label">open front rounded</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="subgroup">
+                            <div class="subgroup-title">central_vowels</div>
+                            <div class="char-grid">
+                                <div class="ipa-char" onclick="addChar('ɨ')" tabindex="0" role="button" aria-label="ɨ: close central unrounded">
+                                    <div class="char-symbol">ɨ</div>
+                                    <div class="char-label">close central unrounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ʉ')" tabindex="0" role="button" aria-label="ʉ: close central rounded">
+                                    <div class="char-symbol">ʉ</div>
+                                    <div class="char-label">close central rounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɘ')" tabindex="0" role="button" aria-label="ɘ: close-mid central unrounded">
+                                    <div class="char-symbol">ɘ</div>
+                                    <div class="char-label">close-mid central unrounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɵ')" tabindex="0" role="button" aria-label="ɵ: close-mid central rounded">
+                                    <div class="char-symbol">ɵ</div>
+                                    <div class="char-label">close-mid central rounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ə')" tabindex="0" role="button" aria-label="ə: mid central unrounded (schwa)">
+                                    <div class="char-symbol">ə</div>
+                                    <div class="char-label">mid central unrounded (schwa)</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɚ')" tabindex="0" role="button" aria-label="ɚ: r-colored schwa">
+                                    <div class="char-symbol">ɚ</div>
+                                    <div class="char-label">r-colored schwa</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɐ')" tabindex="0" role="button" aria-label="ɐ: near-open central unrounded">
+                                    <div class="char-symbol">ɐ</div>
+                                    <div class="char-label">near-open central unrounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɜ')" tabindex="0" role="button" aria-label="ɜ: open-mid central unrounded">
+                                    <div class="char-symbol">ɜ</div>
+                                    <div class="char-label">open-mid central unrounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɝ')" tabindex="0" role="button" aria-label="ɝ: r-colored open-mid central">
+                                    <div class="char-symbol">ɝ</div>
+                                    <div class="char-label">r-colored open-mid central</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɞ')" tabindex="0" role="button" aria-label="ɞ: open-mid central rounded">
+                                    <div class="char-symbol">ɞ</div>
+                                    <div class="char-label">open-mid central rounded</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="subgroup">
+                            <div class="subgroup-title">back_vowels</div>
+                            <div class="char-grid">
+                                <div class="ipa-char" onclick="addChar('u')" tabindex="0" role="button" aria-label="u: close back rounded">
+                                    <div class="char-symbol">u</div>
+                                    <div class="char-label">close back rounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ʊ')" tabindex="0" role="button" aria-label="ʊ: near-close back rounded">
+                                    <div class="char-symbol">ʊ</div>
+                                    <div class="char-label">near-close back rounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('o')" tabindex="0" role="button" aria-label="o: close-mid back rounded">
+                                    <div class="char-symbol">o</div>
+                                    <div class="char-label">close-mid back rounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɔ')" tabindex="0" role="button" aria-label="ɔ: open-mid back rounded">
+                                    <div class="char-symbol">ɔ</div>
+                                    <div class="char-label">open-mid back rounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɒ')" tabindex="0" role="button" aria-label="ɒ: open back rounded">
+                                    <div class="char-symbol">ɒ</div>
+                                    <div class="char-label">open back rounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɯ')" tabindex="0" role="button" aria-label="ɯ: close back unrounded">
+                                    <div class="char-symbol">ɯ</div>
+                                    <div class="char-label">close back unrounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɤ')" tabindex="0" role="button" aria-label="ɤ: close-mid back unrounded">
+                                    <div class="char-symbol">ɤ</div>
+                                    <div class="char-label">close-mid back unrounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ʌ')" tabindex="0" role="button" aria-label="ʌ: open-mid back unrounded">
+                                    <div class="char-symbol">ʌ</div>
+                                    <div class="char-label">open-mid back unrounded</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɑ')" tabindex="0" role="button" aria-label="ɑ: open back unrounded">
+                                    <div class="char-symbol">ɑ</div>
+                                    <div class="char-label">open back unrounded</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Consonants: Stops & Affricates -->
+                <div class="ipa-group">
+                    <div class="group-header">consonant_matrix.stops_affricates</div>
+                    <div class="group-content">
+                        <div class="subgroup">
+                            <div class="subgroup-title">plosives</div>
+                            <div class="char-grid">
+                                <div class="ipa-char" onclick="addChar('p')" tabindex="0" role="button" aria-label="p: voiceless bilabial stop">
+                                    <div class="char-symbol">p</div>
+                                    <div class="char-label">voiceless bilabial stop</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('b')" tabindex="0" role="button" aria-label="b: voiced bilabial stop">
+                                    <div class="char-symbol">b</div>
+                                    <div class="char-label">voiced bilabial stop</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('t')" tabindex="0" role="button" aria-label="t: voiceless alveolar stop">
+                                    <div class="char-symbol">t</div>
+                                    <div class="char-label">voiceless alveolar stop</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('d')" tabindex="0" role="button" aria-label="d: voiced alveolar stop">
+                                    <div class="char-symbol">d</div>
+                                    <div class="char-label">voiced alveolar stop</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ʈ')" tabindex="0" role="button" aria-label="ʈ: voiceless retroflex stop">
+                                    <div class="char-symbol">ʈ</div>
+                                    <div class="char-label">voiceless retroflex stop</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɖ')" tabindex="0" role="button" aria-label="ɖ: voiced retroflex stop">
+                                    <div class="char-symbol">ɖ</div>
+                                    <div class="char-label">voiced retroflex stop</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('c')" tabindex="0" role="button" aria-label="c: voiceless palatal stop">
+                                    <div class="char-symbol">c</div>
+                                    <div class="char-label">voiceless palatal stop</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɟ')" tabindex="0" role="button" aria-label="ɟ: voiced palatal stop">
+                                    <div class="char-symbol">ɟ</div>
+                                    <div class="char-label">voiced palatal stop</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('k')" tabindex="0" role="button" aria-label="k: voiceless velar stop">
+                                    <div class="char-symbol">k</div>
+                                    <div class="char-label">voiceless velar stop</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('g')" tabindex="0" role="button" aria-label="g: voiced velar stop">
+                                    <div class="char-symbol">g</div>
+                                    <div class="char-label">voiced velar stop</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('q')" tabindex="0" role="button" aria-label="q: voiceless uvular stop">
+                                    <div class="char-symbol">q</div>
+                                    <div class="char-label">voiceless uvular stop</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɢ')" tabindex="0" role="button" aria-label="ɢ: voiced uvular stop">
+                                    <div class="char-symbol">ɢ</div>
+                                    <div class="char-label">voiced uvular stop</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ʔ')" tabindex="0" role="button" aria-label="ʔ: glottal stop">
+                                    <div class="char-symbol">ʔ</div>
+                                    <div class="char-label">glottal stop</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɓ')" tabindex="0" role="button" aria-label="ɓ: implosive bilabial">
+                                    <div class="char-symbol">ɓ</div>
+                                    <div class="char-label">implosive bilabial</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɗ')" tabindex="0" role="button" aria-label="ɗ: implosive alveolar">
+                                    <div class="char-symbol">ɗ</div>
+                                    <div class="char-label">implosive alveolar</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ʄ')" tabindex="0" role="button" aria-label="ʄ: implosive palatal">
+                                    <div class="char-symbol">ʄ</div>
+                                    <div class="char-label">implosive palatal</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɠ')" tabindex="0" role="button" aria-label="ɠ: implosive velar">
+                                    <div class="char-symbol">ɠ</div>
+                                    <div class="char-label">implosive velar</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ʛ')" tabindex="0" role="button" aria-label="ʛ: implosive uvular">
+                                    <div class="char-symbol">ʛ</div>
+                                    <div class="char-label">implosive uvular</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="subgroup">
+                            <div class="subgroup-title">affricates</div>
+                            <div class="char-grid">
+                                <div class="ipa-char" onclick="addChar('ʦ')" tabindex="0" role="button" aria-label="ʦ: voiceless alveolar affricate">
+                                    <div class="char-symbol">ʦ</div>
+                                    <div class="char-label">voiceless alveolar affricate</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ʣ')" tabindex="0" role="button" aria-label="ʣ: voiced alveolar affricate">
+                                    <div class="char-symbol">ʣ</div>
+                                    <div class="char-label">voiced alveolar affricate</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ʧ')" tabindex="0" role="button" aria-label="ʧ: voiceless postalveolar affricate">
+                                    <div class="char-symbol">ʧ</div>
+                                    <div class="char-label">voiceless postalveolar affricate</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ʤ')" tabindex="0" role="button" aria-label="ʤ: voiced postalveolar affricate">
+                                    <div class="char-symbol">ʤ</div>
+                                    <div class="char-label">voiced postalveolar affricate</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('tɬ')" tabindex="0" role="button" aria-label="tɬ: voiceless lateral affricate">
+                                    <div class="char-symbol">tɬ</div>
+                                    <div class="char-label">voiceless lateral affricate</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Consonants: Fricatives -->
+                <div class="ipa-group">
+                    <div class="group-header">consonant_matrix.fricatives</div>
+                    <div class="group-content">
+                        <div class="char-grid">
+                            <div class="ipa-char" onclick="addChar('ɸ')" tabindex="0" role="button" aria-label="ɸ: voiceless bilabial fricative">
+                                <div class="char-symbol">ɸ</div>
+                                <div class="char-label">voiceless bilabial fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('β')" tabindex="0" role="button" aria-label="β: voiced bilabial fricative">
+                                <div class="char-symbol">β</div>
+                                <div class="char-label">voiced bilabial fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('f')" tabindex="0" role="button" aria-label="f: voiceless labiodental fricative">
+                                <div class="char-symbol">f</div>
+                                <div class="char-label">voiceless labiodental fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('v')" tabindex="0" role="button" aria-label="v: voiced labiodental fricative">
+                                <div class="char-symbol">v</div>
+                                <div class="char-label">voiced labiodental fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('θ')" tabindex="0" role="button" aria-label="θ: voiceless dental fricative">
+                                <div class="char-symbol">θ</div>
+                                <div class="char-label">voiceless dental fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('ð')" tabindex="0" role="button" aria-label="ð: voiced dental fricative">
+                                <div class="char-symbol">ð</div>
+                                <div class="char-label">voiced dental fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('s')" tabindex="0" role="button" aria-label="s: voiceless alveolar fricative">
+                                <div class="char-symbol">s</div>
+                                <div class="char-label">voiceless alveolar fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('z')" tabindex="0" role="button" aria-label="z: voiced alveolar fricative">
+                                <div class="char-symbol">z</div>
+                                <div class="char-label">voiced alveolar fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('ʃ')" tabindex="0" role="button" aria-label="ʃ: voiceless postalveolar fricative">
+                                <div class="char-symbol">ʃ</div>
+                                <div class="char-label">voiceless postalveolar fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('ʒ')" tabindex="0" role="button" aria-label="ʒ: voiced postalveolar fricative">
+                                <div class="char-symbol">ʒ</div>
+                                <div class="char-label">voiced postalveolar fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('ʂ')" tabindex="0" role="button" aria-label="ʂ: voiceless retroflex fricative">
+                                <div class="char-symbol">ʂ</div>
+                                <div class="char-label">voiceless retroflex fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('ʐ')" tabindex="0" role="button" aria-label="ʐ: voiced retroflex fricative">
+                                <div class="char-symbol">ʐ</div>
+                                <div class="char-label">voiced retroflex fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('ç')" tabindex="0" role="button" aria-label="ç: voiceless palatal fricative">
+                                <div class="char-symbol">ç</div>
+                                <div class="char-label">voiceless palatal fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('ʝ')" tabindex="0" role="button" aria-label="ʝ: voiced palatal fricative">
+                                <div class="char-symbol">ʝ</div>
+                                <div class="char-label">voiced palatal fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('x')" tabindex="0" role="button" aria-label="x: voiceless velar fricative">
+                                <div class="char-symbol">x</div>
+                                <div class="char-label">voiceless velar fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('ɣ')" tabindex="0" role="button" aria-label="ɣ: voiced velar fricative">
+                                <div class="char-symbol">ɣ</div>
+                                <div class="char-label">voiced velar fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('χ')" tabindex="0" role="button" aria-label="χ: voiceless uvular fricative">
+                                <div class="char-symbol">χ</div>
+                                <div class="char-label">voiceless uvular fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('ʁ')" tabindex="0" role="button" aria-label="ʁ: voiced uvular fricative">
+                                <div class="char-symbol">ʁ</div>
+                                <div class="char-label">voiced uvular fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('ħ')" tabindex="0" role="button" aria-label="ħ: voiceless pharyngeal fricative">
+                                <div class="char-symbol">ħ</div>
+                                <div class="char-label">voiceless pharyngeal fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('ʕ')" tabindex="0" role="button" aria-label="ʕ: voiced pharyngeal fricative">
+                                <div class="char-symbol">ʕ</div>
+                                <div class="char-label">voiced pharyngeal fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('h')" tabindex="0" role="button" aria-label="h: voiceless glottal fricative">
+                                <div class="char-symbol">h</div>
+                                <div class="char-label">voiceless glottal fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('ɦ')" tabindex="0" role="button" aria-label="ɦ: voiced glottal fricative">
+                                <div class="char-symbol">ɦ</div>
+                                <div class="char-label">voiced glottal fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('ɬ')" tabindex="0" role="button" aria-label="ɬ: voiceless lateral fricative">
+                                <div class="char-symbol">ɬ</div>
+                                <div class="char-label">voiceless lateral fricative</div>
+                            </div>
+                            <div class="ipa-char" onclick="addChar('ɮ')" tabindex="0" role="button" aria-label="ɮ: voiced lateral fricative">
+                                <div class="char-symbol">ɮ</div>
+                                <div class="char-label">voiced lateral fricative</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Consonants: Nasals & Liquids -->
+                <div class="ipa-group">
+                    <div class="group-header">consonant_matrix.sonorants</div>
+                    <div class="group-content">
+                        <div class="subgroup">
+                            <div class="subgroup-title">nasals</div>
+                            <div class="char-grid">
+                                <div class="ipa-char" onclick="addChar('m')" tabindex="0" role="button" aria-label="m: bilabial nasal">
+                                    <div class="char-symbol">m</div>
+                                    <div class="char-label">bilabial nasal</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɱ')" tabindex="0" role="button" aria-label="ɱ: labiodental nasal">
+                                    <div class="char-symbol">ɱ</div>
+                                    <div class="char-label">labiodental nasal</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('n')" tabindex="0" role="button" aria-label="n: alveolar nasal">
+                                    <div class="char-symbol">n</div>
+                                    <div class="char-label">alveolar nasal</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɳ')" tabindex="0" role="button" aria-label="ɳ: retroflex nasal">
+                                    <div class="char-symbol">ɳ</div>
+                                    <div class="char-label">retroflex nasal</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɲ')" tabindex="0" role="button" aria-label="ɲ: palatal nasal">
+                                    <div class="char-symbol">ɲ</div>
+                                    <div class="char-label">palatal nasal</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ŋ')" tabindex="0" role="button" aria-label="ŋ: velar nasal">
+                                    <div class="char-symbol">ŋ</div>
+                                    <div class="char-label">velar nasal</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɴ')" tabindex="0" role="button" aria-label="ɴ: uvular nasal">
+                                    <div class="char-symbol">ɴ</div>
+                                    <div class="char-label">uvular nasal</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="subgroup">
+                            <div class="subgroup-title">liquids</div>
+                            <div class="char-grid">
+                                <div class="ipa-char" onclick="addChar('l')" tabindex="0" role="button" aria-label="l: alveolar lateral approximant">
+                                    <div class="char-symbol">l</div>
+                                    <div class="char-label">alveolar lateral approximant</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɭ')" tabindex="0" role="button" aria-label="ɭ: retroflex lateral approximant">
+                                    <div class="char-symbol">ɭ</div>
+                                    <div class="char-label">retroflex lateral approximant</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ʎ')" tabindex="0" role="button" aria-label="ʎ: palatal lateral approximant">
+                                    <div class="char-symbol">ʎ</div>
+                                    <div class="char-label">palatal lateral approximant</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ʟ')" tabindex="0" role="button" aria-label="ʟ: velar lateral approximant">
+                                    <div class="char-symbol">ʟ</div>
+                                    <div class="char-label">velar lateral approximant</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɾ')" tabindex="0" role="button" aria-label="ɾ: alveolar tap">
+                                    <div class="char-symbol">ɾ</div>
+                                    <div class="char-label">alveolar tap</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɽ')" tabindex="0" role="button" aria-label="ɽ: retroflex tap">
+                                    <div class="char-symbol">ɽ</div>
+                                    <div class="char-label">retroflex tap</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('r')" tabindex="0" role="button" aria-label="r: alveolar trill">
+                                    <div class="char-symbol">r</div>
+                                    <div class="char-label">alveolar trill</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ʀ')" tabindex="0" role="button" aria-label="ʀ: uvular trill">
+                                    <div class="char-symbol">ʀ</div>
+                                    <div class="char-label">uvular trill</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɻ')" tabindex="0" role="button" aria-label="ɻ: retroflex approximant">
+                                    <div class="char-symbol">ɻ</div>
+                                    <div class="char-label">retroflex approximant</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('j')" tabindex="0" role="button" aria-label="j: palatal approximant">
+                                    <div class="char-symbol">j</div>
+                                    <div class="char-label">palatal approximant</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɰ')" tabindex="0" role="button" aria-label="ɰ: velar approximant">
+                                    <div class="char-symbol">ɰ</div>
+                                    <div class="char-label">velar approximant</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('w')" tabindex="0" role="button" aria-label="w: labial-velar approximant">
+                                    <div class="char-symbol">w</div>
+                                    <div class="char-label">labial-velar approximant</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ʋ')" tabindex="0" role="button" aria-label="ʋ: labiodental approximant">
+                                    <div class="char-symbol">ʋ</div>
+                                    <div class="char-label">labiodental approximant</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɥ')" tabindex="0" role="button" aria-label="ɥ: labial-palatal approximant">
+                                    <div class="char-symbol">ɥ</div>
+                                    <div class="char-label">labial-palatal approximant</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clicks -->
+                <div class="ipa-group">
+                    <div class="group-header">clicks_ejectives</div>
+                    <div class="group-content">
+                        <div class="subgroup">
+                            <div class="subgroup-title">clicks</div>
+                            <div class="char-grid">
+                                <div class="ipa-char" onclick="addChar('ʘ')" tabindex="0" role="button" aria-label="ʘ: bilabial click">
+                                    <div class="char-symbol">ʘ</div>
+                                    <div class="char-label">bilabial click</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ǀ')" tabindex="0" role="button" aria-label="ǀ: dental click">
+                                    <div class="char-symbol">ǀ</div>
+                                    <div class="char-label">dental click</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ǃ')" tabindex="0" role="button" aria-label="ǃ: alveolar click">
+                                    <div class="char-symbol">ǃ</div>
+                                    <div class="char-label">alveolar click</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ǂ')" tabindex="0" role="button" aria-label="ǂ: palatoalveolar click">
+                                    <div class="char-symbol">ǂ</div>
+                                    <div class="char-label">palatoalveolar click</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ǁ')" tabindex="0" role="button" aria-label="ǁ: alveolar lateral click">
+                                    <div class="char-symbol">ǁ</div>
+                                    <div class="char-label">alveolar lateral click</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="subgroup">
+                            <div class="subgroup-title">other_consonants</div>
+                            <div class="char-grid">
+                                <div class="ipa-char" onclick="addChar('ʍ')" tabindex="0" role="button" aria-label="ʍ: voiceless labial-velar fricative">
+                                    <div class="char-symbol">ʍ</div>
+                                    <div class="char-label">voiceless labial-velar fricative</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɕ')" tabindex="0" role="button" aria-label="ɕ: voiceless alveolo-palatal fricative">
+                                    <div class="char-symbol">ɕ</div>
+                                    <div class="char-label">voiceless alveolo-palatal fricative</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ʑ')" tabindex="0" role="button" aria-label="ʑ: voiced alveolo-palatal fricative">
+                                    <div class="char-symbol">ʑ</div>
+                                    <div class="char-label">voiced alveolo-palatal fricative</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ɺ')" tabindex="0" role="button" aria-label="ɺ: alveolar lateral flap">
+                                    <div class="char-symbol">ɺ</div>
+                                    <div class="char-label">alveolar lateral flap</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diacritics & Modifiers -->
+                <div class="ipa-group">
+                    <div class="group-header">diacritic_system</div>
+                    <div class="group-content">
+                        <div class="subgroup">
+                            <div class="subgroup-title">articulatory_modifiers</div>
+                            <div class="char-grid">
+                                <div class="ipa-char" onclick="addChar('ʰ')" tabindex="0" role="button" aria-label="ʰ: aspirated">
+                                    <div class="char-symbol">ʰ</div>
+                                    <div class="char-label">aspirated</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ʷ')" tabindex="0" role="button" aria-label="ʷ: labialized">
+                                    <div class="char-symbol">ʷ</div>
+                                    <div class="char-label">labialized</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ʲ')" tabindex="0" role="button" aria-label="ʲ: palatalized">
+                                    <div class="char-symbol">ʲ</div>
+                                    <div class="char-label">palatalized</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ˠ')" tabindex="0" role="button" aria-label="ˠ: velarized">
+                                    <div class="char-symbol">ˠ</div>
+                                    <div class="char-label">velarized</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ˁ')" tabindex="0" role="button" aria-label="ˁ: pharyngealized">
+                                    <div class="char-symbol">ˁ</div>
+                                    <div class="char-label">pharyngealized</div>
+                                </div>
+                                <div class="ipa-char" onclick="addCombiningChar('ʼ')" tabindex="0" role="button" aria-label="◌ʼ: ejective">
+                                    <div class="char-symbol">◌ʼ</div>
+                                    <div class="char-label">ejective</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ː')" tabindex="0" role="button" aria-label="ː: long">
+                                    <div class="char-symbol">ː</div>
+                                    <div class="char-label">long</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ˑ')" tabindex="0" role="button" aria-label="ˑ: half-long">
+                                    <div class="char-symbol">ˑ</div>
+                                    <div class="char-label">half-long</div>
+                                </div>
+                                <div class="ipa-char" onclick="addCombiningChar('̃')" tabindex="0" role="button" aria-label="◌̃: nasalized">
+                                    <div class="char-symbol">◌̃</div>
+                                    <div class="char-label">nasalized</div>
+                                </div>
+                                <div class="ipa-char" onclick="addCombiningChar('̥')" tabindex="0" role="button" aria-label="◌̥: voiceless">
+                                    <div class="char-symbol">◌̥</div>
+                                    <div class="char-label">voiceless</div>
+                                </div>
+                                <div class="ipa-char" onclick="addCombiningChar('̬')" tabindex="0" role="button" aria-label="◌̬: voiced">
+                                    <div class="char-symbol">◌̬</div>
+                                    <div class="char-label">voiced</div>
+                                </div>
+                                <div class="ipa-char" onclick="addCombiningChar('̤')" tabindex="0" role="button" aria-label="◌̤: breathy voiced">
+                                    <div class="char-symbol">◌̤</div>
+                                    <div class="char-label">breathy voiced</div>
+                                </div>
+                                <div class="ipa-char" onclick="addCombiningChar('̰')" tabindex="0" role="button" aria-label="◌̰: creaky voiced">
+                                    <div class="char-symbol">◌̰</div>
+                                    <div class="char-label">creaky voiced</div>
+                                </div>
+                                <div class="ipa-char" onclick="addCombiningChar('̝')" tabindex="0" role="button" aria-label="◌̝: raised">
+                                    <div class="char-symbol">◌̝</div>
+                                    <div class="char-label">raised</div>
+                                </div>
+                                <div class="ipa-char" onclick="addCombiningChar('̞')" tabindex="0" role="button" aria-label="◌̞: lowered">
+                                    <div class="char-symbol">◌̞</div>
+                                    <div class="char-label">lowered</div>
+                                </div>
+                                <div class="ipa-char" onclick="addCombiningChar('̟')" tabindex="0" role="button" aria-label="◌̟: advanced">
+                                    <div class="char-symbol">◌̟</div>
+                                    <div class="char-label">advanced</div>
+                                </div>
+                                <div class="ipa-char" onclick="addCombiningChar('̠')" tabindex="0" role="button" aria-label="◌̠: retracted">
+                                    <div class="char-symbol">◌̠</div>
+                                    <div class="char-label">retracted</div>
+                                </div>
+                                <div class="ipa-char" onclick="addCombiningChar('̈')" tabindex="0" role="button" aria-label="◌̈: centralized">
+                                    <div class="char-symbol">◌̈</div>
+                                    <div class="char-label">centralized</div>
+                                </div>
+                                <div class="ipa-char" onclick="addCombiningChar('̽')" tabindex="0" role="button" aria-label="◌̽: mid-centralized">
+                                    <div class="char-symbol">◌̽</div>
+                                    <div class="char-label">mid-centralized</div>
+                                </div>
+                                <div class="ipa-char" onclick="addCombiningChar('̩')" tabindex="0" role="button" aria-label="◌̩: syllabic">
+                                    <div class="char-symbol">◌̩</div>
+                                    <div class="char-label">syllabic</div>
+                                </div>
+                                <div class="ipa-char" onclick="addCombiningChar('̯')" tabindex="0" role="button" aria-label="◌̯: non-syllabic">
+                                    <div class="char-symbol">◌̯</div>
+                                    <div class="char-label">non-syllabic</div>
+                                </div>
+                                <div class="ipa-char" onclick="addCombiningChar('̪')" tabindex="0" role="button" aria-label="◌̪: dental">
+                                    <div class="char-symbol">◌̪</div>
+                                    <div class="char-label">dental</div>
+                                </div>
+                                <div class="ipa-char" onclick="addCombiningChar('̺')" tabindex="0" role="button" aria-label="◌̺: apical">
+                                    <div class="char-symbol">◌̺</div>
+                                    <div class="char-label">apical</div>
+                                </div>
+                                <div class="ipa-char" onclick="addCombiningChar('̻')" tabindex="0" role="button" aria-label="◌̻: laminal">
+                                    <div class="char-symbol">◌̻</div>
+                                    <div class="char-label">laminal</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="subgroup">
+                            <div class="subgroup-title">prosodic_markers</div>
+                            <div class="char-grid">
+                                <div class="ipa-char" onclick="addChar('ˈ')" tabindex="0" role="button" aria-label="ˈ: primary stress">
+                                    <div class="char-symbol">ˈ</div>
+                                    <div class="char-label">primary stress</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('ˌ')" tabindex="0" role="button" aria-label="ˌ: secondary stress">
+                                    <div class="char-symbol">ˌ</div>
+                                    <div class="char-label">secondary stress</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('.')" tabindex="0" role="button" aria-label=".: syllable break">
+                                    <div class="char-symbol">.</div>
+                                    <div class="char-label">syllable break</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('|')" tabindex="0" role="button" aria-label="|: minor group">
+                                    <div class="char-symbol">|</div>
+                                    <div class="char-label">minor group</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('‖')" tabindex="0" role="button" aria-label="‖: major group">
+                                    <div class="char-symbol">‖</div>
+                                    <div class="char-label">major group</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('˥')" tabindex="0" role="button" aria-label="˥: extra high tone">
+                                    <div class="char-symbol">˥</div>
+                                    <div class="char-label">extra high tone</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('˦')" tabindex="0" role="button" aria-label="˦: high tone">
+                                    <div class="char-symbol">˦</div>
+                                    <div class="char-label">high tone</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('˧')" tabindex="0" role="button" aria-label="˧: mid tone">
+                                    <div class="char-symbol">˧</div>
+                                    <div class="char-label">mid tone</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('˨')" tabindex="0" role="button" aria-label="˨: low tone">
+                                    <div class="char-symbol">˨</div>
+                                    <div class="char-label">low tone</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('˩')" tabindex="0" role="button" aria-label="˩: extra low tone">
+                                    <div class="char-symbol">˩</div>
+                                    <div class="char-label">extra low tone</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('↗')" tabindex="0" role="button" aria-label="↗: rising tone">
+                                    <div class="char-symbol">↗</div>
+                                    <div class="char-label">rising tone</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('↘')" tabindex="0" role="button" aria-label="↘: falling tone">
+                                    <div class="char-symbol">↘</div>
+                                    <div class="char-label">falling tone</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('↑')" tabindex="0" role="button" aria-label="↑: upstep">
+                                    <div class="char-symbol">↑</div>
+                                    <div class="char-label">upstep</div>
+                                </div>
+                                <div class="ipa-char" onclick="addChar('↓')" tabindex="0" role="button" aria-label="↓: downstep">
+                                    <div class="char-symbol">↓</div>
+                                    <div class="char-label">downstep</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Bar -->
+            <div class="statusbar">
+                <div class="statusbar-section" id="status">Ready - Click symbols to add to transcription</div>
+                <div class="statusbar-section">chars: <span id="charCount">0</span></div>
+                <div class="statusbar-section">SROC IPA Terminal v2.1</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addChar(char) {
+            const output = document.getElementById('output');
+            const startPos = output.selectionStart;
+            const endPos = output.selectionEnd;
+            const textBefore = output.value.substring(0, startPos);
+            const textAfter = output.value.substring(endPos);
+            
+            output.value = textBefore + char + textAfter;
+            output.selectionStart = output.selectionEnd = startPos + char.length;
+            output.focus();
+            updateCharCount();
+            updateStatus('Character added: ' + char);
+        }
+
+        function addCombiningChar(char) {
+            const output = document.getElementById('output');
+            const startPos = output.selectionStart;
+            
+            // Insert combining character after the previous character
+            if (startPos > 0) {
+                const textBefore = output.value.substring(0, startPos);
+                const textAfter = output.value.substring(startPos);
+                
+                output.value = textBefore + char + textAfter;
+                output.selectionStart = output.selectionEnd = startPos + char.length;
+            } else {
+                // If at beginning, add placeholder
+                output.value = '◌' + char + output.value;
+                output.selectionStart = output.selectionEnd = 2;
+            }
+            
+            output.focus();
+            updateCharCount();
+            updateStatus('Diacritic added: ' + char);
+        }
+
+        function clearOutput() {
+            document.getElementById('output').value = '';
+            document.getElementById('output').focus();
+            updateCharCount();
+            updateStatus('Output cleared');
+        }
+
+        function addSpace() {
+            addChar(' ');
+        }
+
+        function addSlashes() {
+            const output = document.getElementById('output');
+            const startPos = output.selectionStart;
+            const endPos = output.selectionEnd;
+            const selectedText = output.value.substring(startPos, endPos);
+            const replacement = '/' + selectedText + '/';
+            
+            const textBefore = output.value.substring(0, startPos);
+            const textAfter = output.value.substring(endPos);
+            
+            output.value = textBefore + replacement + textAfter;
+            output.selectionStart = startPos + 1;
+            output.selectionEnd = startPos + replacement.length - 1;
+            output.focus();
+            updateCharCount();
+            updateStatus('Phonemic slashes added');
+        }
+
+        function addBrackets() {
+            const output = document.getElementById('output');
+            const startPos = output.selectionStart;
+            const endPos = output.selectionEnd;
+            const selectedText = output.value.substring(startPos, endPos);
+            const replacement = '[' + selectedText + ']';
+            
+            const textBefore = output.value.substring(0, startPos);
+            const textAfter = output.value.substring(endPos);
+            
+            output.value = textBefore + replacement + textAfter;
+            output.selectionStart = startPos + 1;
+            output.selectionEnd = startPos + replacement.length - 1;
+            output.focus();
+            updateCharCount();
+            updateStatus('Phonetic brackets added');
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('output');
+            output.select();
+            document.execCommand('copy');
+            
+            // Glitch effect
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'copied_to_buffer';
+            btn.classList.add('glitch');
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.classList.remove('glitch');
+            }, 1000);
+            
+            updateStatus('Copied to clipboard');
+        }
+
+        function updateCharCount() {
+            const output = document.getElementById('output');
+            const count = output.value.length;
+            document.getElementById('charCount').textContent = count;
+        }
+
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+            setTimeout(() => {
+                document.getElementById('status').textContent = 'Ready - Click symbols to add to transcription';
+            }, 3000);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 'l':
+                        e.preventDefault();
+                        clearOutput();
+                        break;
+                    case '/':
+                        e.preventDefault();
+                        addSlashes();
+                        break;
+                    case '[':
+                        e.preventDefault();
+                        addBrackets();
+                        break;
+                }
+            }
+        });
+
+        // Update character count on input
+        document.getElementById('output').addEventListener('input', updateCharCount);
+
+        // Keyboard navigation for IPA characters
+        document.querySelectorAll('.ipa-char').forEach(char => {
+            char.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+
+        // Auto-focus the output area
+        document.getElementById('output').focus();
+        
+        // Initialize
+        updateCharCount();
+        
+        // Console easter egg
+        console.log('%c🎵 IPA TERMINAL: PHONETIC TRANSCRIPTION INTERFACE', 'color: #00ff41; font-size: 20px; font-weight: bold;');
+        console.log('%cAll sounds of human speech at your fingertips!', 'color: #888;');
+        console.log('%cKeyboard shortcuts: Ctrl+L (clear), Ctrl+/ (phonemic), Ctrl+[ (phonetic)', 'color: #666;');
+    </script>
+</body>
+</html>
